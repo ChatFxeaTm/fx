@@ -358,13 +358,13 @@
           <div class="card">
             <span class="num">2</span>
             <h3>回调确认入场</h3>
-            <p>突破后不追价，等待价格从极端位置回调 2 微点。向下突破后回调并满足超卖过滤时做多，向上突破后回调并满足超买过滤时做空。</p>
+            <p>突破后不追价，等待价格从极端位置回调 20 微点。向下突破后回调并满足超卖过滤时做多，向上突破后回调并满足超买过滤时做空。</p>
           </div>
           <div class="arrow">→</div>
           <div class="card">
             <span class="num">3</span>
             <h3>均价止盈出场</h3>
-            <p>同方向订单按加权平均开仓价计算止盈目标。默认逆势盈利目标为 15 微点，订单增加后仍不低于 15 微点，止盈线会写入订单 TP。</p>
+            <p>同方向订单按加权平均开仓价计算止盈目标。默认逆势盈利目标为 150 微点，订单增加后仍不低于 150 微点，止盈线会写入订单 TP。</p>
           </div>
         </div>
         <p class="note">黄金点值按 1 美金涨跌等于 100 微点计算：两位报价平台 1 微点为 0.01，三位报价平台 10 个最小跳动为 0.01，策略会自适应 XAU/GOLD 品种的小数位。</p>
@@ -402,7 +402,7 @@
           </div>
           <div class="card">
             <h3>逆势加码</h3>
-            <p>已有同向订单后，默认按逆势加码逻辑继续寻找回调机会。初始加码间隔为 35 微点，每增加一单递减 0.1 微点，但最低不低于 30 微点。</p>
+            <p>已有同向订单后，默认按逆势加码逻辑继续寻找回调机会。初始加码间隔为 350 微点，每增加一单递减 1.0 微点，但最低不低于 300 微点。</p>
           </div>
           <div class="card">
             <h3>手数递增</h3>
@@ -410,7 +410,7 @@
           </div>
           <div class="card">
             <h3>顺势加码</h3>
-            <p>顺势加码参数保留，默认关闭。若启用，默认顺势加码间隔为 25 微点，顺势最大单数为 3，止盈使用顺势盈利点数 15 微点。</p>
+            <p>顺势加码参数保留，默认关闭。若启用，默认顺势加码间隔为 250 微点，顺势最大单数为 3，止盈使用顺势盈利点数 150 微点。</p>
           </div>
         </div>
       </div>
@@ -426,7 +426,7 @@
           </div>
           <div class="card">
             <h3>独立止损</h3>
-            <p>每笔真实订单入场时写入独立 SL，并在订单栏显示。默认止损距离使用整体移动止损点数 8 微点；如果平台最小止损距离或点差更大，则以平台允许的有效距离为准。</p>
+            <p>每笔真实订单入场时写入独立 SL，并在订单栏显示。默认止损距离使用整体移动止损点数 80 微点；如果平台最小止损距离或点差更大，则以平台允许的有效距离为准。</p>
           </div>
           <div class="card">
             <h3>总盈利保护</h3>
@@ -449,12 +449,12 @@
           <div class="spec"><small>交易方向</small><strong>多空都做</strong></div>
           <div class="spec"><small>时间控制</small><strong>关闭</strong></div>
           <div class="spec"><small>区间 K 线数</small><strong>50</strong></div>
-          <div class="spec"><small>逆势回调</small><strong>2 微点</strong></div>
+          <div class="spec"><small>逆势回调</small><strong>20 微点</strong></div>
           <div class="spec"><small>起始手数</small><strong>0.01</strong></div>
           <div class="spec"><small>手数倍率</small><strong>1.12</strong></div>
           <div class="spec"><small>单向最大单数</small><strong>8</strong></div>
-          <div class="spec"><small>逆势加码间隔</small><strong>35 / 最小 30</strong></div>
-          <div class="spec"><small>均价盈利目标</small><strong>15 微点</strong></div>
+          <div class="spec"><small>逆势加码间隔</small><strong>350 / 最小 300</strong></div>
+          <div class="spec"><small>均价盈利目标</small><strong>150 微点</strong></div>
           <div class="spec"><small>订单注释</small><strong>汇交易策略研发中心</strong></div>
         </div>
       </div>
