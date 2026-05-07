@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>梦想方舟黄金策略说明 | 汇交易策略研发中心</title>
+  <meta name="description" content="梦想方舟黄金策略说明，基于当前默认参数整理策略逻辑、均价止盈、独立止损、黄金微点计算和风险提示。">
+  <style>
+    :root {
+      --ink: #171717;
+      --paper: #f6f3ec;
+      --panel: #fffdf7;
+      --line: #d8d0c2;
+      --muted: #706a60;
+      --gold: #b48424;
+      --green: #157a58;
+      --red: #b33d32;
+      --steel: #34383d;
+      --blue: #1f5f8f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: var(--paper); color: var(--ink); }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "Noto Sans CJK SC", "PingFang SC", "Segoe UI", sans-serif;
+      line-height: 1.72;
+      background:
+        linear-gradient(90deg, rgba(23, 23, 23, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(23, 23, 23, .028) 1px, transparent 1px),
+        var(--paper);
+      background-size: 36px 36px;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 42px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .brand strong {
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      gap: 44px;
+      align-items: end;
+      padding: 58px 0 48px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(42px, 7vw, 86px);
+      line-height: .98;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 24px 0 0;
+      max-width: 720px;
+      color: var(--steel);
+      font-size: 18px;
+    }
+
+    .tagline {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .tagline::before {
+      content: "";
+      width: 42px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .market-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 253, 247, .74);
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(52, 56, 61, .12);
+    }
+
+    .ticker {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--line);
+      background: var(--ink);
+      color: #f8f2e5;
+    }
+
+    .ticker div {
+      padding: 14px 16px;
+      border-right: 1px solid rgba(255,255,255,.14);
+    }
+
+    .ticker div:last-child { border-right: 0; }
+
+    .ticker small {
+      display: block;
+      color: rgba(248,242,229,.62);
+      font-size: 11px;
+    }
+
+    .ticker b {
+      display: block;
+      margin-top: 4px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .chart {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--panel);
+    }
+
+    main { padding: 28px 0 72px; }
+
+    section {
+      padding: 46px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0 0 20px;
+      font-size: clamp(25px, 3vw, 38px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0 0 14px; color: var(--steel); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      background: rgba(255, 253, 247, .66);
+    }
+
+    .card p:last-child { margin-bottom: 0; }
+
+    .num {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 12px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff8e8;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .specs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--panel);
+    }
+
+    .spec {
+      min-height: 104px;
+      padding: 16px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .spec:nth-child(4n) { border-right: 0; }
+
+    .spec small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .spec strong {
+      display: block;
+      margin-top: 8px;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 34px 1fr 34px 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .risk {
+      border-color: rgba(179, 61, 50, .45);
+      background: #fff7f2;
+    }
+
+    .risk h2 { color: var(--red); }
+
+    .note {
+      margin-top: 18px;
+      padding-left: 14px;
+      border-left: 3px solid var(--gold);
+      color: var(--steel);
+    }
+
+    footer {
+      padding: 26px 0 46px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid-2,
+      .grid-3,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        min-height: 28px;
+        transform: rotate(90deg);
+      }
+
+      .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .spec:nth-child(2n) { border-right: 0; }
+      .spec:nth-child(4n) { border-right: 0; }
+    }
+
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 24px, 1120px); }
+      header { padding-top: 28px; }
+      .brand { align-items: flex-start; flex-direction: column; }
+      .hero { padding-top: 38px; gap: 28px; }
+      .lead { font-size: 16px; }
+      .ticker { grid-template-columns: 1fr; }
+      .ticker div { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.14); }
+      .ticker div:last-child { border-bottom: 0; }
+      .specs { grid-template-columns: 1fr; }
+      .spec { border-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap brand">
+      <strong>汇交易策略研发中心</strong>
+      <span>MT4 黄金 XAUUSD 策略说明</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div>
+        <span class="tagline">默认参数版</span>
+        <h1>梦想方舟黄金策略说明</h1>
+        <p class="lead">策略面向 XAUUSD 的 M5 运行环境，核心是区间突破后的逆势回调捕捉：先用最近 K 线高低点识别极端波动，再等待价格回调并通过 RSI、Stochastic、CCI 过滤，入场后采用分批加码、单向均价止盈和订单内独立止损管理风险。</p>
+      </div>
+      <aside class="market-panel" aria-label="黄金策略结构图">
+        <div class="ticker">
+          <div><small>SYMBOL</small><b>XAUUSD</b></div>
+          <div><small>TIMEFRAME</small><b>M5</b></div>
+          <div><small>POINT</small><b>$1 = 100 微点</b></div>
+        </div>
+        <svg class="chart" viewBox="0 0 620 360" role="img" aria-label="黄金价格回调和均价止盈示意图">
+          <rect width="620" height="360" fill="#fffdf7"/>
+          <g stroke="#eee4d5" stroke-width="1">
+            <path d="M0 72H620M0 144H620M0 216H620M0 288H620"/>
+            <path d="M88 0V360M176 0V360M264 0V360M352 0V360M440 0V360M528 0V360"/>
+          </g>
+          <path d="M48 260 C92 214, 122 244, 158 198 S234 116, 274 151 S354 252, 396 207 S484 128, 560 88" fill="none" stroke="#1f5f8f" stroke-width="5" stroke-linecap="round"/>
+          <g stroke-width="4" stroke-linecap="round">
+            <line x1="96" y1="220" x2="96" y2="274" stroke="#157a58"/><rect x="82" y="232" width="28" height="30" fill="#157a58"/>
+            <line x1="158" y1="164" x2="158" y2="226" stroke="#b33d32"/><rect x="144" y="176" width="28" height="38" fill="#b33d32"/>
+            <line x1="222" y1="104" x2="222" y2="176" stroke="#b33d32"/><rect x="208" y="122" width="28" height="42" fill="#b33d32"/>
+            <line x1="286" y1="134" x2="286" y2="198" stroke="#157a58"/><rect x="272" y="154" width="28" height="28" fill="#157a58"/>
+            <line x1="350" y1="208" x2="350" y2="282" stroke="#157a58"/><rect x="336" y="226" width="28" height="38" fill="#157a58"/>
+            <line x1="414" y1="172" x2="414" y2="236" stroke="#b33d32"/><rect x="400" y="184" width="28" height="34" fill="#b33d32"/>
+            <line x1="478" y1="108" x2="478" y2="176" stroke="#157a58"/><rect x="464" y="122" width="28" height="38" fill="#157a58"/>
+          </g>
+          <line x1="38" y1="178" x2="582" y2="178" stroke="#b48424" stroke-width="3" stroke-dasharray="12 10"/>
+          <text x="46" y="166" fill="#8a651e" font-size="18" font-family="Microsoft YaHei">单向持仓均价止盈线</text>
+          <line x1="38" y1="292" x2="582" y2="292" stroke="#b33d32" stroke-width="2" stroke-dasharray="8 9"/>
+          <text x="46" y="322" fill="#9d382e" font-size="16" font-family="Microsoft YaHei">订单内独立止损</text>
+        </svg>
+      </aside>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <h2>策略核心逻辑</h2>
+        <div class="flow">
+          <div class="card">
+            <span class="num">1</span>
+            <h3>区间极值识别</h3>
+            <p>默认启用区间控制，使用最近 50 根 K 线的高低点作为参考。价格向下突破近期低点时记录低位，向上突破近期高点时记录高位。</p>
+          </div>
+          <div class="arrow">→</div>
+          <div class="card">
+            <span class="num">2</span>
+            <h3>回调确认入场</h3>
+            <p>突破后不追价，等待价格从极端位置回调 2 微点。向下突破后回调并满足超卖过滤时做多，向上突破后回调并满足超买过滤时做空。</p>
+          </div>
+          <div class="arrow">→</div>
+          <div class="card">
+            <span class="num">3</span>
+            <h3>均价止盈出场</h3>
+            <p>同方向订单按加权平均开仓价计算止盈目标。默认逆势盈利目标为 15 微点，订单增加后仍不低于 15 微点，止盈线会写入订单 TP。</p>
+          </div>
+        </div>
+        <p class="note">黄金点值按 1 美金涨跌等于 100 微点计算：两位报价平台 1 微点为 0.01，三位报价平台 10 个最小跳动为 0.01，策略会自适应 XAU/GOLD 品种的小数位。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>默认过滤条件</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>RSI 过滤</h3>
+            <p>默认启用，周期 14，应用于收盘价。RSI 低于 25 时配合做多，高于 75 时配合做空。</p>
+          </div>
+          <div class="card">
+            <h3>Stochastic 过滤</h3>
+            <p>默认启用，参数为 K=5、D=3、慢速=3、SMA、Low/High。低于 20 配合做多，高于 80 配合做空。</p>
+          </div>
+          <div class="card">
+            <h3>CCI 过滤</h3>
+            <p>默认启用，周期 14，应用于收盘价。CCI 低于 -100 配合做多，高于 100 配合做空。</p>
+          </div>
+        </div>
+        <p class="note">Bollinger Bands 参数保留为 20 周期、偏差 2，但默认未启用，因此默认入场主要由区间回调加 RSI、Stochastic、CCI 三组过滤共同决定。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>仓位与加码</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>初始与上限</h3>
+            <p>默认起始下单量为 0.01 手，单向最大单数为 8。单笔最大下单量按账户余额比例限制：每 5 万资金对应 3.0 手上限，并受平台最小手数、最大手数和步进限制约束。</p>
+          </div>
+          <div class="card">
+            <h3>逆势加码</h3>
+            <p>已有同向订单后，默认按逆势加码逻辑继续寻找回调机会。初始加码间隔为 35 微点，每增加一单递减 0.1 微点，但最低不低于 30 微点。</p>
+          </div>
+          <div class="card">
+            <h3>手数递增</h3>
+            <p>后续订单使用 1.12 的次方倍数计算手数，同时被单笔最大下单量限制。该设计会提高回撤恢复速度，也会放大连续单边行情下的风险。</p>
+          </div>
+          <div class="card">
+            <h3>顺势加码</h3>
+            <p>顺势加码参数保留，默认关闭。若启用，默认顺势加码间隔为 25 微点，顺势最大单数为 3，止盈使用顺势盈利点数 15 微点。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>止盈与止损</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>均价止盈</h3>
+            <p>默认显示止盈价格。同方向持仓会计算加权平均价，多单目标在均价上方，空单目标在均价下方；订单 TP 使用同一组均价目标，便于整体获利退出。</p>
+          </div>
+          <div class="card">
+            <h3>独立止损</h3>
+            <p>每笔真实订单入场时写入独立 SL，并在订单栏显示。默认止损距离使用整体移动止损点数 8 微点；如果平台最小止损距离或点差更大，则以平台允许的有效距离为准。</p>
+          </div>
+          <div class="card">
+            <h3>总盈利保护</h3>
+            <p>默认总盈利平仓为 30。当当前 EA 管理的同方向订单浮动盈利达到该金额，策略会触发对应方向的整体平仓。</p>
+          </div>
+          <div class="card">
+            <h3>总亏损保护</h3>
+            <p>默认总亏损平仓为 10000。当同方向订单浮动亏损达到该金额，策略会平掉该方向订单并退出 EA，防止继续加码扩大损失。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>当前默认参数摘要</h2>
+        <div class="specs">
+          <div class="spec"><small>交易品种</small><strong>XAUUSD</strong></div>
+          <div class="spec"><small>运行周期</small><strong>M5</strong></div>
+          <div class="spec"><small>交易方向</small><strong>多空都做</strong></div>
+          <div class="spec"><small>时间控制</small><strong>关闭</strong></div>
+          <div class="spec"><small>区间 K 线数</small><strong>50</strong></div>
+          <div class="spec"><small>逆势回调</small><strong>2 微点</strong></div>
+          <div class="spec"><small>起始手数</small><strong>0.01</strong></div>
+          <div class="spec"><small>手数倍率</small><strong>1.12</strong></div>
+          <div class="spec"><small>单向最大单数</small><strong>8</strong></div>
+          <div class="spec"><small>逆势加码间隔</small><strong>35 / 最小 30</strong></div>
+          <div class="spec"><small>均价盈利目标</small><strong>15 微点</strong></div>
+          <div class="spec"><small>订单注释</small><strong>汇交易策略研发中心</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="card risk">
+          <h2>风险提示</h2>
+          <p>本策略属于黄金自动交易辅助工具，不承诺收益，也不能消除市场风险。XAUUSD 波动大、点差和滑点变化快，连续单边行情可能导致加码仓位快速累积，独立止损和总亏损保护仍可能在极端行情、跳空、流动性不足或服务器延迟下产生超预期亏损。</p>
+          <p>使用前应先在模拟盘或小资金环境验证报价位数、最小止损距离、点差、滑点、合约规格和手数步进是否匹配。任何历史表现都不代表未来结果，实盘盈亏由使用者自行承担。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">汇交易策略研发中心 · 梦想方舟黄金策略说明 · 默认参数版</div>
+  </footer>
+</body>
+</html>
