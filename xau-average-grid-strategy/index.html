@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>黄金均线网格均价止盈止损策略说明 | 汇交易策略研发中心</title>
+  <meta name="description" content="汇交易策略研发中心黄金均线网格策略介绍，围绕均线信号、点差过滤、网格加仓、挂单跟随、黄金微点换算、均价止盈止损和风险控制展开。">
+  <style>
+    :root {
+      --ink: #161616;
+      --paper: #f4f0e7;
+      --paper-2: #ebe4d6;
+      --panel: #fffaf0;
+      --line: rgba(22, 22, 22, .16);
+      --muted: #6e675b;
+      --gold: #b88325;
+      --teal: #0d7665;
+      --red: #a84034;
+      --steel: #2f3a40;
+      --night: #11161a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .38;
+      z-index: 10;
+      background-image:
+        linear-gradient(rgba(22, 22, 22, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 22, 22, .035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mix-blend-mode: multiply;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 94vh;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      color: #f7f0df;
+      background: var(--night);
+      border-bottom: 1px solid rgba(255, 255, 255, .14);
+    }
+
+    #marketCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: .92;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(184, 131, 37, .34), transparent 30%),
+        linear-gradient(180deg, rgba(17, 22, 26, .42), rgba(17, 22, 26, .9) 78%),
+        linear-gradient(90deg, rgba(17, 22, 26, .84), rgba(17, 22, 26, .26) 55%, rgba(17, 22, 26, .7));
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: 34px 0 56px;
+    }
+
+    .topline {
+      position: absolute;
+      top: 28px;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      color: rgba(247, 240, 223, .78);
+      font-size: 13px;
+    }
+
+    .topline .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid rgba(247, 240, 223, .22);
+      padding-bottom: 18px;
+    }
+
+    .brand {
+      font-weight: 700;
+      color: #fff8e8;
+    }
+
+    .mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      border: 1px solid rgba(255, 248, 232, .45);
+      color: var(--gold);
+      font-weight: 900;
+      vertical-align: middle;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      color: #ffdf93;
+      border: 1px solid rgba(255, 223, 147, .4);
+      padding: 7px 12px;
+      font-size: 13px;
+      background: rgba(17, 22, 26, .38);
+    }
+
+    h1 {
+      max-width: 960px;
+      margin: 0;
+      font-size: clamp(42px, 8vw, 104px);
+      line-height: .96;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 0;
+      color: rgba(247, 240, 223, .86);
+      font-size: clamp(17px, 2vw, 22px);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      max-width: 980px;
+      background: rgba(247, 240, 223, .2);
+      border: 1px solid rgba(247, 240, 223, .24);
+    }
+
+    .metric {
+      padding: 18px;
+      background: rgba(17, 22, 26, .56);
+      min-height: 108px;
+    }
+
+    .metric b {
+      display: block;
+      color: #fff8e8;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(247, 240, 223, .72);
+      font-size: 13px;
+    }
+
+    section {
+      padding: 78px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(220px, .35fr) minmax(0, .65fr);
+      gap: 42px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+
+    .kicker {
+      margin: 0;
+      color: var(--gold);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 54px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .summary {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .logic-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .logic-card,
+    .risk-card,
+    .param-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 24px;
+      min-height: 100%;
+      box-shadow: 0 18px 44px rgba(44, 35, 22, .08);
+    }
+
+    .logic-card h3,
+    .risk-card h3,
+    .param-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .logic-card p,
+    .risk-card p,
+    .param-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .num {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--teal);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 36px;
+      line-height: 1;
+    }
+
+    .flow {
+      display: grid;
+      gap: 14px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 22px;
+      align-items: stretch;
+      background: linear-gradient(90deg, rgba(255, 250, 240, .96), rgba(255, 250, 240, .74));
+      border: 1px solid var(--line);
+    }
+
+    .flow-step::before {
+      counter-increment: flow;
+      content: counter(flow, decimal-leading-zero);
+      display: grid;
+      place-items: center;
+      color: #fffaf0;
+      background: var(--steel);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      min-height: 92px;
+    }
+
+    .flow-step div {
+      padding: 18px 20px 18px 0;
+    }
+
+    .flow-step h3 {
+      margin: 0 0 6px;
+      font-size: 19px;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .formula-band {
+      background: var(--night);
+      color: #f7f0df;
+      border-bottom: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formula-band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(184, 131, 37, .2), transparent 42%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .045) 0 1px, transparent 1px 76px);
+      pointer-events: none;
+    }
+
+    .formula-band .wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .formula {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 36px;
+      align-items: center;
+    }
+
+    .formula-box {
+      border: 1px solid rgba(247, 240, 223, .25);
+      padding: 28px;
+      background: rgba(255, 250, 240, .06);
+    }
+
+    .formula-box code {
+      display: block;
+      white-space: normal;
+      color: #ffdf93;
+      font-size: clamp(20px, 3vw, 34px);
+      line-height: 1.35;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .formula-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .formula-list p {
+      margin: 0;
+      color: rgba(247, 240, 223, .82);
+    }
+
+    .params {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .param-card strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .param-card span {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .risk {
+      background: #fff6ed;
+    }
+
+    .risk-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 18px;
+    }
+
+    .risk-alert {
+      padding: 30px;
+      color: #fff8e8;
+      background: var(--red);
+      border: 1px solid rgba(22, 22, 22, .16);
+      min-height: 100%;
+    }
+
+    .risk-alert h2 {
+      color: #fff8e8;
+      font-size: clamp(30px, 5vw, 64px);
+    }
+
+    .risk-alert p {
+      margin: 16px 0 0;
+      color: rgba(255, 248, 232, .88);
+      font-size: 18px;
+    }
+
+    .risk-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .risk-card strong {
+      color: var(--red);
+    }
+
+    footer {
+      padding: 38px 0;
+      color: rgba(247, 240, 223, .72);
+      background: var(--night);
+      font-size: 13px;
+    }
+
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .hero-metrics,
+      .logic-grid,
+      .params,
+      .risk-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-head,
+      .formula,
+      .risk-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .topline .wrap {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        min-height: 100vh;
+      }
+
+      .hero-inner {
+        padding-bottom: 34px;
+      }
+
+      .hero-metrics,
+      .logic-grid,
+      .params,
+      .risk-list {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+
+      .flow-step {
+        grid-template-columns: 54px minmax(0, 1fr);
+      }
+
+      .flow-step::before {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <canvas id="marketCanvas" aria-hidden="true"></canvas>
+    <div class="topline">
+      <div class="wrap">
+        <div class="brand"><span class="mark">H</span>汇交易策略研发中心</div>
+        <div>黄金策略逻辑说明 / 均线网格 / 均价止盈止损</div>
+      </div>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-grid">
+        <p class="eyebrow">XAU Strategy Research Brief</p>
+        <h1>黄金均线网格均价止盈止损策略</h1>
+        <p class="lead">本页面围绕策略逻辑展开：以均线方向作为入场框架，以点差过滤控制交易环境，以网格距离和挂单跟随完成分批建仓，并用同方向持仓加权均价统一计算止盈止损。</p>
+        <div class="hero-metrics" aria-label="策略核心摘要">
+          <div class="metric"><b>均线识别</b><span>默认以 EMA 结构判断短线价格位置</span></div>
+          <div class="metric"><b>网格加仓</b><span>回撤或反抽达到距离后按倍数递增</span></div>
+          <div class="metric"><b>均价风控</b><span>同方向订单统一围绕加权均价管理</span></div>
+          <div class="metric"><b>黄金微点</b><span>100 微点对应 1 美金价格波动</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Strategy Logic</p>
+          <div>
+            <h2>策略不是预测单点价格，而是管理一组价格区间。</h2>
+            <p class="summary">汇交易策略研发中心将该类黄金策略定义为“方向过滤 + 分批成交 + 均价退出”的执行模型。它不追求每一笔订单独立完美，而是让同方向持仓形成一个可管理的整体。</p>
+          </div>
+        </div>
+
+        <div class="logic-grid">
+          <article class="logic-card">
+            <span class="num">01</span>
+            <h3>均线作为方向过滤器</h3>
+            <p>策略读取指定周期均线，结合当前 K 线或收盘 K 线判断价格与均线的关系。多头场景关注价格回到均线结构后的上行动能，空头场景关注价格跌破均线后的延续压力。</p>
+          </article>
+          <article class="logic-card">
+            <span class="num">02</span>
+            <h3>点差作为交易环境门槛</h3>
+            <p>当黄金点差超过预设上限时，策略暂停加仓和新增执行，避免在流动性不足、报价快速扩张或新闻行情中频繁成交。</p>
+          </article>
+          <article class="logic-card">
+            <span class="num">03</span>
+            <h3>网格距离控制加仓节奏</h3>
+            <p>已有多单后，价格向下回撤达到加仓距离才考虑补多；已有空单后，价格向上反抽达到加仓距离才考虑补空。加仓不是连续追单，而是按距离触发。</p>
+          </article>
+          <article class="logic-card">
+            <span class="num">04</span>
+            <h3>手数倍数形成动态仓位</h3>
+            <p>加仓手数可按倍数递增，并受单笔最大手数和最大加仓次数限制。这样既保留摊低或抬高均价的能力，也避免仓位无限扩大。</p>
+          </article>
+          <article class="logic-card">
+            <span class="num">05</span>
+            <h3>挂单跟随减少盲目成交</h3>
+            <p>策略可选择现价加仓或挂单加仓。挂单模式会让待成交订单跟随当前价格保持固定距离，只有价格重新触发指定区域时才成交。</p>
+          </article>
+          <article class="logic-card">
+            <span class="num">06</span>
+            <h3>均价止盈止损统一退出</h3>
+            <p>同方向订单成交后，策略按手数加权平均价重新计算止盈和止损。多单以均价上方止盈、均价下方止损；空单以均价下方止盈、均价上方止损。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Execution Flow</p>
+          <div>
+            <h2>从信号到退出的完整执行流程。</h2>
+            <p class="summary">该流程更像一个纪律化交易框架：先检查环境，再判断方向，再分批成交，最后用均价统一管理风险和目标。</p>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-step">
+            <div>
+              <h3>刷新价格、点值、小数位和点差</h3>
+              <p>每个 tick 先读取 Bid、Ask、Point、Digits、Spread 和平台最小止损距离，为后续订单价格计算提供基础。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div>
+              <h3>检查交易时间与点差过滤</h3>
+              <p>如果启用交易时间过滤，则只在允许时段执行；如果点差超过上限，则跳过新增和加仓动作。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div>
+              <h3>读取均线并判断多空条件</h3>
+              <p>策略根据均线周期、均线类型、应用价格和 K 线选择方式判断是否满足开多或开空条件。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div>
+              <h3>首单成交后进入分组管理</h3>
+              <p>首单可以使用固定手数，也可以按账户权益与基准资金比例计算手数。成交后订单进入同方向持仓组。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div>
+              <h3>达到距离后执行加仓或挂单</h3>
+              <p>价格相对已有持仓移动到指定间距后，策略按加仓方式执行现价单或挂单，并根据最大加仓次数限制继续扩张。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div>
+              <h3>同步均价止盈止损</h3>
+              <p>每轮刷新都会按同方向持仓的加权均价统一修正 SL/TP，让整组订单围绕同一个均价目标退出。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="formula-band">
+      <div class="wrap">
+        <div class="formula">
+          <div>
+            <p class="kicker">Average Price Exit</p>
+            <h2>核心公式围绕加权均价展开。</h2>
+            <p class="summary" style="color: rgba(247, 240, 223, .72);">同方向持仓越多，退出价格越不能只看某一张单。策略会把每张单的开仓价乘以手数后汇总，再除以总手数，得到整组持仓的均价。</p>
+          </div>
+          <div class="formula-box">
+            <code>均价 = Σ(开仓价 × 手数) / Σ手数</code>
+            <div class="formula-list" style="margin-top: 22px;">
+              <p>多单止盈价 = 均价 + 止盈距离</p>
+              <p>多单止损价 = 均价 - 止损距离</p>
+              <p>空单止盈价 = 均价 - 止盈距离</p>
+              <p>空单止损价 = 均价 + 止损距离</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Gold Point Value</p>
+          <div>
+            <h2>黄金按微点计算，并适配两位与三位报价平台。</h2>
+            <p class="summary">策略采用“100 微点 = 1 美金”的黄金价格距离口径。两位报价如 2350.12，三位报价如 2350.123，系统会根据平台小数位自动换算到相同的价格距离。</p>
+          </div>
+        </div>
+
+        <div class="params">
+          <article class="param-card">
+            <strong>SL_Points</strong>
+            <p>均价止损微点。示例：3200 微点约等于 32 美金价格距离。</p>
+            <span>止损距离</span>
+          </article>
+          <article class="param-card">
+            <strong>TP_Points</strong>
+            <p>均价止盈微点。示例：200 微点约等于 2 美金价格距离。</p>
+            <span>止盈距离</span>
+          </article>
+          <article class="param-card">
+            <strong>Add_PT</strong>
+            <p>触发加仓的价格间距，用于控制网格节奏，避免过密成交。</p>
+            <span>加仓间距</span>
+          </article>
+          <article class="param-card">
+            <strong>Pending_PT</strong>
+            <p>挂单距离当前价的间隔，配合挂单移动步长，让订单跟随价格。</p>
+            <span>挂单距离</span>
+          </article>
+          <article class="param-card">
+            <strong>Add_Multiple</strong>
+            <p>加仓手数倍数，决定网格组的仓位扩张速度。</p>
+            <span>仓位递增</span>
+          </article>
+          <article class="param-card">
+            <strong>Max_Add_Times</strong>
+            <p>最大加仓次数，用于限制连续逆向行情中的风险暴露。</p>
+            <span>次数上限</span>
+          </article>
+          <article class="param-card">
+            <strong>Spread_Max</strong>
+            <p>最大允许点差。行情报价异常时，策略会跳过新增执行。</p>
+            <span>环境过滤</span>
+          </article>
+          <article class="param-card">
+            <strong>Max_User_Lots</strong>
+            <p>单笔最大手数限制，防止计算手数超过账户承受范围。</p>
+            <span>单笔限制</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="risk">
+      <div class="wrap">
+        <div class="risk-layout">
+          <aside class="risk-alert">
+            <p class="kicker" style="color: #ffdf93;">Risk Notice</p>
+            <h2>风险提醒</h2>
+            <p>黄金、外汇及差价合约交易具有高杠杆、高波动、高不确定性。任何策略都不能保证盈利，也不能消除滑点、跳空、流动性不足、网络延迟和平台执行差异带来的风险。</p>
+          </aside>
+
+          <div class="risk-list">
+            <article class="risk-card">
+              <h3><strong>不构成投资建议</strong></h3>
+              <p>本页面仅用于说明策略逻辑，不代表买卖建议、收益承诺或账户托管承诺。交易决策与盈亏结果由使用者自行承担。</p>
+            </article>
+            <article class="risk-card">
+              <h3><strong>网格策略存在扩仓风险</strong></h3>
+              <p>连续单边行情可能导致加仓次数增加、浮亏扩大和保证金占用升高。必须结合账户资金量设置最大手数和最大加仓次数。</p>
+            </article>
+            <article class="risk-card">
+              <h3><strong>均价退出不等于低风险</strong></h3>
+              <p>均价止盈止损可以统一管理订单组，但当市场快速穿越价格区间时，仍可能出现滑点、无法按预期价格成交或止损扩大。</p>
+            </article>
+            <article class="risk-card">
+              <h3><strong>先测试，再实盘</strong></h3>
+              <p>建议先使用历史回测、模拟盘和小资金验证不同品种、点差、杠杆、服务器时间和报价位数下的表现，再考虑扩大规模。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>汇交易策略研发中心</span>
+      <span>策略逻辑说明仅供研究交流，市场有风险，交易需谨慎。</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("marketCanvas");
+      var ctx = canvas.getContext("2d");
+      var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+      var candles = [];
+
+      function resize() {
+        canvas.width = Math.floor(canvas.offsetWidth * dpr);
+        canvas.height = Math.floor(canvas.offsetHeight * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        buildCandles();
+        draw();
+      }
+
+      function buildCandles() {
+        var width = canvas.offsetWidth;
+        var height = canvas.offsetHeight;
+        var count = Math.max(38, Math.floor(width / 22));
+        candles = [];
+        var base = height * .5;
+        var price = base;
+
+        for (var i = 0; i < count; i++) {
+          var wave = Math.sin(i * .42) * 24 + Math.cos(i * .16) * 42;
+          var open = price + Math.sin(i * .71) * 18;
+          var close = base + wave + Math.sin(i * .25) * 34;
+          var high = Math.min(open, close) - 18 - (i % 5) * 4;
+          var low = Math.max(open, close) + 18 + (i % 7) * 3;
+          candles.push({ open: open, close: close, high: high, low: low });
+          price = close;
+        }
+      }
+
+      function drawGrid(width, height) {
+        ctx.strokeStyle = "rgba(247, 240, 223, .08)";
+        ctx.lineWidth = 1;
+        for (var x = 0; x < width; x += 64) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+          ctx.stroke();
+        }
+        for (var y = 0; y < height; y += 52) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+          ctx.stroke();
+        }
+      }
+
+      function draw() {
+        var width = canvas.offsetWidth;
+        var height = canvas.offsetHeight;
+        ctx.clearRect(0, 0, width, height);
+        drawGrid(width, height);
+
+        var gap = width / candles.length;
+        var body = Math.max(6, Math.min(13, gap * .42));
+
+        ctx.lineWidth = 1.5;
+        candles.forEach(function (c, i) {
+          var x = i * gap + gap * .5;
+          var up = c.close < c.open;
+          ctx.strokeStyle = up ? "rgba(28, 168, 126, .86)" : "rgba(209, 83, 70, .86)";
+          ctx.fillStyle = up ? "rgba(28, 168, 126, .74)" : "rgba(209, 83, 70, .68)";
+          ctx.beginPath();
+          ctx.moveTo(x, c.high);
+          ctx.lineTo(x, c.low);
+          ctx.stroke();
+          ctx.fillRect(x - body / 2, Math.min(c.open, c.close), body, Math.max(3, Math.abs(c.close - c.open)));
+        });
+
+        ctx.strokeStyle = "rgba(255, 223, 147, .82)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        candles.forEach(function (c, i) {
+          var x = i * gap + gap * .5;
+          var y = (c.open + c.close) / 2 + Math.sin(i * .2) * 8;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+    })();
+  </script>
+</body>
+</html>
