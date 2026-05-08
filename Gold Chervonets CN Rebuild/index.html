@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gold Chervonets CN Rebuild | 金叶子黄金 EA 清洁重写版</title>
+  <meta name="description" content="Gold Chervonets CN Rebuild，基于公开资料清洁重写的 MT4 黄金 M15 双系统 EA，包含中文参数、中文注释、编译文件和完整策略说明。">
+  <style>
+    :root {
+      --ink: #171411;
+      --paper: #f3eee2;
+      --panel: #fffaf0;
+      --panel-2: #ede2cf;
+      --line: rgba(32, 26, 18, .16);
+      --muted: #706657;
+      --gold: #bd8b2e;
+      --green: #11715f;
+      --red: #a74438;
+      --night: #11161a;
+      --blue: #27445d;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      font-family: "LXGW WenKai", "Noto Serif SC", "Microsoft YaHei", "PingFang SC", serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: .35;
+      background:
+        linear-gradient(rgba(23, 20, 17, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 20, 17, .03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mix-blend-mode: multiply;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 92vh;
+      position: relative;
+      overflow: hidden;
+      color: #fff7e6;
+      background: var(--night);
+      display: grid;
+      align-items: end;
+      border-bottom: 1px solid rgba(255, 255, 255, .16);
+    }
+
+    #goldChart {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .88;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 24%, rgba(189, 139, 46, .42), transparent 30%),
+        radial-gradient(circle at 76% 30%, rgba(17, 113, 95, .18), transparent 28%),
+        linear-gradient(180deg, rgba(17, 22, 26, .44), rgba(17, 22, 26, .95) 82%),
+        linear-gradient(90deg, rgba(17, 22, 26, .88), rgba(17, 22, 26, .34) 56%, rgba(17, 22, 26, .72));
+      pointer-events: none;
+    }
+
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 22px 0;
+      font-size: 14px;
+      color: rgba(255, 247, 230, .82);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid rgba(255, 247, 230, .22);
+      padding-bottom: 18px;
+    }
+
+    .brand {
+      font-weight: 900;
+      color: #fff7e6;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      display: inline-grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+      border: 1px solid rgba(255, 247, 230, .48);
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 132px 0 58px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #ffdc91;
+      border: 1px solid rgba(255, 220, 145, .4);
+      padding: 8px 12px;
+      background: rgba(17, 22, 26, .45);
+      font-size: 13px;
+      width: fit-content;
+    }
+
+    h1 {
+      max-width: 1000px;
+      margin: 20px 0 0;
+      font-size: clamp(42px, 7.5vw, 96px);
+      line-height: .98;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    .lead {
+      max-width: 810px;
+      margin: 22px 0 0;
+      color: rgba(255, 247, 230, .86);
+      font-size: clamp(17px, 2vw, 22px);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid rgba(255, 247, 230, .42);
+      background: rgba(255, 247, 230, .08);
+      color: #fff7e6;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .button.primary {
+      color: #19150e;
+      background: #ffdc91;
+      border-color: #ffdc91;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      max-width: 1000px;
+      margin-top: 34px;
+      border: 1px solid rgba(255, 247, 230, .24);
+      background: rgba(255, 247, 230, .22);
+    }
+
+    .metric {
+      min-height: 112px;
+      padding: 18px;
+      background: rgba(17, 22, 26, .58);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.2;
+      color: #fff7e6;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 247, 230, .72);
+      font-size: 13px;
+    }
+
+    section {
+      padding: 76px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(190px, .32fr) minmax(0, .68fr);
+      gap: 42px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+
+    .kicker {
+      margin: 0;
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 54px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .summary {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 24px;
+      box-shadow: 0 16px 44px rgba(49, 38, 21, .08);
+      min-height: 100%;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 21px;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .num {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .dark-band {
+      position: relative;
+      overflow: hidden;
+      color: #fff7e6;
+      background: var(--night);
+      border-bottom: 0;
+    }
+
+    .dark-band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(189, 139, 46, .22), transparent 38%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .045) 0 1px, transparent 1px 78px);
+    }
+
+    .dark-band .wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .flow {
+      display: grid;
+      gap: 14px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 70px minmax(0, 1fr);
+      border: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(255, 250, 240, .96), rgba(255, 250, 240, .76));
+    }
+
+    .flow-step::before {
+      counter-increment: flow;
+      content: counter(flow, decimal-leading-zero);
+      display: grid;
+      place-items: center;
+      min-height: 92px;
+      color: #fffaf0;
+      background: var(--blue);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+    }
+
+    .flow-step div {
+      padding: 18px 20px;
+    }
+
+    .flow-step h3 {
+      margin: 0 0 6px;
+      font-size: 19px;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th, td {
+      padding: 15px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      color: #fff7e6;
+      background: var(--night);
+      font-size: 14px;
+    }
+
+    td {
+      color: var(--muted);
+    }
+
+    td:first-child {
+      color: var(--ink);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .download {
+      background: #fff6e8;
+    }
+
+    .download-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .download-card {
+      display: block;
+      min-height: 150px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      text-decoration: none;
+      box-shadow: 0 16px 44px rgba(49, 38, 21, .08);
+    }
+
+    .download-card strong {
+      display: block;
+      font-size: 20px;
+    }
+
+    .download-card span {
+      display: block;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .risk {
+      background: #fff2ea;
+    }
+
+    .risk-box {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+
+    .warning {
+      padding: 30px;
+      color: #fff7e6;
+      background: var(--red);
+      border: 1px solid rgba(32, 26, 18, .2);
+    }
+
+    .warning h2 {
+      color: #fff7e6;
+    }
+
+    .warning p {
+      color: rgba(255, 247, 230, .88);
+      margin: 16px 0 0;
+      font-size: 18px;
+    }
+
+    footer {
+      padding: 38px 0;
+      color: rgba(255, 247, 230, .72);
+      background: var(--night);
+      font-size: 13px;
+    }
+
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 920px) {
+      .section-head,
+      .risk-box {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics,
+      .grid-3,
+      .download-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        min-height: 100vh;
+      }
+
+      .metrics,
+      .grid-3,
+      .grid-2,
+      .download-list {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+
+      .flow-step {
+        grid-template-columns: 54px minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <canvas id="goldChart" aria-hidden="true"></canvas>
+    <nav class="nav">
+      <div class="wrap nav-inner">
+        <div class="brand"><span>GC</span>Gold Chervonets CN Rebuild</div>
+        <div class="nav-links">
+          <a href="#logic">策略逻辑</a>
+          <a href="#params">参数说明</a>
+          <a href="#download">下载文件</a>
+          <a href="#risk">风险声明</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="wrap hero-content">
+      <div class="tag">MT4 / XAUUSD / M15 / 中文参数 EA</div>
+      <h1>金叶子黄金 EA 清洁重写版</h1>
+      <p class="lead">基于公开资料整理并重新实现的 Gold Chervonets 策略包，包含中文参数源码、编译好的 EX4、完整说明文档和公开资料截图。它不是反编译源码，而是用于回测、学习和二次开发的可维护版本。</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#download">下载 EA 文件</a>
+        <a class="button" href="https://github.com/ChatFxeaTm/fx/tree/gold-chervonets-cn-rebuild-package-20260508/Gold%20Chervonets%20CN%20Rebuild">查看 GitHub 文件夹</a>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><strong>双系统</strong><span>系统一多空，系统二只做多</span></div>
+        <div class="metric"><strong>中文化</strong><span>参数名与源码注释均为中文</span></div>
+        <div class="metric"><strong>已编译</strong><span>MetaEditor 编译 0 错误 0 警告</span></div>
+        <div class="metric"><strong>黄金 M15</strong><span>围绕 XAUUSD 十五分钟周期重写</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="logic">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Strategy Structure</p>
+          <div>
+            <h2>这份 EA 保留公开资料中能确认的核心结构。</h2>
+            <p class="summary">原策略公开介绍中提到两套交易系统、ATR 波动过滤、点差过滤、时间过滤、固定手数、自动风险手数与恢复模式。本重写版把这些模块整理成可读源码，并尽量让参数名在 MT4 输入窗口中直接显示中文。</p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <span class="num">01</span>
+            <h3>系统一：MA + WPR + CCI</h3>
+            <p>系统一支持做多和做空。买入时关注价格位于均线上方后的回撤，以及 WPR 或 CCI 进入超卖区域；卖出逻辑反向，关注均线下方的反抽与超买信号。</p>
+          </article>
+          <article class="card">
+            <span class="num">02</span>
+            <h3>系统二：Stochastic + Bollinger + H1</h3>
+            <p>系统二只做多。它使用随机指标超卖、布林带下轨位置和 H1 K 线状态作为入场条件，并支持按距离控制的可选加仓。</p>
+          </article>
+          <article class="card">
+            <span class="num">03</span>
+            <h3>ATR 作为总波动过滤</h3>
+            <p>当 ATR 低于参数阈值时，EA 认为市场波动不足，不再开新仓。这可以避免在过度横盘阶段频繁试错。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark-band">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Execution Flow</p>
+          <div>
+            <h2>运行流程从过滤开始，而不是从下单开始。</h2>
+            <p class="summary" style="color: rgba(255, 247, 230, .74);">EA 每次检测信号前都会先确认交易环境，包含交易权限、点差、ATR、账户回撤、亏损暂停、周一周五时间和新闻过滤。只有总过滤通过，系统一和系统二才会继续判断入场。</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="card" style="background: rgba(255, 250, 240, .08); color: #fff7e6; border-color: rgba(255,255,255,.18);">
+            <h3>系统一出场</h3>
+            <p style="color: rgba(255,247,230,.76);">系统一包含固定止损止盈、盈利后的追踪止损，以及基于 WPR、M15 收盘价、M1 蜡烛方向和盈利距离的信号平仓。</p>
+          </article>
+          <article class="card" style="background: rgba(255, 250, 240, .08); color: #fff7e6; border-color: rgba(255,255,255,.18);">
+            <h3>系统二出场</h3>
+            <p style="color: rgba(255,247,230,.76);">系统二支持固定时间平仓、盈利距离平仓、反向 K 线平仓和组合保本距离平仓。加仓后会按组合表现控制退出。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Workflow</p>
+          <div>
+            <h2>从挂图到回测的建议流程。</h2>
+            <p class="summary">默认参数是可回测模板，不建议直接实盘。更稳的流程是先用固定手数看行为，再单独测试两套系统，最后优化风险、止损止盈和交易时间。</p>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-step"><div><h3>复制文件到 MT4</h3><p>把 `.mq4` 和 `.ex4` 放入 `MQL4/Experts`，重启 MT4 或刷新导航器。</p></div></div>
+          <div class="flow-step"><div><h3>打开黄金 M15 图表</h3><p>公开资料显示策略主要用于 `XAUUSD` 的 `M15` 周期，本重写版也围绕这个环境设置默认值。</p></div></div>
+          <div class="flow-step"><div><h3>先固定手数回测</h3><p>观察交易频率、持仓时间、最大回撤、平均盈亏和订单方向，确认基础行为是否符合预期。</p></div></div>
+          <div class="flow-step"><div><h3>分别测试两套系统</h3><p>只开系统一或只开系统二，可以更清楚判断哪套逻辑适合当前数据和经纪商报价。</p></div></div>
+          <div class="flow-step"><div><h3>再做参数优化</h3><p>重点优化 ATR 阈值、止损止盈、追踪距离、系统二加仓间距、交易时间和风险百分比。</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="params">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Chinese Inputs</p>
+          <div>
+            <h2>参数已经按中文分组整理。</h2>
+            <p class="summary">为了让 MT4 输入窗口更容易读，源码使用中文 input 变量名，并在每个参数后保留中文注释。下面是主要参数的用途摘要。</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>参数组</th>
+                <th>关键参数</th>
+                <th>作用</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>主设置</td>
+                <td>每跳检测信号、最大滑点旧点、挂单距离、订单注释</td>
+                <td>控制信号检测频率、交易执行容忍度、是否使用挂单，以及订单 comment 内容。</td>
+              </tr>
+              <tr>
+                <td>过滤时间</td>
+                <td>最大点差旧点、ATR最低旧点、最大账户回撤百分比、周五最后开仓小时</td>
+                <td>用于限制不利交易环境，避免在高点差、低波动、高回撤或周五尾盘继续开仓。</td>
+              </tr>
+              <tr>
+                <td>系统一指标</td>
+                <td>系统一MA周期、系统一WPR周期、系统一CCI周期、系统一CCI阈值</td>
+                <td>定义系统一的趋势位置、超买超卖判断和震荡指标阈值。</td>
+              </tr>
+              <tr>
+                <td>系统一平仓</td>
+                <td>系统一追踪启动旧点、系统一追踪距离旧点、系统一平仓距离一</td>
+                <td>控制追踪止损和信号平仓的盈利距离条件。</td>
+              </tr>
+              <tr>
+                <td>系统二指标</td>
+                <td>系统二随机K周期、系统二随机超卖水平、系统二布林周期一、系统二布林偏差</td>
+                <td>定义系统二只做多逻辑中的 Stochastic 和 Bollinger 条件。</td>
+              </tr>
+              <tr>
+                <td>系统二仓位</td>
+                <td>系统二加仓数量、系统二加仓间距、系统二加仓手数倍数</td>
+                <td>控制系统二是否加仓、加仓距离和后续订单手数扩张速度。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="download" class="download">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Package Files</p>
+          <div>
+            <h2>文件已经放在 GitHub 和本地同名文件夹里。</h2>
+            <p class="summary">下面这些链接来自 GitHub Pages 同目录。浏览器可能会直接显示源码或下载文件，取决于文件类型和浏览器设置。</p>
+          </div>
+        </div>
+
+        <div class="download-list">
+          <a class="download-card" href="Gold_Chervonets_CN_Rebuild.mq4">
+            <strong>MQ4 源码</strong>
+            <span>中文参数、中文注释，可继续二次开发。</span>
+          </a>
+          <a class="download-card" href="Gold_Chervonets_CN_Rebuild.ex4">
+            <strong>EX4 文件</strong>
+            <span>已编译版本，可放入 MT4 Experts 目录。</span>
+          </a>
+          <a class="download-card" href="Gold_Chervonets_CN_Rebuild_compile.log">
+            <strong>编译日志</strong>
+            <span>当前编译结果为 0 errors, 0 warnings。</span>
+          </a>
+          <a class="download-card" href="README.md">
+            <strong>完整说明</strong>
+            <span>Markdown 版本介绍，包含参数和安装说明。</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="risk" class="risk">
+      <div class="wrap">
+        <div class="risk-box">
+          <aside class="warning">
+            <p class="kicker" style="color: #ffdc91;">Risk Notice</p>
+            <h2>风险声明</h2>
+            <p>黄金和外汇保证金交易具有高杠杆和高波动。EA 回测结果不代表未来收益，任何实盘使用都可能出现滑点、跳空、断线、平台限制、参数失效和连续亏损。</p>
+          </aside>
+          <div class="grid-2">
+            <article class="card">
+              <h3>不是投资建议</h3>
+              <p>本项目只用于代码研究、策略复盘和回测，不构成买卖建议、收益承诺或账户托管承诺。</p>
+            </article>
+            <article class="card">
+              <h3>不是原版源码</h3>
+              <p>本项目没有反编译原始 `.ex4`，而是根据公开资料进行清洁重写，因此不会与原版逐笔完全一致。</p>
+            </article>
+            <article class="card">
+              <h3>先模拟测试</h3>
+              <p>建议在模拟盘、历史数据和小资金环境中充分验证，再考虑是否用于真实交易环境。</p>
+            </article>
+            <article class="card">
+              <h3>关注经纪商差异</h3>
+              <p>黄金报价位数、点差、交易时间、手续费、止损距离和滑点都会影响策略表现。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Gold Chervonets CN Rebuild</span>
+      <span>公开资料清洁重写版，仅供研究和回测。</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("goldChart");
+      var ctx = canvas.getContext("2d");
+      var candles = [];
+      var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+
+      function resize() {
+        canvas.width = Math.floor(canvas.offsetWidth * dpr);
+        canvas.height = Math.floor(canvas.offsetHeight * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        build();
+        draw();
+      }
+
+      function build() {
+        var w = canvas.offsetWidth;
+        var h = canvas.offsetHeight;
+        var count = Math.max(42, Math.floor(w / 21));
+        var base = h * .52;
+        var price = base;
+        candles = [];
+        for (var i = 0; i < count; i++) {
+          var wave = Math.sin(i * .38) * 26 + Math.cos(i * .13) * 48;
+          var open = price + Math.sin(i * .67) * 16;
+          var close = base + wave + Math.sin(i * .2) * 32;
+          var high = Math.min(open, close) - 18 - (i % 5) * 4;
+          var low = Math.max(open, close) + 18 + (i % 7) * 3;
+          candles.push({ open: open, close: close, high: high, low: low });
+          price = close;
+        }
+      }
+
+      function grid(w, h) {
+        ctx.strokeStyle = "rgba(255, 247, 230, .08)";
+        ctx.lineWidth = 1;
+        for (var x = 0; x < w; x += 64) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, h);
+          ctx.stroke();
+        }
+        for (var y = 0; y < h; y += 54) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+          ctx.stroke();
+        }
+      }
+
+      function draw() {
+        var w = canvas.offsetWidth;
+        var h = canvas.offsetHeight;
+        ctx.clearRect(0, 0, w, h);
+        grid(w, h);
+
+        var gap = w / candles.length;
+        var body = Math.max(6, Math.min(13, gap * .42));
+
+        candles.forEach(function (c, i) {
+          var x = i * gap + gap * .5;
+          var up = c.close < c.open;
+          ctx.strokeStyle = up ? "rgba(43, 180, 139, .86)" : "rgba(216, 86, 70, .86)";
+          ctx.fillStyle = up ? "rgba(43, 180, 139, .74)" : "rgba(216, 86, 70, .68)";
+          ctx.beginPath();
+          ctx.moveTo(x, c.high);
+          ctx.lineTo(x, c.low);
+          ctx.stroke();
+          ctx.fillRect(x - body / 2, Math.min(c.open, c.close), body, Math.max(3, Math.abs(c.close - c.open)));
+        });
+
+        ctx.strokeStyle = "rgba(255, 220, 145, .86)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        candles.forEach(function (c, i) {
+          var x = i * gap + gap * .5;
+          var y = (c.open + c.close) / 2 + Math.sin(i * .19) * 7;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+    })();
+  </script>
+</body>
+</html>
