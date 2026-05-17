@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>匯鹰·夜鹰短线 / HY-ZS Scalper</title>
+  <link rel="stylesheet" href="../assets/hyzs.css">
+</head>
+<body>
+  <div class="version"><div class="shell"><span><strong>策略独立页</strong> · HY-ZS Scalper</span><span>公开介绍，不含源码</span></div></div>
+  <div class="topbar"><div class="shell"><a class="brand" href="../index.html">HY-ZS Suite Alpha</a><nav class="nav"><a href="../index.html#strategies">策略矩阵</a><a href="../index.html#testing">代理测试</a><a href="../index.html#risk">风险声明</a></nav></div></div>
+
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="breadcrumb">首页 / 策略 05</div>
+        <p class="eyebrow">05 · HY-ZS Scalper</p>
+        <h1>匯鹰·夜鹰短线</h1>
+        <p class="lead">夜鹰短线是短周期执行敏感策略，重点研究低点差、低滑点、稳定成交环境下的短线机会。Alpha 阶段默认关闭，不作为所有交易商通用策略，也不为了交易频率牺牲风控。</p>
+        <div class="tagrow"><span class="tag">短周期执行</span><span class="tag">严格点差</span><span class="tag">默认关闭</span><span class="risk high">高执行风险</span></div>
+      </div>
+      <aside class="panel">
+        <p class="eyebrow">适合行情</p>
+        <p>适合点差稳定、报价连续、成交滑点可控的短周期环境。更适合流动性充足的活跃交易时段，不适合点差频繁扩大的冷门品种或交易商环境。</p>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section"><div class="shell"><div class="section-head"><div><p class="eyebrow">Positioning</p><h2>策略定位</h2></div><p class="meta">夜鹰短线不是高频刷单，也不是无条件抢波动；它首先是一套执行环境过滤模块。</p></div><div class="detail-list">
+      <article><h3>执行优先</h3><p>策略先检查点差、滑点接口、交易时段和当日交易次数，再考虑是否允许候选信号进入交易执行层。</p></article>
+      <article><h3>短线敏感</h3><p>短周期止损距离通常较近，任何点差扩大、滑点增加或报价跳动，都可能显著改变真实风险收益比。</p></article>
+      <article><h3>默认关闭</h3><p>Alpha 版本将夜鹰短线作为研究模块保留，代理测试时必须单独启用，并记录交易商、账户类型和真实点差表现。</p></article>
+    </div></div></section>
+
+    <section class="section"><div class="shell"><div class="section-head"><div><p class="eyebrow">Logic</p><h2>核心逻辑</h2></div><p class="meta">公开版只描述执行规则，不公开源码参数细节。</p></div><div class="logic-flow">
+      <div class="flow-step"><strong>1. 时段过滤</strong><span>仅在允许交易时间内评估候选信号，避开低流动性和禁止交易窗口。</span></div>
+      <div class="flow-step"><strong>2. 点差过滤</strong><span>使用比主策略更严格的 MaxSpreadPoints，点差过大直接拒绝。</span></div>
+      <div class="flow-step"><strong>3. 滑点接口</strong><span>保留滑点检查和下单偏差接口，用于评估交易商执行质量。</span></div>
+      <div class="flow-step"><strong>4. 次数限制</strong><span>限制每日最大交易次数，防止短周期信号密集重复触发。</span></div>
+    </div></div></section>
+
+    <section class="section"><div class="shell two">
+      <article class="card"><h2>允许进入研究的条件</h2><ul class="rule-list"><li>点差持续低于策略阈值。</li><li>当前处于允许交易时段。</li><li>当日交易次数未达到上限。</li><li>RiskEngine 放行账户级风控。</li><li>候选信号必须带有有效止损和明确退出逻辑。</li></ul></article>
+      <article class="card"><h2>停止或拒绝条件</h2><ul class="rule-list"><li>点差突然扩大或报价不连续。</li><li>滑点超过策略可接受范围。</li><li>达到每日最大交易次数。</li><li>周五收盘前或禁止交易时间段。</li><li>账户触发连亏暂停、亏损限制或净值回撤限制。</li></ul></article>
+    </div></section>
+
+    <section class="section"><div class="shell two">
+      <article class="warning"><h2>禁止事项</h2><ul class="rule-list"><li>禁止把夜鹰短线当作无限刷单系统。</li><li>禁止降低点差过滤来追求更多交易。</li><li>禁止无止损开仓、马丁补仓、网格扛单。</li><li>禁止在执行质量差的交易商环境强行启用。</li></ul></article>
+      <article class="card"><h2>测试重点</h2><ul class="rule-list"><li>不同交易商的真实点差和滑点差异。</li><li>活跃时段与冷清时段的加载表现。</li><li>每日最大交易次数是否生效。</li><li>拒绝开仓时日志是否说明原因。</li><li>短周期回测和模拟盘是否存在异常重复开仓。</li></ul></article>
+    </div></section>
+
+    <section class="section"><div class="shell note"><h2>风险说明</h2><p>夜鹰短线的核心风险来自执行环境，而不是单一信号本身。代理测试必须把点差、滑点、服务器时间、成交延迟和异常拒单一起记录，不能只看盈亏曲线。</p><div class="footer-actions"><a class="button" href="../index.html#strategies">返回策略矩阵</a><a class="linkbtn" href="yingzhen-portfolio.html">下一策略：鹰阵组合</a></div></div></section>
+  </main>
+  <footer><div class="shell">HY-ZS Scalper · Public strategy logic page</div></footer>
+</body>
+</html>
