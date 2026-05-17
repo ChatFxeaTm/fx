@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>匯鹰·鹰阵组合 / HY-ZS Portfolio</title>
+  <link rel="stylesheet" href="../assets/hyzs.css">
+</head>
+<body>
+  <div class="version"><div class="shell"><span><strong>策略独立页</strong> · HY-ZS Portfolio</span><span>公开介绍，不含源码</span></div></div>
+  <div class="topbar"><div class="shell"><a class="brand" href="../index.html">HY-ZS Suite Alpha</a><nav class="nav"><a href="../index.html#strategies">策略矩阵</a><a href="../index.html#architecture">系统架构</a><a href="../index.html#risk">风险声明</a></nav></div></div>
+
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="breadcrumb">首页 / 策略 06</div>
+        <p class="eyebrow">06 · HY-ZS Portfolio</p>
+        <h1>匯鹰·鹰阵组合</h1>
+        <p class="lead">鹰阵组合是多策略调度与统计模块，不是直接开仓策略。它负责观察哪些策略被启用、当前总持仓如何分布、同方向敞口是否集中，以及多策略 MagicNumber 是否清晰可追踪。</p>
+        <div class="tagrow"><span class="tag">组合调度</span><span class="tag">敞口统计</span><span class="tag">不直接开仓</span><span class="risk blue">管理模块</span></div>
+      </div>
+      <aside class="panel">
+        <p class="eyebrow">适合场景</p>
+        <p>适合多个策略同时进入 Alpha 测试时使用，用来查看策略启用状态、总持仓数量、同向风险暴露和 MagicNumber 规划是否清楚。</p>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section"><div class="shell"><div class="section-head"><div><p class="eyebrow">Positioning</p><h2>策略定位</h2></div><p class="meta">鹰阵组合像一个调度台，它不替代交易信号，也不绕过鹰盾风控。</p></div><div class="detail-list">
+      <article><h3>统计当前启用策略</h3><p>读取七个策略开关，展示 Trend、Pullback、Range、Reversal、Scalper、Portfolio、Shield 的启用状态，帮助代理确认测试组合。</p></article>
+      <article><h3>统计总持仓和方向敞口</h3><p>统计账户当前持仓数量、同方向持仓数量、策略分布和可能的风险集中，作为 RiskEngine 前后的观察面板。</p></article>
+      <article><h3>规划 MagicNumber</h3><p>用 BaseMagicNumber 加策略编号的方式形成可追踪编号区间，方便日志、statement 和代理反馈定位问题来源。</p></article>
+    </div></div></section>
+
+    <section class="section"><div class="shell"><div class="section-head"><div><p class="eyebrow">Logic</p><h2>核心逻辑</h2></div><p class="meta">Portfolio 的核心是统计和路由，不负责产生买卖信号。</p></div><div class="logic-flow">
+      <div class="flow-step"><strong>1. 策略开关扫描</strong><span>统计当前启用策略数量，识别是否存在测试配置冲突。</span></div>
+      <div class="flow-step"><strong>2. 持仓汇总</strong><span>按 MagicNumber、方向、品种和周期统计当前持仓。</span></div>
+      <div class="flow-step"><strong>3. 风险汇总接口</strong><span>保留总风险估算接口，用于后续评估所有策略共同风险。</span></div>
+      <div class="flow-step"><strong>4. 路由提示</strong><span>向总控 EA 提供可读状态，不越权发起真实交易。</span></div>
+    </div></div></section>
+
+    <section class="section"><div class="shell two">
+      <article class="card"><h2>Alpha 版已关注</h2><ul class="rule-list"><li>当前启用策略数量。</li><li>账户总持仓数量。</li><li>多策略 MagicNumber 规划说明。</li><li>同方向敞口统计接口。</li><li>总风险统计接口占位，便于后续接入真实风险模型。</li></ul></article>
+      <article class="card"><h2>不会做的事</h2><ul class="rule-list"><li>不直接调用 Buy 或 Sell。</li><li>不替策略生成入场信号。</li><li>不自动加仓、补仓或反向翻仓。</li><li>不绕过 RiskEngine 修改风控结果。</li><li>不为了组合收益曲线隐藏亏损策略。</li></ul></article>
+    </div></section>
+
+    <section class="section"><div class="shell two">
+      <article class="warning"><h2>禁止事项</h2><ul class="rule-list"><li>禁止把组合模块改造成隐形下单模块。</li><li>禁止用组合调度绕开单策略最大持仓限制。</li><li>禁止同方向策略全部开启后不统计敞口。</li><li>禁止删除或隐藏策略级亏损记录。</li></ul></article>
+      <article class="card"><h2>测试重点</h2><ul class="rule-list"><li>打开不同策略组合，确认启用数量显示正确。</li><li>不同 MagicNumber 的持仓能否被正确归类。</li><li>多策略同向持仓时，敞口统计是否清楚。</li><li>关闭 Portfolio 后，不应影响其他策略的风控开关。</li><li>代理反馈中必须记录实际启用的策略组合。</li></ul></article>
+    </div></section>
+
+    <section class="section"><div class="shell note"><h2>风险说明</h2><p>鹰阵组合本身不产生收益，它的价值是减少多策略测试时的混乱。Alpha 阶段最重要的是让每一笔交易能追溯到策略、MagicNumber、风控状态和测试配置。</p><div class="footer-actions"><a class="button" href="../index.html#strategies">返回策略矩阵</a><a class="linkbtn" href="yingdun-shield.html">下一策略：鹰盾风控</a></div></div></section>
+  </main>
+  <footer><div class="shell">HY-ZS Portfolio · Public strategy logic page</div></footer>
+</body>
+</html>
