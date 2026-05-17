@@ -7,31 +7,91 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>匯鹰中枢 HY-ZS Suite Alpha</title>
-  <meta name="description" content="匯鹰中枢 HY-ZS Suite Alpha 是围绕中枢识别、行情状态路由和统一风控构建的多策略交易系统。">
-  <style>
-    :root{color-scheme:light;--ink:#17211b;--muted:#5b665e;--line:#d9dfd5;--paper:#f4f6ef;--panel:#fff;--soft:#eef4ea;--accent:#0f766e;--deep:#0a4c48;--gold:#a16207;--red:#b42318;--blue:#285c8f;--shadow:0 18px 45px rgba(32,43,36,.10)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;background:var(--paper);color:var(--ink);line-height:1.68}a{color:var(--deep);text-decoration:none}a:hover{text-decoration:underline}.version{background:#10251f;color:#fff;border-bottom:3px solid var(--gold)}.version .shell{display:flex;justify-content:space-between;gap:14px;align-items:center;min-height:42px;font-size:14px}.version strong{color:#ffe7a3}.shell{width:min(1160px,calc(100% - 32px));margin:0 auto}.topbar{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:rgba(244,246,239,.96);backdrop-filter:blur(14px)}.topbar .shell{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px}.brand{font-weight:900;color:var(--ink)}.nav{display:flex;gap:8px;flex-wrap:wrap}.nav a{padding:6px 9px;border-radius:6px;color:var(--muted);font-size:14px}.nav a:hover{background:var(--panel);text-decoration:none;color:var(--ink)}.hero{padding:62px 0 38px;border-bottom:1px solid var(--line)}.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:28px;align-items:stretch}.eyebrow{margin:0 0 10px;color:var(--gold);font-weight:900;font-size:14px}.hero h1{margin:0 0 16px;font-size:clamp(34px,5vw,60px);line-height:1.05;letter-spacing:0}.lead{font-size:18px;color:var(--muted);max-width:780px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.button{display:inline-flex;align-items:center;min-height:42px;padding:8px 15px;border-radius:6px;background:var(--deep);color:#fff;font-weight:800}.button:hover{text-decoration:none;background:var(--accent)}.linkbtn{display:inline-flex;align-items:center;min-height:42px;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);font-weight:800}.panel,.card,.strategy,.warning,.note{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;box-shadow:var(--shadow)}.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.metric{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:14px}.metric strong{display:block;font-size:24px}.metric span{color:var(--muted);font-size:14px}.section{padding:44px 0}.section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:18px}.section h2{margin:0;font-size:30px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card h3,.strategy h3{margin:0 0 8px}.meta{color:var(--muted);margin:0}.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.tag{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px 9px;background:var(--soft);font-size:13px;font-weight:800}.risk{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:13px;font-weight:900}.risk.low{background:#e6f3ea;color:#1f6f3f}.risk.medium{background:#fff4d6;color:#8a5a00}.risk.high{background:#fde8e4;color:var(--red)}.risk.blue{background:#e7f0fb;color:var(--blue)}.architecture{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.node{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:14px}.node strong{display:block}.node span{color:var(--muted);font-size:14px}.strategy{box-shadow:none;margin-bottom:16px}.strategy-head{display:flex;justify-content:space-between;gap:14px;align-items:start;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px}.strategy h3{font-size:24px}.strategy dl{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 14px;margin:0}.strategy dt{font-weight:900;color:var(--ink)}.strategy dd{margin:0;color:var(--muted)}.rule-list{margin:0;padding-left:20px}.rule-list li{margin:4px 0}.warning{border-color:#efc7bd;background:#fff7f4}.note{background:var(--soft);box-shadow:none}footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted)}@media(max-width:900px){.version .shell,.hero-grid,.grid,.two,.architecture{grid-template-columns:1fr;display:block}.section-head,.strategy-head{display:block}.strategy dl{grid-template-columns:1fr}.topbar .shell{align-items:flex-start;flex-direction:column;padding:10px 0}}
-  </style>
+  <meta name="description" content="匯鹰中枢 HY-ZS Suite Alpha 是围绕中枢识别、行情状态路由和统一风控构建的七策略产品线介绍页。">
+  <link rel="stylesheet" href="assets/hyzs.css">
 </head>
 <body>
-  <div class="version"><div class="shell"><span><strong>策略详解版 v2.2</strong> · 已同步公开页</span><span>更新时间：2026-05-17 04:10 UTC · 只发布品牌介绍，不发布源码</span></div></div>
+  <div class="version"><div class="shell"><span><strong>策略独立页版 v3.0</strong> · 七个策略均有独立介绍页</span><span>只发布品牌与策略逻辑介绍，不发布源码</span></div></div>
   <div class="topbar"><div class="shell"><a class="brand" href="./">HY-ZS Suite Alpha</a><nav class="nav"><a href="#position">定位</a><a href="#engine">中枢引擎</a><a href="#strategies">7 个策略</a><a href="#testing">代理测试</a><a href="#risk">风险声明</a></nav></div></div>
-  <header class="hero" id="position"><div class="shell hero-grid"><div><p class="eyebrow">匯鹰中枢 · HY-ZS Suite Alpha</p><h1>一套围绕中枢识别构建的多策略交易系统</h1><p class="lead">HY-ZS Suite Alpha 不是单个 EA，而是一条策略产品线。它把市场结构识别、行情状态判断、策略路由和统一风控拆成清晰模块，让趋势、回踩、震荡、反转、短线、组合和风控各司其职。</p><div class="actions"><a class="button" href="#strategies">查看策略矩阵</a><a class="linkbtn" href="#risk">先看风险边界</a></div></div><aside class="panel"><p class="eyebrow">Alpha 产品线面板</p><div class="metric-grid"><div class="metric"><strong>7</strong><span>策略模块</span></div><div class="metric"><strong>MT5</strong><span>第一阶段优先</span></div><div class="metric"><strong>RiskEngine</strong><span>统一风控入口</span></div><div class="metric"><strong>Public</strong><span>公开页不含源码</span></div></div><div class="tagrow"><span class="tag">中枢识别</span><span class="tag">状态路由</span><span class="tag">代理测试</span><span class="tag">风控优先</span></div></aside></div></header>
+
+  <header class="hero" id="position">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">匯鹰中枢 · HY-ZS Suite Alpha</p>
+        <h1>围绕中枢识别建立的七策略交易系统</h1>
+        <p class="lead">HY-ZS Suite Alpha 不是单个 EA，而是一条品牌化、多策略、可测试、可发布的策略产品线。公开站点的重点是说明每个策略在什么行情中工作、依赖什么逻辑、受到哪些风控约束，以及代理应该如何测试。</p>
+        <div class="actions"><a class="button" href="#strategies">进入七个策略</a><a class="linkbtn" href="#risk">查看风险边界</a></div>
+      </div>
+      <aside class="panel">
+        <p class="eyebrow">产品线面板</p>
+        <div class="metric-grid">
+          <div class="metric"><strong>7</strong><span>独立策略介绍页</span></div>
+          <div class="metric"><strong>MT5</strong><span>Alpha 阶段优先</span></div>
+          <div class="metric"><strong>RiskEngine</strong><span>统一风控入口</span></div>
+          <div class="metric"><strong>Public</strong><span>公开页不含源码</span></div>
+        </div>
+        <div class="tagrow"><span class="tag">中枢识别</span><span class="tag">状态路由</span><span class="tag">策略矩阵</span><span class="tag">代理测试</span></div>
+      </aside>
+    </div>
+  </header>
+
   <main>
-    <section class="section"><div class="shell two"><article class="card"><p class="eyebrow">Brand Position</p><h2>品牌定位</h2><p>“匯鹰中枢”定位为中枢驱动的策略矩阵。它不追求把所有行情塞进一个 EA，而是把不同市场状态拆给不同策略：趋势交给鹰眼，突破回踩交给鹰爪，横盘交给鹰巢，极端偏离交给猎隼研究，短周期执行交给夜鹰研究，组合统计交给鹰阵，底层保护交给鹰盾。</p></article><article class="card"><p class="eyebrow">Alpha Goal</p><h2>第一阶段目标</h2><p>Alpha 阶段先验收工程完整性和测试闭环：目录完整、网页可打开、策略文件存在、总控 EA 能看到策略开关、共享核心接口清楚、风控逻辑存在、日志清楚、代理测试文档完整。不以盈利能力作为验收目标。</p></article></div></section>
-    <section class="section" id="engine"><div class="shell"><div class="section-head"><div><p class="eyebrow">ZhongShu Engine</p><h2>中枢引擎如何串联策略</h2></div><p class="meta">中枢不是装饰概念，而是策略路由的核心上下文：先识别区间，再判断突破、回归、趋势或极端偏离，最后让合适的策略参与。</p></div><div class="architecture"><div class="node"><strong>Market Data</strong><span>价格、周期、点差、波动环境</span></div><div class="node"><strong>ZhongShu</strong><span>中枢上沿、下沿、中轨、宽度</span></div><div class="node"><strong>Market State</strong><span>RANGE、BREAKOUT、TREND、EXTREME</span></div><div class="node"><strong>Strategy Matrix</strong><span>按行情状态选择策略候选</span></div><div class="node"><strong>RiskEngine</strong><span>点差、持仓、亏损、回撤、熔断</span></div></div></div></section>
-    <section class="section" id="strategies"><div class="shell"><div class="section-head"><div><p class="eyebrow">Strategy Matrix</p><h2>7 个策略模块</h2></div><p class="meta">下面是公开版策略介绍，不包含源码、参数 set 或交易建议。</p></div>
-      <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">01 · HY-ZS Trend</p><h3>匯鹰·鹰眼趋势</h3><p class="meta">中枢突破后的趋势跟随策略。</p></div><span class="risk medium">中风险</span></div><dl><dt>策略定位</dt><dd>在有效中枢被收盘价突破后，跟随已经出现方向优势的行情，不预测底顶。</dd><dt>适合行情</dt><dd>单边延续、突破确认、波动扩张、回落较浅的趋势行情。</dd><dt>核心逻辑</dt><dd>中枢有效，市场状态为 BREAKOUT_UP / UP_TREND 或反向状态，收盘价突破中枢边界后生成候选信号，再交给 RiskEngine。</dd><dt>风控重点</dt><dd>必须有止损，默认按中枢反向边界或结构止损；固定 RR 默认 2R；同方向已有持仓时避免无限加仓。</dd><dt>测试重点</dt><dd>重点观察假突破、点差过大、持仓超限、止损无效时是否被拒绝。</dd></dl></article>
-      <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">02 · HY-ZS Pullback</p><h3>匯鹰·鹰爪回踩</h3><p class="meta">突破后等待回踩确认的稳健型策略。</p></div><span class="risk medium">中风险</span></div><dl><dt>策略定位</dt><dd>不在突破当根追价，而是记住突破方向，等待价格回踩原中枢边界并出现确认 K 线。</dd><dt>适合行情</dt><dd>趋势已经启动，但市场给出回踩确认、支撑阻力回测、二次启动机会。</dd><dt>核心逻辑</dt><dd>突破记忆、等待回踩、触及边界、确认 K 线、超时放弃。回踩失败或重新跌回反向边界时放弃信号。</dd><dt>风控重点</dt><dd>止损放在回踩低点/高点外侧或中枢内部反向边界附近，止盈按固定 RR，默认 1.5R 到 2R。</dd><dt>测试重点</dt><dd>确认不会刚突破立即追单，不会无限等待回踩，不会在回踩失败后硬开仓。</dd></dl></article>
-      <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">03 · HY-ZS Range</p><h3>匯鹰·鹰巢震荡</h3><p class="meta">只在中枢震荡行情中运行的区间策略。</p></div><span class="risk low">中低风险</span></div><dl><dt>策略定位</dt><dd>当行情被中枢约束、缺少持续方向时，在中枢上下沿附近寻找边界反应。</dd><dt>适合行情</dt><dd>区间清晰、波动适中、价格围绕中枢上下沿往复摆动的 RANGE 状态。</dd><dt>核心逻辑</dt><dd>接近中枢下沿考虑多单，接近上沿考虑空单；一旦出现 BREAKOUT_UP / BREAKOUT_DOWN，停止新开震荡单。</dd><dt>风控重点</dt><dd>使用最小/最大区间宽度过滤、点差过滤、同一边界冷却，禁止趋势突破后逆势补仓。</dd><dt>测试重点</dt><dd>验证非 RANGE 状态不交易，突破后停止，止损放在中枢外侧而不是无止损扛单。</dd></dl></article>
-      <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">04 · HY-ZS Reversal</p><h3>匯鹰·猎隼反转</h3><p class="meta">极端偏离后的轻仓反转研究版，默认关闭。</p></div><span class="risk high">高风险研究</span></div><dl><dt>策略定位</dt><dd>研究价格远离中枢后的回归可能性，不作为默认生产策略。</dd><dt>适合行情</dt><dd>市场状态进入 EXTREME，价格明显偏离中枢，且出现反向确认迹象。</dd><dt>核心逻辑</dt><dd>只在极端偏离场景轻仓研究反向机会，必须等待确认，不把极端趋势当成必然回归。</dd><dt>风控重点</dt><dd>默认关闭、小风险、单仓、冷却，禁止连续逆势补仓、重仓反转、马丁或网格。</dd><dt>测试重点</dt><dd>只允许模拟盘谨慎启用，重点记录反转失败、连续亏损暂停和止损执行。</dd></dl></article>
-      <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">05 · HY-ZS Scalper</p><h3>匯鹰·夜鹰短线</h3><p class="meta">短周期执行敏感策略，默认关闭。</p></div><span class="risk high">执行敏感</span></div><dl><dt>策略定位</dt><dd>研究低周期、低点差、低滑点环境中的短线执行机会。</dd><dt>适合行情</dt><dd>交易商执行稳定、点差极低、滑点可控、报价质量可靠的环境。</dd><dt>核心逻辑</dt><dd>在严格点差、滑点、交易时段和每日次数限制下研究短周期候选信号。</dd><dt>风控重点</dt><dd>不适合所有交易商；点差过滤更严格；必须限制最大交易次数；禁止高频重复开仓。</dd><dt>测试重点</dt><dd>重点记录点差、滑点、拒单、执行延迟，不能只看回测曲线。</dd></dl></article>
-      <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">06 · HY-ZS Portfolio</p><h3>匯鹰·鹰阵组合</h3><p class="meta">组合调度与风险统计模块，默认关闭，不直接开仓。</p></div><span class="risk blue">只读统计</span></div><dl><dt>策略定位</dt><dd>读取多策略开关、总持仓、方向敞口、估算风险，为后续组合调度做准备。</dd><dt>适合场景</dt><dd>多策略同时测试时，用于观察组合风险、方向集中度和 MagicNumber 规划。</dd><dt>核心逻辑</dt><dd>统计启用策略数量、总持仓数量、同方向敞口、缺少止损持仓和总风险估算。</dd><dt>风控重点</dt><dd>不直接调用 Buy/Sell，不覆盖 RiskEngine，不自动调仓。</dd><dt>测试重点</dt><dd>检查 MagicNumber 规划是否清楚，统计是否只覆盖套件范围内的持仓。</dd></dl></article>
-      <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">07 · HY-ZS Shield</p><h3>匯鹰·鹰盾风控</h3><p class="meta">所有策略的统一保护模块。</p></div><span class="risk low">系统保护级</span></div><dl><dt>策略定位</dt><dd>作为所有交易信号进入真实交易接口前的统一风险闸门。</dd><dt>适合行情</dt><dd>所有行情，尤其异常波动、点差扩大、连续亏损、周五收盘前和回撤压力场景。</dd><dt>核心逻辑</dt><dd>统一检查点差、最大持仓、单策略持仓、单日/单周亏损、净值回撤、连续亏损暂停、禁止交易时间。</dd><dt>风控重点</dt><dd>任何拒绝交易都必须有日志和状态说明；禁止策略绕过 RiskEngine 开仓。</dd><dt>测试重点</dt><dd>逐项触发风控，确认图表状态、日志、拒绝原因和代理反馈模板都能闭环。</dd></dl></article>
-    </div></section>
-    <section class="section" id="testing"><div class="shell two"><article class="card"><p class="eyebrow">Agent Testing</p><h2>代理测试怎么参与</h2><ul class="rule-list"><li>先确认 EA 能加载、参数能显示、日志能输出。</li><li>再按策略、品种、周期记录标准化反馈。</li><li>重点测试风控是否拒绝异常信号，而不是追求盈利截图。</li><li>每次反馈必须包含 set 文件名、日志、截图、statement 和主要问题。</li></ul></article><article class="card"><p class="eyebrow">Alpha Acceptance</p><h2>第一阶段验收顺序</h2><ul class="rule-list"><li>目录完整。</li><li>网页可打开。</li><li>策略文件存在。</li><li>总控 EA 能看到所有策略开关。</li><li>共享核心接口清楚。</li><li>风控逻辑存在。</li><li>日志清楚。</li><li>代理测试文档完整。</li></ul></article></div></section>
-    <section class="section" id="risk"><div class="shell"><div class="warning"><p class="eyebrow">Risk Statement</p><h2>风险声明</h2><p>HY-ZS Suite Alpha 当前是工程完整性和策略研究阶段，不构成投资建议，不承诺收益，不验证盈利能力。任何未来交易信号都必须经过 RiskEngine，并保留止损、日志和测试记录。</p><div class="tagrow"><span class="tag">禁止无限马丁</span><span class="tag">禁止无限网格</span><span class="tag">禁止无止损扛单</span><span class="tag">禁止自动翻倍补仓</span><span class="tag">禁止删除亏损记录</span><span class="tag">禁止隐藏风控失败</span><span class="tag">禁止为了回测曲线牺牲真实风控</span></div></div></div></section>
-    <section class="section"><div class="shell"><div class="note"><p class="eyebrow">Public Page Boundary</p><h2>公开页边界</h2><p>本页面只用于介绍 HY-ZS Suite Alpha 产品线。公开仓库不包含 MQL 源码、EA 编译文件、set 参数、测试日志、statement、账户截图或代理内部反馈。</p></div></div></section>
+    <section class="section">
+      <div class="shell two">
+        <article class="card"><p class="eyebrow">Brand Position</p><h2>品牌定位</h2><p>“匯鹰中枢”定位为中枢驱动的策略矩阵。它不把所有行情塞进一个策略，而是先识别中枢，再判断行情状态，最后把不同场景交给不同模块处理：趋势、回踩、震荡、反转、短线、组合和风控各司其职。</p></article>
+        <article class="card"><p class="eyebrow">Alpha Goal</p><h2>第一阶段目标</h2><p>Alpha 阶段先验收工程完整性和测试闭环：网页可访问、策略文件存在、总控 EA 能看到开关、共享核心接口清楚、风控逻辑可见、日志清楚、代理测试文档完整。当前阶段不以盈利能力作为验收目标。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="engine">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">ZhongShu Engine</p><h2>中枢引擎如何串联策略</h2></div><p class="meta">公开介绍只说明系统逻辑，不提供源码、参数 set 或交易建议。</p></div>
+        <div class="architecture">
+          <div class="node"><strong>Market Data</strong><span>价格、周期、点差、波动环境</span></div>
+          <div class="node"><strong>ZhongShu</strong><span>中枢上沿、下沿、中轨、宽度</span></div>
+          <div class="node"><strong>Market State</strong><span>RANGE、BREAKOUT、TREND、EXTREME</span></div>
+          <div class="node"><strong>Strategy Matrix</strong><span>按行情状态选择候选策略</span></div>
+          <div class="node"><strong>RiskEngine</strong><span>点差、持仓、亏损、回撤、时间保护</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="strategies">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Strategy Matrix</p><h2>7 个策略独立介绍页</h2></div><p class="meta">每张卡片都能进入独立页面，独立页围绕策略定位、适合行情、核心逻辑、风控、测试重点和禁止事项展开。</p></div>
+
+        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">01 · HY-ZS Trend</p><h3>匯鹰·鹰眼趋势</h3><p class="meta">中枢突破后的趋势跟随策略。</p></div><span class="risk medium">中风险</span></div><dl><dt>核心逻辑</dt><dd>中枢有效，市场状态为 BREAKOUT_UP / UP_TREND 或反向趋势状态，收盘价确认突破中枢边界后才生成候选信号。</dd><dt>适合行情</dt><dd>单边延续、突破确认、波动扩张、回落较浅的趋势行情。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingyan-trend.html">进入鹰眼趋势独立页</a></dd></dl></article>
+
+        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">02 · HY-ZS Pullback</p><h3>匯鹰·鹰爪回踩</h3><p class="meta">突破后等待回踩确认的稳健型策略。</p></div><span class="risk medium">中风险</span></div><dl><dt>核心逻辑</dt><dd>记录有效突破，不在突破当根追单；等待价格回踩到中枢边界附近，并出现确认 K 线后再进入风控检查。</dd><dt>适合行情</dt><dd>趋势启动后出现边界回测、支撑阻力转换和二次启动的行情。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingzhua-pullback.html">进入鹰爪回踩独立页</a></dd></dl></article>
+
+        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">03 · HY-ZS Range</p><h3>匯鹰·鹰巢震荡</h3><p class="meta">只在中枢震荡状态运行的区间策略。</p></div><span class="risk low">中低风险</span></div><dl><dt>核心逻辑</dt><dd>仅在 RANGE 状态交易，接近中枢下沿考虑多单，接近中枢上沿考虑空单；一旦突破发生，停止新开震荡单。</dd><dt>适合行情</dt><dd>区间清晰、波动适中、价格围绕中枢上下沿往复摆动的行情。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingchao-range.html">进入鹰巢震荡独立页</a></dd></dl></article>
+
+        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">04 · HY-ZS Reversal</p><h3>匯鹰·猎隼反转</h3><p class="meta">极端偏离后的轻仓反转研究版，默认关闭。</p></div><span class="risk high">高风险研究</span></div><dl><dt>核心逻辑</dt><dd>只研究 EXTREME 状态下价格远离中枢后的回归可能性，必须等待反向确认，不把极端趋势当成必然反转。</dd><dt>适合行情</dt><dd>价格明显偏离中枢、风险已被限定、出现反向确认线索的研究场景。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/liesun-reversal.html">进入猎隼反转独立页</a></dd></dl></article>
+
+        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">05 · HY-ZS Scalper</p><h3>匯鹰·夜鹰短线</h3><p class="meta">短周期执行敏感策略，默认关闭。</p></div><span class="risk high">执行敏感</span></div><dl><dt>核心逻辑</dt><dd>用更严格的点差过滤、滑点接口、交易时段过滤和每日最大交易次数限制，研究短周期执行质量。</dd><dt>适合行情</dt><dd>交易商执行稳定、低点差、低滑点、报价连续、流动性充足的短周期环境。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yeying-scalper.html">进入夜鹰短线独立页</a></dd></dl></article>
+
+        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">06 · HY-ZS Portfolio</p><h3>匯鹰·鹰阵组合</h3><p class="meta">组合调度与风险统计模块，不直接开仓。</p></div><span class="risk blue">管理模块</span></div><dl><dt>核心逻辑</dt><dd>统计当前启用策略、总持仓、同方向敞口、总风险估算接口和多策略 MagicNumber 规划。</dd><dt>适合场景</dt><dd>多个策略同时进行 Alpha 测试，需要观察组合风险和策略归因时使用。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingzhen-portfolio.html">进入鹰阵组合独立页</a></dd></dl></article>
+
+        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">07 · HY-ZS Shield</p><h3>匯鹰·鹰盾风控</h3><p class="meta">所有策略的统一保护模块。</p></div><span class="risk high">底层红线</span></div><dl><dt>核心逻辑</dt><dd>所有候选交易必须经过 RiskEngine，统一检查点差、持仓、单日亏损、单周亏损、净值回撤、连续亏损暂停和禁止交易时间。</dd><dt>适合场景</dt><dd>所有策略、所有品种、所有周期；它不是可选装饰，而是系统底层保护。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingdun-shield.html">进入鹰盾风控独立页</a></dd></dl></article>
+      </div>
+    </section>
+
+    <section class="section" id="testing">
+      <div class="shell two">
+        <article class="card"><p class="eyebrow">Agent Testing</p><h2>代理测试说明</h2><ul class="rule-list"><li>先确认 EA 能加载、参数能显示、日志能输出。</li><li>按策略、品种、周期、set 文件记录标准化反馈。</li><li>重点测试风控是否拒绝异常信号，而不是追求盈利截图。</li><li>每次反馈必须包含日志、截图、statement、主要问题和建议。</li></ul></article>
+        <article class="card"><p class="eyebrow">Acceptance</p><h2>Alpha 验收重点</h2><ul class="rule-list"><li>目录完整，网页可打开。</li><li>七个策略均有独立介绍页。</li><li>策略文件存在，总控 EA 能看到所有开关。</li><li>共享核心接口清楚，风控逻辑和日志可追踪。</li></ul></article>
+      </div>
+    </section>
+
+    <section class="section" id="risk">
+      <div class="shell"><div class="warning"><p class="eyebrow">Risk Statement</p><h2>风险声明</h2><p>HY-ZS Suite Alpha 当前是工程完整性和策略研究阶段，不构成投资建议，不承诺收益，不验证盈利能力。任何未来交易信号都必须经过 RiskEngine，并保留止损、日志和测试记录。</p><div class="tagrow"><span class="tag">禁止无限马丁</span><span class="tag">禁止无限网格</span><span class="tag">禁止无止损扛单</span><span class="tag">禁止自动翻倍补仓</span><span class="tag">禁止删除亏损记录</span><span class="tag">禁止隐藏风控失败</span></div></div></div>
+    </section>
+
+    <section class="section">
+      <div class="shell"><div class="note"><p class="eyebrow">Public Page Boundary</p><h2>公开页边界</h2><p>本公开站点只用于介绍 HY-ZS Suite Alpha 产品线。公开仓库不包含 MQL 源码、EA 编译文件、set 参数、测试日志、statement、账户截图或代理内部反馈。</p></div></div>
+    </section>
   </main>
-  <footer><div class="shell">匯鹰中枢 HY-ZS Suite Alpha · Strategy Product Line Preview · No source code published</div></footer>
+
+  <footer><div class="shell">匯鹰中枢 HY-ZS Suite Alpha · Public strategy pages · No source code published</div></footer>
 </body>
 </html>
