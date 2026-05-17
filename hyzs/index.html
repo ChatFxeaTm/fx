@@ -3,95 +3,204 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>匯鹰中枢策略系统｜产品介绍</title>
+  <meta name="description" content="匯鹰中枢策略系统是围绕中枢识别、行情状态判断、策略矩阵和统一风控构建的交易产品线介绍页。">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>匯鹰中枢 HY-ZS Suite Alpha</title>
-  <meta name="description" content="匯鹰中枢 HY-ZS Suite Alpha 是围绕中枢识别、行情状态路由和统一风控构建的七策略产品线介绍页。">
-  <link rel="stylesheet" href="assets/hyzs.css">
+  <link rel="icon" type="image/png" href="assets/app_icon.png?v=20260517-symmetry">
+  <link rel="stylesheet" href="assets/hyzs.css?v=20260517-symmetry">
 </head>
-<body>
-  <div class="version"><div class="shell"><span><strong>策略独立页版 v3.0</strong> · 七个策略均有独立介绍页</span><span>只发布品牌与策略逻辑介绍，不发布源码</span></div></div>
-  <div class="topbar"><div class="shell"><a class="brand" href="./">HY-ZS Suite Alpha</a><nav class="nav"><a href="#position">定位</a><a href="#engine">中枢引擎</a><a href="#strategies">7 个策略</a><a href="#testing">代理测试</a><a href="#risk">风险声明</a></nav></div></div>
+<body data-strategy-base="strategies/">
+  <div class="announcement">
+    <div class="shell">
+      <span><strong>匯鹰中枢策略系统 版本 1.0</strong>｜面向对外展示的产品介绍页</span>
+      <span>公开站点只展示品牌、策略逻辑、系统架构与风险边界</span>
+    </div>
+  </div>
+
+  <div class="topbar">
+    <div class="shell">
+      <a class="brand" href="./"><img class="brand-logo" src="assets/app_icon.png?v=20260517-symmetry" alt="匯鹰中枢标志"><span>匯鹰中枢</span></a>
+      <nav class="nav">
+        <a href="#position">品牌定位</a>
+        <a href="#engine">中枢引擎</a>
+        <a href="#strategies">策略详细介绍</a>
+        <a href="#architecture">系统架构</a>
+        <a href="#testing">测试说明</a>
+        <a href="#risk">风险边界</a>
+      </nav>
+    </div>
+  </div>
 
   <header class="hero" id="position">
-    <div class="shell hero-grid">
-      <div>
-        <p class="eyebrow">匯鹰中枢 · HY-ZS Suite Alpha</p>
-        <h1>围绕中枢识别建立的七策略交易系统</h1>
-        <p class="lead">HY-ZS Suite Alpha 不是单个 EA，而是一条品牌化、多策略、可测试、可发布的策略产品线。公开站点的重点是说明每个策略在什么行情中工作、依赖什么逻辑、受到哪些风控约束，以及代理应该如何测试。</p>
-        <div class="actions"><a class="button" href="#strategies">进入七个策略</a><a class="linkbtn" href="#risk">查看风险边界</a></div>
-      </div>
-      <aside class="panel">
-        <p class="eyebrow">产品线面板</p>
-        <div class="metric-grid">
-          <div class="metric"><strong>7</strong><span>独立策略介绍页</span></div>
-          <div class="metric"><strong>MT5</strong><span>Alpha 阶段优先</span></div>
-          <div class="metric"><strong>RiskEngine</strong><span>统一风控入口</span></div>
-          <div class="metric"><strong>Public</strong><span>公开页不含源码</span></div>
+    <div class="shell">
+      <div class="hero-copy">
+        <p class="eyebrow">匯鹰中枢｜策略产品线</p>
+        <h1>以中枢为核心的多策略交易系统</h1>
+        <p class="lead">匯鹰中枢不是单一交易程序，而是一套围绕市场结构识别、行情状态判断、策略分工和统一风控搭建的产品线。它把趋势、回踩、震荡、反转、短线、组合和风控拆成清晰模块，让每一类行情都有对应的处理逻辑，也让每一条交易红线都有可追踪的拒绝原因。</p>
+        <div class="hero-actions">
+          <a class="button" href="#strategies">查看策略详细介绍</a>
+          <a class="ghost-button" href="#architecture">理解系统架构</a>
         </div>
-        <div class="tagrow"><span class="tag">中枢识别</span><span class="tag">状态路由</span><span class="tag">策略矩阵</span><span class="tag">代理测试</span></div>
-      </aside>
+      </div>
+
+      <div class="hero-stats" aria-label="系统摘要">
+        <div class="stat"><strong>1套</strong><span>围绕中枢识别建立的统一结构框架</span></div>
+        <div class="stat"><strong>八项</strong><span>总控交易程序加七个策略模块，组成完整产品线</span></div>
+        <div class="stat"><strong>双终端</strong><span>第五版终端与第四版终端均采用单文件交付思路</span></div>
+        <div class="stat"><strong>版本 1.0</strong><span>先完成产品化展示、规则完整性与测试闭环</span></div>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="section">
-      <div class="shell two">
-        <article class="card"><p class="eyebrow">Brand Position</p><h2>品牌定位</h2><p>“匯鹰中枢”定位为中枢驱动的策略矩阵。它不把所有行情塞进一个策略，而是先识别中枢，再判断行情状态，最后把不同场景交给不同模块处理：趋势、回踩、震荡、反转、短线、组合和风控各司其职。</p></article>
-        <article class="card"><p class="eyebrow">Alpha Goal</p><h2>第一阶段目标</h2><p>Alpha 阶段先验收工程完整性和测试闭环：网页可访问、策略文件存在、总控 EA 能看到开关、共享核心接口清楚、风控逻辑可见、日志清楚、代理测试文档完整。当前阶段不以盈利能力作为验收目标。</p></article>
+      <div class="shell split">
+        <article class="card feature">
+          <p class="eyebrow">品牌定位</p>
+          <h2>从单一程序，升级为策略产品线</h2>
+          <p>匯鹰中枢的定位是“中枢驱动的策略矩阵”。系统先识别价格围绕中枢形成的结构，再判断市场处于震荡、突破、趋势延续或极端偏离，最后把不同场景交给对应策略模块处理。</p>
+          <div class="balance-points">
+            <div class="balance-point"><strong>总控入口</strong><span>统一展示中枢、行情状态、策略开关、持仓信息和风控状态。</span></div>
+            <div class="balance-point"><strong>七策矩阵</strong><span>趋势、回踩、震荡、反转、短线、组合、风控各自承担清晰职责。</span></div>
+            <div class="balance-point"><strong>行情分层</strong><span>先判断市场状态，再选择对应模块，避免一个规则强行处理所有行情。</span></div>
+            <div class="balance-point"><strong>风控底座</strong><span>每个模块都必须说明适合行情、禁用场景、止损逻辑和拒绝原因。</span></div>
+          </div>
+          <div class="tag-row">
+            <span class="tag">总控入口</span>
+            <span class="tag">七策矩阵</span>
+            <span class="tag">行情分层</span>
+            <span class="tag">风控底座</span>
+          </div>
+        </article>
+        <article class="card">
+          <p class="eyebrow">版本原则</p>
+          <h2>所有公开说明从 1.0 起步</h2>
+          <p>当前公开页统一使用版本 1.0。它代表产品线的第一版完整展示：品牌定位、策略逻辑、系统架构、测试说明和风险边界先清楚建立，再进入后续迭代。</p>
+          <div class="balance-points">
+            <div class="balance-point"><strong>统一口径</strong><span>版本从 1.0 起步，保持对外说明干净一致，不制造成熟上线错觉。</span></div>
+            <div class="balance-point"><strong>首页职责</strong><span>首页负责建立品牌认知、产品定位、系统架构和策略矩阵印象。</span></div>
+            <div class="balance-point"><strong>独立说明</strong><span>每个详情页讲清定位、适合行情、核心逻辑、风险等级和禁止事项。</span></div>
+            <div class="balance-point"><strong>发布边界</strong><span>公开页面只做产品展示，不发布交易程序源码、参数文件和内部资料。</span></div>
+          </div>
+          <div class="tag-row">
+            <span class="tag">中枢识别</span>
+            <span class="tag">状态判断</span>
+            <span class="tag">策略路由</span>
+            <span class="tag">统一风控</span>
+            <span class="tag">日志可追踪</span>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="section" id="engine">
       <div class="shell">
-        <div class="section-head"><div><p class="eyebrow">ZhongShu Engine</p><h2>中枢引擎如何串联策略</h2></div><p class="meta">公开介绍只说明系统逻辑，不提供源码、参数 set 或交易建议。</p></div>
-        <div class="architecture">
-          <div class="node"><strong>Market Data</strong><span>价格、周期、点差、波动环境</span></div>
-          <div class="node"><strong>ZhongShu</strong><span>中枢上沿、下沿、中轨、宽度</span></div>
-          <div class="node"><strong>Market State</strong><span>RANGE、BREAKOUT、TREND、EXTREME</span></div>
-          <div class="node"><strong>Strategy Matrix</strong><span>按行情状态选择候选策略</span></div>
-          <div class="node"><strong>RiskEngine</strong><span>点差、持仓、亏损、回撤、时间保护</span></div>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">中枢引擎</p>
+            <h2>系统如何读懂行情结构</h2>
+          </div>
+          <p>中枢引擎不是用来预测所有价格波动，而是把复杂行情拆成可以被策略识别的结构语言：边界、宽度、中轨、突破、回踩、震荡和偏离。</p>
+        </div>
+
+        <div class="product-strip">
+          <div class="strip-item"><strong>中枢边界</strong><span class="muted">识别上沿、下沿和中轨，建立策略判断的结构坐标。</span></div>
+          <div class="strip-item"><strong>状态判断</strong><span class="muted">把行情归入震荡、向上突破、向下突破、上行趋势、下行趋势或极端偏离。</span></div>
+          <div class="strip-item"><strong>策略分工</strong><span class="muted">不同状态进入不同策略模块，避免一个规则强行处理所有市场。</span></div>
+          <div class="strip-item"><strong>风控前置</strong><span class="muted">候选信号必须经过点差、持仓、亏损、回撤和时间规则过滤。</span></div>
         </div>
       </div>
     </section>
 
     <section class="section" id="strategies">
       <div class="shell">
-        <div class="section-head"><div><p class="eyebrow">Strategy Matrix</p><h2>7 个策略独立介绍页</h2></div><p class="meta">每张卡片都能进入独立页面，独立页围绕策略定位、适合行情、核心逻辑、风控、测试重点和禁止事项展开。</p></div>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">策略详细介绍</p>
+            <h2>总控与七个策略的完整产品矩阵</h2>
+          </div>
+          <p>总控负责系统状态与策略路由，七个策略负责不同行情场景。每个模块都有独立定位、适合行情、核心逻辑、风险等级、测试说明和禁止事项。</p>
+        </div>
+        <div class="grid" id="strategyCards"></div>
+      </div>
+    </section>
 
-        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">01 · HY-ZS Trend</p><h3>匯鹰·鹰眼趋势</h3><p class="meta">中枢突破后的趋势跟随策略。</p></div><span class="risk medium">中风险</span></div><dl><dt>核心逻辑</dt><dd>中枢有效，市场状态为 BREAKOUT_UP / UP_TREND 或反向趋势状态，收盘价确认突破中枢边界后才生成候选信号。</dd><dt>适合行情</dt><dd>单边延续、突破确认、波动扩张、回落较浅的趋势行情。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingyan-trend.html">进入鹰眼趋势独立页</a></dd></dl></article>
+    <section class="section" id="architecture">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">系统架构</p>
+            <h2>从行情输入到风控输出</h2>
+          </div>
+          <p>匯鹰中枢把交易系统拆成五个层级，便于测试、发布、维护和后续扩展。</p>
+        </div>
 
-        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">02 · HY-ZS Pullback</p><h3>匯鹰·鹰爪回踩</h3><p class="meta">突破后等待回踩确认的稳健型策略。</p></div><span class="risk medium">中风险</span></div><dl><dt>核心逻辑</dt><dd>记录有效突破，不在突破当根追单；等待价格回踩到中枢边界附近，并出现确认 K 线后再进入风控检查。</dd><dt>适合行情</dt><dd>趋势启动后出现边界回测、支撑阻力转换和二次启动的行情。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingzhua-pullback.html">进入鹰爪回踩独立页</a></dd></dl></article>
-
-        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">03 · HY-ZS Range</p><h3>匯鹰·鹰巢震荡</h3><p class="meta">只在中枢震荡状态运行的区间策略。</p></div><span class="risk low">中低风险</span></div><dl><dt>核心逻辑</dt><dd>仅在 RANGE 状态交易，接近中枢下沿考虑多单，接近中枢上沿考虑空单；一旦突破发生，停止新开震荡单。</dd><dt>适合行情</dt><dd>区间清晰、波动适中、价格围绕中枢上下沿往复摆动的行情。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingchao-range.html">进入鹰巢震荡独立页</a></dd></dl></article>
-
-        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">04 · HY-ZS Reversal</p><h3>匯鹰·猎隼反转</h3><p class="meta">极端偏离后的轻仓反转研究版，默认关闭。</p></div><span class="risk high">高风险研究</span></div><dl><dt>核心逻辑</dt><dd>只研究 EXTREME 状态下价格远离中枢后的回归可能性，必须等待反向确认，不把极端趋势当成必然反转。</dd><dt>适合行情</dt><dd>价格明显偏离中枢、风险已被限定、出现反向确认线索的研究场景。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/liesun-reversal.html">进入猎隼反转独立页</a></dd></dl></article>
-
-        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">05 · HY-ZS Scalper</p><h3>匯鹰·夜鹰短线</h3><p class="meta">短周期执行敏感策略，默认关闭。</p></div><span class="risk high">执行敏感</span></div><dl><dt>核心逻辑</dt><dd>用更严格的点差过滤、滑点接口、交易时段过滤和每日最大交易次数限制，研究短周期执行质量。</dd><dt>适合行情</dt><dd>交易商执行稳定、低点差、低滑点、报价连续、流动性充足的短周期环境。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yeying-scalper.html">进入夜鹰短线独立页</a></dd></dl></article>
-
-        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">06 · HY-ZS Portfolio</p><h3>匯鹰·鹰阵组合</h3><p class="meta">组合调度与风险统计模块，不直接开仓。</p></div><span class="risk blue">管理模块</span></div><dl><dt>核心逻辑</dt><dd>统计当前启用策略、总持仓、同方向敞口、总风险估算接口和多策略 MagicNumber 规划。</dd><dt>适合场景</dt><dd>多个策略同时进行 Alpha 测试，需要观察组合风险和策略归因时使用。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingzhen-portfolio.html">进入鹰阵组合独立页</a></dd></dl></article>
-
-        <article class="strategy"><div class="strategy-head"><div><p class="eyebrow">07 · HY-ZS Shield</p><h3>匯鹰·鹰盾风控</h3><p class="meta">所有策略的统一保护模块。</p></div><span class="risk high">底层红线</span></div><dl><dt>核心逻辑</dt><dd>所有候选交易必须经过 RiskEngine，统一检查点差、持仓、单日亏损、单周亏损、净值回撤、连续亏损暂停和禁止交易时间。</dd><dt>适合场景</dt><dd>所有策略、所有品种、所有周期；它不是可选装饰，而是系统底层保护。</dd><dt>查看详情</dt><dd><a class="button" href="strategies/yingdun-shield.html">进入鹰盾风控独立页</a></dd></dl></article>
+        <div class="architecture">
+          <div class="node"><strong>行情输入</strong><span>读取品种、周期、价格、点差和历史蜡烛线，形成基础市场数据。</span></div>
+          <div class="node"><strong>中枢识别</strong><span>计算中枢上沿、下沿、中轨、宽度、起止时间和价格相对位置。</span></div>
+          <div class="node"><strong>状态判断</strong><span>判断当前处于震荡、突破、趋势延续、趋势下行或极端偏离。</span></div>
+          <div class="node"><strong>策略路由</strong><span>根据行情状态与策略开关，把候选机会交给合适的策略模块。</span></div>
+          <div class="node"><strong>风控输出</strong><span>统一检查点差、持仓、亏损、回撤、时间和止损止盈，输出可追踪日志。</span></div>
+        </div>
       </div>
     </section>
 
     <section class="section" id="testing">
-      <div class="shell two">
-        <article class="card"><p class="eyebrow">Agent Testing</p><h2>代理测试说明</h2><ul class="rule-list"><li>先确认 EA 能加载、参数能显示、日志能输出。</li><li>按策略、品种、周期、set 文件记录标准化反馈。</li><li>重点测试风控是否拒绝异常信号，而不是追求盈利截图。</li><li>每次反馈必须包含日志、截图、statement、主要问题和建议。</li></ul></article>
-        <article class="card"><p class="eyebrow">Acceptance</p><h2>Alpha 验收重点</h2><ul class="rule-list"><li>目录完整，网页可打开。</li><li>七个策略均有独立介绍页。</li><li>策略文件存在，总控 EA 能看到所有开关。</li><li>共享核心接口清楚，风控逻辑和日志可追踪。</li></ul></article>
+      <div class="shell split">
+        <article class="card">
+          <p class="eyebrow">测试说明</p>
+          <h2>第一阶段先验证规则，而不是承诺收益</h2>
+          <p>版本 1.0 的测试重点是工程完整性和规则可解释性：页面能打开，策略能加载，参数能显示，日志能说明拒绝原因，图表面板能展示中枢、状态、点差、持仓和风控状态。</p>
+          <ul class="rule-list">
+            <li>按策略、品种、周期分别记录测试结果。</li>
+            <li>重点观察风控是否拒绝异常信号，而不是只看盈利截图。</li>
+            <li>必须保留日志、截图、账户报告和异常说明。</li>
+            <li>任何修改后的版本都必须重新标记，不得冒充原始版本 1.0。</li>
+          </ul>
+        </article>
+        <article class="card feature">
+          <p class="eyebrow">产品边界</p>
+          <h2>公开站点不发布源代码</h2>
+          <p>对外页面只展示产品介绍、策略逻辑和风险声明，不公开交易程序源码、参数文件、测试日志、账户截图或内部反馈。分发和测试应通过独立的受控流程完成。</p>
+          <ul class="rule-list">
+            <li>公开页面只呈现品牌介绍、系统架构和策略说明。</li>
+            <li>不把交易程序源码、编译文件、参数文件放入公开站点。</li>
+            <li>不展示账户截图、交易记录、内部反馈或未确认数据。</li>
+            <li>所有对外信息以风险边界清晰、逻辑说明完整为优先。</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag">品牌展示</span>
+            <span class="tag">策略说明</span>
+            <span class="tag">系统架构</span>
+            <span class="tag">风险声明</span>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="section" id="risk">
-      <div class="shell"><div class="warning"><p class="eyebrow">Risk Statement</p><h2>风险声明</h2><p>HY-ZS Suite Alpha 当前是工程完整性和策略研究阶段，不构成投资建议，不承诺收益，不验证盈利能力。任何未来交易信号都必须经过 RiskEngine，并保留止损、日志和测试记录。</p><div class="tagrow"><span class="tag">禁止无限马丁</span><span class="tag">禁止无限网格</span><span class="tag">禁止无止损扛单</span><span class="tag">禁止自动翻倍补仓</span><span class="tag">禁止删除亏损记录</span><span class="tag">禁止隐藏风控失败</span></div></div></div>
-    </section>
-
-    <section class="section">
-      <div class="shell"><div class="note"><p class="eyebrow">Public Page Boundary</p><h2>公开页边界</h2><p>本公开站点只用于介绍 HY-ZS Suite Alpha 产品线。公开仓库不包含 MQL 源码、EA 编译文件、set 参数、测试日志、statement、账户截图或代理内部反馈。</p></div></div>
+      <div class="shell notice risk-notice">
+        <p class="eyebrow">风险边界</p>
+        <h2>所有策略必须服从风控红线</h2>
+        <p>匯鹰中枢策略系统不构成投资建议，不承诺收益，不保证盈利。任何候选信号都必须经过内置风控入口，并保留止损、日志和测试记录。系统明确禁止无限马丁、无限网格、无止损开仓、自动翻倍补仓、绕过风控下单、隐藏风控失败和删除亏损记录。</p>
+        <div class="tag-row">
+          <span class="tag">禁止无限马丁</span>
+          <span class="tag">禁止无限网格</span>
+          <span class="tag">禁止无止损开仓</span>
+          <span class="tag">禁止绕过风控</span>
+          <span class="tag">禁止隐藏亏损记录</span>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer><div class="shell">匯鹰中枢 HY-ZS Suite Alpha · Public strategy pages · No source code published</div></footer>
+  <footer>
+    <div class="shell">匯鹰中枢策略系统｜版本 1.0｜公开产品介绍页</div>
+  </footer>
+
+  <script src="assets/strategies.js?v=20260517-symmetry"></script>
+  <script src="assets/site.js?v=20260517-symmetry"></script>
 </body>
 </html>
