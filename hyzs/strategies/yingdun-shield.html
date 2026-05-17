@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>匯鹰·鹰盾风控 / HY-ZS Shield</title>
+  <link rel="stylesheet" href="../assets/hyzs.css">
+</head>
+<body>
+  <div class="version"><div class="shell"><span><strong>策略独立页</strong> · HY-ZS Shield</span><span>公开介绍，不含源码</span></div></div>
+  <div class="topbar"><div class="shell"><a class="brand" href="../index.html">HY-ZS Suite Alpha</a><nav class="nav"><a href="../index.html#strategies">策略矩阵</a><a href="../index.html#risk">风险声明</a><a href="../index.html#testing">代理测试</a></nav></div></div>
+
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="breadcrumb">首页 / 策略 07</div>
+        <p class="eyebrow">07 · HY-ZS Shield</p>
+        <h1>匯鹰·鹰盾风控</h1>
+        <p class="lead">鹰盾风控是 HY-ZS Suite Alpha 的统一保护模块。所有策略信号都必须先经过 RiskEngine，只有点差、持仓、亏损、回撤、时间和止损条件通过后，才允许进入交易执行层。</p>
+        <div class="tagrow"><span class="tag">统一风控</span><span class="tag">所有策略必经</span><span class="tag">拒绝必须有日志</span><span class="risk high">底层红线</span></div>
+      </div>
+      <aside class="panel">
+        <p class="eyebrow">适合场景</p>
+        <p>适合所有策略、所有品种、所有周期。鹰盾不是可有可无的辅助模块，而是产品线的底层保护规则。</p>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section"><div class="shell"><div class="section-head"><div><p class="eyebrow">Positioning</p><h2>策略定位</h2></div><p class="meta">鹰盾的目标不是提高交易频率，而是减少不可接受的交易行为。</p></div><div class="detail-list">
+      <article><h3>统一入口</h3><p>Trend、Pullback、Range、Reversal、Scalper 等策略都不能绕过 RiskEngine。拒绝开仓时必须输出原因，避免无声失败。</p></article>
+      <article><h3>账户保护</h3><p>从点差、最大持仓、单日亏损、单周亏损、净值回撤、连续亏损暂停等维度限制风险暴露。</p></article>
+      <article><h3>时间保护</h3><p>保留禁止交易时间接口和周五收盘前停止新开仓接口，用于规避流动性变差、跳空和结算时段风险。</p></article>
+    </div></div></section>
+
+    <section class="section"><div class="shell"><div class="section-head"><div><p class="eyebrow">Logic</p><h2>核心逻辑</h2></div><p class="meta">鹰盾的判断结果必须能在日志和图表状态中被看见。</p></div><div class="logic-flow">
+      <div class="flow-step"><strong>1. 市场成本</strong><span>点差过大时禁止开仓，短线策略可使用更严格阈值。</span></div>
+      <div class="flow-step"><strong>2. 持仓限制</strong><span>检查账户总持仓数和单策略持仓数，避免无限加仓。</span></div>
+      <div class="flow-step"><strong>3. 亏损限制</strong><span>检查单日亏损、单周亏损、连续亏损和最大净值回撤接口。</span></div>
+      <div class="flow-step"><strong>4. 时间限制</strong><span>检查禁止交易时段和周五收盘前停止新开仓规则。</span></div>
+    </div></div></section>
+
+    <section class="section"><div class="shell two">
+      <article class="card"><h2>必须实际拦截的场景</h2><ul class="rule-list"><li>当前点差超过 MaxSpreadPoints。</li><li>账户总持仓数超过 MaxPositionsTotal。</li><li>单策略持仓数量超过策略限制。</li><li>触发单日亏损或连续亏损暂停。</li><li>新仓没有有效止损或止损距离异常。</li><li>处于禁止交易时间或周五收盘前保护窗口。</li></ul></article>
+      <article class="card"><h2>Alpha 占位接口</h2><ul class="rule-list"><li>单周亏损限制接口，用于后续按自然周统计净损益。</li><li>最大净值回撤限制接口，用于后续接入权益曲线追踪。</li><li>更细的交易时段模板，用于不同品种和服务器时间。</li><li>策略级风险聚合接口，用于 Portfolio 统一展示。</li></ul></article>
+    </div></section>
+
+    <section class="section"><div class="shell two">
+      <article class="warning"><h2>禁止事项</h2><ul class="rule-list"><li>禁止任何策略绕过 RiskEngine 开仓。</li><li>禁止无日志地拒绝交易或隐藏风控失败。</li><li>禁止无止损开仓、无限马丁、无限网格、自动翻倍补仓。</li><li>禁止为了回测曲线放宽真实风控条件。</li></ul></article>
+      <article class="card"><h2>测试重点</h2><ul class="rule-list"><li>故意设置低 MaxSpreadPoints，确认点差拦截和日志输出。</li><li>降低 MaxPositionsTotal，确认最大持仓限制生效。</li><li>模拟连续亏损，确认暂停接口状态显示清楚。</li><li>检查所有策略候选信号是否都走统一风控入口。</li><li>代理反馈必须记录风控触发截图、日志和 statement。</li></ul></article>
+    </div></section>
+
+    <section class="section"><div class="shell note"><h2>风险说明</h2><p>鹰盾风控不能保证盈利，但它必须保证系统不以不可接受的方式交易。Alpha 阶段验收重点是工程完整性、风控可见性和拒绝逻辑是否可追踪。</p><div class="footer-actions"><a class="button" href="../index.html#strategies">返回策略矩阵</a><a class="linkbtn" href="yingyan-trend.html">回到策略 01：鹰眼趋势</a></div></div></section>
+  </main>
+  <footer><div class="shell">HY-ZS Shield · Public strategy logic page</div></footer>
+</body>
+</html>
