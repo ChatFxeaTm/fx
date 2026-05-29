@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>量子女王 BlackBox EA 策略说明</title>
+  <meta name="description" content="Quantum Queen MT4/MT5 黑盒复刻 EA 的策略结构、参数、风控和回测对齐说明。">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17212b;
+      --muted: #52606d;
+      --line: #d8e0e8;
+      --panel: #f7f9fb;
+      --gold: #b8872f;
+      --teal: #1f7a7a;
+      --red: #a34040;
+      --blue: #2d5f9a;
+      --paper: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif; line-height: 1.65; }
+    header { border-bottom: 1px solid var(--line); background: #fbfcfd; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 28px 20px; }
+    h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.25; letter-spacing: 0; }
+    h2 { margin: 34px 0 12px; font-size: 20px; line-height: 1.35; letter-spacing: 0; }
+    h3 { margin: 22px 0 8px; font-size: 16px; letter-spacing: 0; }
+    p { margin: 8px 0; }
+    .sub { color: var(--muted); max-width: 840px; }
+    .status { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+    .metric { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fff; }
+    .metric span { display: block; color: var(--muted); font-size: 13px; }
+    .metric strong { display: block; margin-top: 4px; font-size: 22px; line-height: 1.2; }
+    .band { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 4px; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 10px 8px; text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; background: #fbfcfd; }
+    .ok { color: var(--teal); font-weight: 700; }
+    .warn { color: var(--gold); font-weight: 700; }
+    .risk { color: var(--red); font-weight: 700; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .box { border: 1px solid var(--line); border-radius: 8px; padding: 16px; background: #fff; }
+    .flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+    .step { min-height: 92px; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: #fff; }
+    .step b { display: block; color: var(--blue); margin-bottom: 4px; }
+    .note { border-left: 4px solid var(--gold); padding: 10px 14px; background: #fff9eb; color: #4a3b21; }
+    code { font-family: Consolas, "SFMono-Regular", monospace; background: #eef2f6; padding: 1px 5px; border-radius: 4px; }
+    footer { color: var(--muted); border-top: 1px solid var(--line); margin-top: 36px; padding-top: 16px; font-size: 13px; }
+    @media (max-width: 780px) { .status, .grid, .flow { grid-template-columns: 1fr; } h1 { font-size: 24px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>量子女王 BlackBox EA 策略说明</h1>
+      <p class="sub">这是基于公开网页统计和少量公开交割单做出的 MT4/MT5 黑盒复刻版本。网页只展示策略说明、参数逻辑和回测对齐结果，不公开 MQ4/MQ5 源码。</p>
+      <div class="status">
+        <div class="metric"><span>适用品种</span><strong>XAUUSD</strong></div>
+        <div class="metric"><span>核心周期</span><strong>M15</strong></div>
+        <div class="metric"><span>策略类型</span><strong>趋势网格</strong></div>
+        <div class="metric"><span>最终拟合分</span><strong>76.01</strong></div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="wrap">
+      <h2>一、策略定位</h2>
+      <p>本 EA 不是 Quantum Queen 官方源码，也不声称复制其私有 12 策略模块。它的目标是用公开信息还原外部行为：黄金单品种、M15 节奏、明显多单偏置、无服务器可见 SL/TP、逆向补仓、篮子平仓和 20%-30% 区间的回撤结构。</p>
+      <p>最终版本同时提供 MT5 与 MT4 两套代码，默认参数已经写入源码，不再依赖额外 set 文件才能达到当前 bestfit 行为。</p>
+      <div class="note">公开数据只包含最近 10 笔逐笔记录和聚合统计，不包含完整 1278 笔交割单、IC Markets 原始 tick、点差、滑点和佣金环境。因此当前版本追求“统计结构一致”，不是逐笔成交 100% 复制。</div>
+      <h2>二、交易流程</h2>
+      <div class="flow">
+        <div class="step"><b>1. 环境过滤</b>检查黄金品种、点差、保证金负载和交易权限。</div>
+        <div class="step"><b>2. M15 入场</b>每根 M15 新 K 线只评估一次初始开仓。</div>
+        <div class="step"><b>3. 趋势评分</b>使用 EMA、RSI、ADX、ATR 计算多空分数。</div>
+        <div class="step"><b>4. 网格补仓</b>逆向移动达到间距后，同方向追加订单。</div>
+        <div class="step"><b>5. 篮子出场</b>按加权均价、利润目标、周期和亏损阈值统一平仓。</div>
+      </div>
+    </section>
+    <section class="band"><div class="wrap"><h2>三、核心逻辑</h2><div class="grid">
+      <div class="box"><h3>入场逻辑</h3><p>EA 在 M15 新 K 线形成时计算方向评分。多单会得到额外偏置加分，空单则需要额外评分门槛，这与公开统计中的多单占比更高相匹配。</p><p>评分条件包括短周期 EMA 强弱、H1 趋势方向、上一根 K 线实体方向、RSI 区间、ADX 强度和 ATR 波动过滤。</p></div>
+      <div class="box"><h3>补仓逻辑</h3><p>初始单出现后，不再开启新的独立周期。价格向不利方向移动达到设定点数时，EA 在同方向补仓，形成单向篮子。</p><p>当前 bestfit 默认最大单向持仓数为 8，补仓间距为 140 points。手数默认不马丁，补仓倍数为 1.0。</p></div>
+      <div class="box"><h3>出场逻辑</h3><p>EA 不在订单服务器上挂固定 SL/TP。盈利平仓主要按篮子加权均价点数和金额目标触发，也可以扩展为追踪止盈和定时盈利平仓。</p><p>当前 bestfit 关闭追踪止盈和定时盈利平仓，主要依靠篮子目标利润与单轮最大亏损控制。</p></div>
+      <div class="box"><h3>风控逻辑</h3><p>全局风控包括净值止损、日亏损限制、最大保证金负载和单轮最大亏损。当前 bestfit 的单轮最大亏损为账户余额的 4.8%。</p><p>隐藏单笔止损默认关闭；如果启用，EA 会在本地判断，不会把止损价写入服务器订单。</p></div>
+    </div></div></section>
+    <section class="wrap">
+      <h2>四、bestfit 默认参数</h2>
+      <table><thead><tr><th>参数</th><th>默认值</th><th>含义</th></tr></thead><tbody>
+        <tr><td>交易方向模式</td><td>双向</td><td>允许多空，但多单有偏置，空单需要更高门槛。</td></tr>
+        <tr><td>入场周期 / 趋势周期</td><td>M15 / H1</td><td>M15 控制节奏，H1 控制趋势背景。</td></tr>
+        <tr><td>最低 ADX / 最低 ATR</td><td>4.0 / 0.0</td><td>放宽过滤，提高交易频率以贴近公开统计。</td></tr>
+        <tr><td>入场评分阈值</td><td>4.0</td><td>多空评分达到门槛才允许开初始单。</td></tr>
+        <tr><td>空单额外评分门槛</td><td>2.5</td><td>压低空单频率，模拟公开统计中的 Buy 偏置。</td></tr>
+        <tr><td>自动手数</td><td>每 430 美元约 0.01 手</td><td>账户约 1290 美元时基础手数约 0.03。</td></tr>
+        <tr><td>最大单向持仓数</td><td>8</td><td>一个方向最多 8 个同向篮子订单。</td></tr>
+        <tr><td>补仓间距</td><td>140 points</td><td>价格逆向达到间距后补仓。</td></tr>
+        <tr><td>篮子止盈点数</td><td>700 points</td><td>篮子相对加权均价达到点数条件后可平仓。</td></tr>
+        <tr><td>每 0.01 手目标利润</td><td>2.00 USD</td><td>金额目标随篮子总手数线性扩大。</td></tr>
+        <tr><td>单轮最大亏损</td><td>4.8%</td><td>篮子浮亏达到余额百分比阈值时统一止损。</td></tr>
+      </tbody></table>
+      <h2>五、回测对齐结果</h2>
+      <table><thead><tr><th>指标</th><th>公开目标</th><th>最终 EA</th><th>状态</th></tr></thead><tbody>
+        <tr><td>交易数量</td><td>本地窗口约 430</td><td>425</td><td class="ok">接近</td></tr>
+        <tr><td>胜率</td><td>76.9%</td><td>74.59%</td><td class="ok">接近</td></tr>
+        <tr><td>Buy 占比</td><td>83.10%</td><td>77.88%</td><td class="warn">略低</td></tr>
+        <tr><td>Equity DD</td><td>21%-31%</td><td>24.33%</td><td class="ok">落入区间</td></tr>
+        <tr><td>Profit Factor</td><td>3.05-3.15</td><td>1.51</td><td class="warn">仍有差距</td></tr>
+        <tr><td>期望收益</td><td>约 2.90 USD</td><td>0.98 USD</td><td class="warn">仍有差距</td></tr>
+        <tr><td>平均持仓</td><td>60-84 分钟</td><td>16.83 分钟</td><td class="warn">偏短</td></tr>
+      </tbody></table>
+      <h2>六、使用边界</h2>
+      <p>本策略适合用作研究、复盘和进一步校准，不应直接视为原版 Quantum Queen。若要继续提升一致性，需要完整逐笔交割单、相同经纪商服务器、相同报价位数、相同点差/佣金模型和相同测试区间的 tick 数据。</p>
+      <p class="risk">风险提示：黄金网格策略天然存在连续逆向行情下回撤扩大的风险。即使回测回撤落入公开区间，也不代表未来实盘风险可控。</p>
+      <footer>页面版本：2026-05-29。发布地址：<code>https://chatfxeatm.github.io/fx/q.html</code>。源码未上传到公开网页或公开仓库。</footer>
+    </section>
+  </main>
+</body>
+</html>
