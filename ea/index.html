@@ -6,7 +6,7 @@
   <title>中文多策略 EA 套装策略逻辑说明</title>
   <link rel="canonical" href="https://chatfxeatm.github.io/fx/ea/">
   <meta property="og:title" content="中文多策略 EA 套装策略逻辑说明">
-  <meta property="og:description" content="10 个策略模式、统一风控逻辑、回测验证方法、使用建议和风险边界。">
+  <meta property="og:description" content="10 个策略组合扫描、独立策略开关、独立魔术号、统一风控逻辑和回测验证方法。">
   <meta property="og:url" content="https://chatfxeatm.github.io/fx/ea/">
   <style>
     :root {
@@ -202,17 +202,17 @@
       <div>
         <p class="eyebrow">多策略交易系统 · 中文参数说明</p>
         <h1>中文多策略 EA 套装策略逻辑说明</h1>
-        <p class="lead">这套 EA 的核心不是单一指标，而是把 10 类常见可复现交易逻辑做成可切换的策略模式，并统一放入风控、点差过滤、时段过滤、新闻暂停、仓位限制、重复信号控制和回测验证流程里。</p>
-        <p class="lead">设计目标是让使用者能清楚知道每一种策略为什么进场、什么时候不交易、如何控制回撤，以及应该用什么方式做模拟测试和参数筛选。</p>
+        <p class="lead">这套 EA 的核心不是单一指标，而是把 10 类常见可复现交易逻辑放进同一个组合总控里。加载到 M5 图表后，启用的策略会各自扫描信号；哪个策略条件达成，就由哪个策略用自己的魔术号和订单注释开单。</p>
+        <p class="lead">设计目标是让使用者能清楚知道每一种策略为什么进场、什么时候不交易、如何控制回撤，并且可以在测试过程中单独关闭表现不好的策略。</p>
       </div>
       <div class="scoreboard">
         <p class="eyebrow">研究基准</p>
         <strong>XAUUSD / M5</strong>
         <p>策略先按黄金 M5 的高波动特征设计，再通过 MT5 Strategy Tester 做初步验证。</p>
         <div class="score-grid">
-          <div><strong>10</strong><span>策略模式</span></div>
+          <div><strong>10</strong><span>策略同图扫描</span></div>
           <div><strong>统一</strong><span>风控网关</span></div>
-          <div><strong>中文</strong><span>参数和面板</span></div>
+          <div><strong>独立</strong><span>魔术号和注释</span></div>
           <div><strong>严控</strong><span>仓位和回撤</span></div>
         </div>
       </div>
@@ -234,7 +234,28 @@
         <article>
           <span class="tag">第三层</span>
           <h3>风控统一接管</h3>
-          <p>策略只负责判断机会，是否允许下单由统一风控决定，包括点差、ATR、交易时段、手数、日亏损、周亏损、连续亏损和新闻暂停。</p>
+          <p>策略只负责判断机会，是否允许下单由统一风控决定，包括点差、ATR、交易时段、手数、日亏损、周亏损、连续亏损、新闻暂停、组合总持仓和每策略持仓上限。</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>组合运行方式</h2>
+      <div class="logic-grid">
+        <article>
+          <span class="tag">默认模式</span>
+          <h3>10 策略同时扫描</h3>
+          <p>EA 默认启用组合扫描。每根新 M5 K 线都会依次检查已开启的策略，只要某个策略满足自己的入场条件，就尝试由该策略独立开单。</p>
+        </article>
+        <article>
+          <span class="tag">独立管理</span>
+          <h3>每个策略各管各的</h3>
+          <p>每个策略都有独立开关、独立魔术号和独立订单注释。测试中如果发现某个策略表现不好，可以只关闭该策略，不影响其他策略继续运行。</p>
+        </article>
+        <article>
+          <span class="tag guard">总风控</span>
+          <h3>不会无限开单</h3>
+          <p>默认每个策略最多 1 单，组合总持仓最多 10 单，并继续受总手数、买卖侧手数、每日交易次数、亏损限制和新闻暂停约束。</p>
         </article>
       </div>
     </section>
@@ -450,7 +471,7 @@
       <ol>
         <li>先用模拟账户，不要直接实盘。</li>
         <li>优先挂 XAUUSD 的 M5 图表测试，确认券商合约、点差、最小手数和交易时间。</li>
-        <li>先选一个策略单独测试，不要一开始多个策略同时开。</li>
+        <li>默认使用 10 策略组合扫描，但实盘前应先在模拟账户观察每个策略的订单注释和魔术号表现，再关闭不稳定的策略。</li>
         <li>重点看数学期望、利润因子、最大回撤、连续亏损和交易样本数，而不是只看收益曲线。</li>
         <li>遇到非农、CPI、FOMC、利率决议等重大新闻时，开启手动新闻暂停。</li>
       </ol>
