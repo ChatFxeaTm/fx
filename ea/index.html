@@ -223,7 +223,7 @@
       <div class="logic-grid">
         <article>
           <span class="tag">第一层</span>
-          <h3>市场状态先行</h3>
+          <h3>行情状态先行</h3>
           <p>EA 不把所有行情都当成同一种行情处理。趋势、震荡、开盘扩张、区间突破、缺口失效和均值回归分别使用不同逻辑，避免一个指标打天下。</p>
         </article>
         <article>
@@ -250,7 +250,7 @@
         <article>
           <span class="tag">独立管理</span>
           <h3>每个策略各管各的</h3>
-          <p>每个策略都有独立开关、独立魔术号和独立订单注释。测试中如果发现某个策略表现不好，可以只关闭该策略，不影响其他策略继续运行。</p>
+          <p>每个策略都有独立开关、独立魔术号和独立订单注释。默认注释名使用清楚的策略名，例如 Larry波动突破、亚洲箱体突破、ORB开盘突破、IFVG反转缺口；测试中如果发现某个策略表现不好，可以只关闭该策略，不影响其他策略继续运行。</p>
         </article>
         <article>
           <span class="tag guard">总风控</span>
@@ -272,16 +272,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Larry 波动率突破</td><td>用昨日波幅投影今日突破位，只做真正突破。</td><td>单边扩张、波动放大。</td><td>震荡日容易假突破。</td></tr>
-          <tr><td>亚洲盘区间突破</td><td>记录亚洲盘高低点，伦敦/美盘突破箱体后跟随。</td><td>亚洲盘收窄后扩张。</td><td>新闻和点差扩大。</td></tr>
-          <tr><td>ORB 开盘突破</td><td>开盘前半小时形成初始区间，突破后顺势。</td><td>开盘方向明确的指数/黄金波段。</td><td>开盘来回扫损。</td></tr>
-          <tr><td>价格行为日内</td><td>Pin Bar、吞没、Inside Bar 配合趋势过滤。</td><td>趋势中的回踩确认。</td><td>形态识别容易过拟合。</td></tr>
-          <tr><td>市场状态切换</td><td>趋势、震荡、高波动分别调用不同子逻辑。</td><td>行情状态切换频繁的品种。</td><td>状态识别滞后。</td></tr>
-          <tr><td>MR Swing 均值回归</td><td>RSI 与布林边界寻找过度偏离后的回归。</td><td>非强趋势震荡。</td><td>强趋势中逆势亏损。</td></tr>
-          <tr><td>Darvas 特征评分</td><td>箱体突破叠加趋势、ADX、RSI、随机指标评分。</td><td>箱体整理后动量释放。</td><td>箱体太窄或假突破。</td></tr>
-          <tr><td>Easy Range 突破</td><td>指定时间段形成区间，突破后入场。</td><td>固定交易窗口扩张。</td><td>样本依赖时段。</td></tr>
+          <tr><td>Larry波动突破</td><td>用昨日波幅投影今日突破位，只做真正突破。</td><td>单边扩张、波动放大。</td><td>震荡日容易假突破。</td></tr>
+          <tr><td>亚洲箱体突破</td><td>记录亚洲盘高低点，伦敦/美盘突破箱体后跟随。</td><td>亚洲盘收窄后扩张。</td><td>新闻和点差扩大。</td></tr>
+          <tr><td>ORB开盘突破</td><td>开盘前半小时形成初始区间，突破后顺势。</td><td>开盘方向明确的指数/黄金波段。</td><td>开盘来回扫损。</td></tr>
+          <tr><td>K线价格行为</td><td>Pin Bar、吞没、Inside Bar 配合趋势过滤。</td><td>趋势中的回踩确认。</td><td>形态识别容易过拟合。</td></tr>
+          <tr><td>行情状态切换</td><td>趋势、震荡、高波动分别调用不同子逻辑。</td><td>行情状态切换频繁的品种。</td><td>状态识别滞后。</td></tr>
+          <tr><td>MR均值回归</td><td>RSI 与布林边界寻找过度偏离后的回归。</td><td>非强趋势震荡。</td><td>强趋势中逆势亏损。</td></tr>
+          <tr><td>Darvas箱体突破</td><td>箱体突破叠加趋势、ADX、RSI、随机指标评分。</td><td>箱体整理后动量释放。</td><td>箱体太窄或假突破。</td></tr>
+          <tr><td>EasyRange区间</td><td>指定时间段形成区间，突破后入场。</td><td>固定交易窗口扩张。</td><td>样本依赖时段。</td></tr>
           <tr><td>VR 高低点突破</td><td>突破上一周期高低点后顺势跟随。</td><td>趋势延续和日内动量。</td><td>高低点附近反复诱多诱空。</td></tr>
-          <tr><td>IFVG 失效缺口（支撑/压力反转）</td><td>原本应当支撑或压制价格的 FVG 区域被有效收盘打穿，按角色反转后的方向寻找机会。</td><td>关键支撑/压力被确认失效后的短线延续。</td><td>确认条件太松会变成追单，且对点差和滑点敏感。</td></tr>
+          <tr><td>IFVG反转缺口</td><td>原本应当支撑或压制价格的 FVG 区域被有效收盘打穿，按角色反转后的方向寻找机会。</td><td>关键支撑/压力被确认失效后的短线延续。</td><td>确认条件太松会变成追单，且对点差和滑点敏感。</td></tr>
         </tbody>
       </table>
     </section>
@@ -291,7 +291,7 @@
       <div class="strategy-grid">
         <article class="strategy-card">
           <span class="tag">突破类</span>
-          <h3>Larry Williams 波动率突破 <small>Volatility Expansion</small></h3>
+          <h3>Larry波动突破 <small>Volatility Expansion</small></h3>
           <p>核心假设：如果今天的价格突破了基于昨日完整波幅计算出的上沿或下沿，说明市场从正常波动进入扩张状态，顺势方向更可能延续。</p>
           <ul>
             <li>入场：今日开盘价向上或向下叠加昨日波幅系数，价格收在突破位外侧才考虑入场。</li>
@@ -303,7 +303,7 @@
 
         <article class="strategy-card">
           <span class="tag">区间突破</span>
-          <h3>亚洲盘区间突破 <small>Asian Session Box</small></h3>
+          <h3>亚洲箱体突破 <small>Asian Session Box</small></h3>
           <p>核心假设：亚洲盘通常波动较小，如果伦敦或美盘阶段突破亚洲盘箱体，可能代表主力流动性开始选择方向。</p>
           <ul>
             <li>入场：统计亚洲盘高点和低点，箱体结束后价格突破上沿做多，跌破下沿做空。</li>
@@ -315,7 +315,7 @@
 
         <article class="strategy-card">
           <span class="tag">开盘突破</span>
-          <h3>ORB 开盘区间突破 <small>Opening Range Breakout</small></h3>
+          <h3>ORB开盘突破 <small>Opening Range Breakout</small></h3>
           <p>核心假设：重要市场开盘后的第一段区间代表早期多空平衡，后续突破该区间时，日内动量可能延续。</p>
           <ul>
             <li>入场：在指定开盘小时后统计一段初始区间，突破高点做多，跌破低点做空。</li>
@@ -327,7 +327,7 @@
 
         <article class="strategy-card">
           <span class="tag">价格行为</span>
-          <h3>价格行为日内策略 <small>Pin / Engulf / Inside Bar</small></h3>
+          <h3>K线价格行为 <small>Pin / Engulf / Inside Bar</small></h3>
           <p>核心假设：趋势方向中的拒绝形态或动能形态，能反映短线回踩结束和趋势恢复。</p>
           <ul>
             <li>入场：识别 Pin Bar、吞没形态或 Inside Bar 突破，同时要求方向与均线趋势一致。</li>
@@ -339,7 +339,7 @@
 
         <article class="strategy-card">
           <span class="tag">调度器</span>
-          <h3>市场状态切换策略 <small>Regime Switch</small></h3>
+          <h3>行情状态切换 <small>Regime Switch</small></h3>
           <p>核心假设：趋势市、震荡市和高波动市不应该用同一套入场逻辑。该模式更像一个策略调度器，而不是单一信号。</p>
           <ul>
             <li>趋势市：优先调用上周期高低点突破这类顺势逻辑。</li>
@@ -351,7 +351,7 @@
 
         <article class="strategy-card">
           <span class="tag">均值回归</span>
-          <h3>MR Swing 均值回归 <small>Mean Reversion Swing</small></h3>
+          <h3>MR均值回归 <small>Mean Reversion Swing</small></h3>
           <p>核心假设：在非强趋势市场中，价格触及布林带边界并伴随 RSI 极端值时，短线存在向均值回归的机会。</p>
           <ul>
             <li>入场：多头环境中 RSI 过低且触及下轨，空头环境中 RSI 过高且触及上轨。</li>
@@ -363,7 +363,7 @@
 
         <article class="strategy-card">
           <span class="tag">箱体突破</span>
-          <h3>Darvas 箱体 + 特征评分 <small>Box Breakout Score</small></h3>
+          <h3>Darvas箱体突破 <small>Box Breakout Score</small></h3>
           <p>核心假设：一段时间内的高低点形成箱体，价格突破箱体时，如果趋势、动量和强度特征同步支持，突破质量更高。</p>
           <ul>
             <li>入场：突破回看周期内的箱体高点做多，跌破箱体低点做空。</li>
@@ -375,7 +375,7 @@
 
         <article class="strategy-card">
           <span class="tag">基线策略</span>
-          <h3>Easy Range 区间突破 <small>Range Baseline</small></h3>
+          <h3>EasyRange区间 <small>Range Baseline</small></h3>
           <p>核心假设：固定时间窗口形成的高低点可以代表阶段平衡，窗口结束后的突破可以作为简单、透明的基线信号。</p>
           <ul>
             <li>入场：统计指定时间段的高低点，区间结束后突破边界入场。</li>
@@ -399,7 +399,7 @@
 
         <article class="strategy-card">
           <span class="tag weak">角色反转</span>
-          <h3>IFVG 失效缺口（支撑/压力反转） <small>Inversion FVG</small></h3>
+          <h3>IFVG反转缺口 <small>Inversion FVG</small></h3>
           <p>核心假设：FVG 可以理解为价格快速单边波动后留下的“失衡区”。正常情况下，多头 FVG 回踩时应该提供支撑，空头 FVG 反抽时应该形成压力；如果价格没有按预期反应，反而有效收盘穿过这个区域，就说明原来的支撑或压力失效，市场方向可能已经反过来。</p>
           <ul>
             <li>多头例子：价格上涨后留下一个 FVG，回踩时本应获得支撑；如果价格收盘跌穿该区域，说明买盘防守失败，原支撑可能转为压力。</li>
