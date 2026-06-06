@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EA 策略介绍</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      color: #172026;
+      background: #f7f3ea;
+      line-height: 1.75;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 18px 56px;
+    }
+    section {
+      background: #fffaf0;
+      border: 1px solid #ddd0bb;
+      border-radius: 8px;
+      padding: 22px;
+      margin: 16px 0;
+    }
+    h1 {
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 1.05;
+      margin: 0 0 12px;
+    }
+    h2 {
+      margin: 0 0 10px;
+    }
+    .notice {
+      border-color: #b2403a;
+      background: #fff4f1;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid #ddd0bb;
+      border-radius: 8px;
+      padding: 14px;
+      background: #fffdf8;
+    }
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #167c68;
+      color: white;
+      font-size: 12px;
+    }
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <p class="tag">公开介绍页</p>
+      <h1>中文多策略 EA 套装</h1>
+      <p>本页面只展示策略说明、使用方式和风险边界，不公开 EA 源码、编译文件、压缩包或内部回测配置。</p>
+    </section>
+
+    <section class="notice">
+      <h2>源码保护说明</h2>
+      <p>所有 EA 源码和交付文件已从公开仓库移除。公开页面不提供 MQ4、MQ5、EX4、EX5、ZIP、回测配置或任何源码下载入口。</p>
+    </section>
+
+    <section>
+      <h2>策略模式</h2>
+      <div class="grid">
+        <div class="card">Larry Williams 波动率突破</div>
+        <div class="card">亚洲盘区间突破</div>
+        <div class="card">Opening Range Breakout / ORB</div>
+        <div class="card">价格行为日内策略</div>
+        <div class="card">市场状态切换策略</div>
+        <div class="card">MR Swing 均值回归波段</div>
+        <div class="card">Darvas 箱体 + 特征评分</div>
+        <div class="card">Easy Range 区间突破</div>
+        <div class="card">VR Breakdown 上周期高低点突破</div>
+        <div class="card">IFVG 失效公允价值缺口</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>具体怎么用</h2>
+      <ol>
+        <li>先在模拟账户安装 EA，不要直接实盘。</li>
+        <li>优先挂 XAUUSD 的 M5 图表测试。</li>
+        <li>在参数里选择策略模式，并检查固定手数、最大手数、最大点差、日亏损、周亏损和连续亏损冷却。</li>
+        <li>遇到非农、CPI、FOMC 等重大新闻时，开启手动新闻暂停。</li>
+        <li>实盘前必须继续做真实 tick、样本外、walk-forward、成本压力和不同券商合约验证。</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>风险边界</h2>
+      <p>自动交易有风险，历史回测不代表未来收益。本项目只作为软件和策略研究，不承诺盈利，不构成投资建议，不代客理财，不托管资金，不喊单。</p>
+    </section>
+  </main>
+</body>
+</html>
+
