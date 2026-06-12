@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07131f">
+  <title>加特林 EA 策略说明书</title>
+  <meta name="description" content="加特林 MT5 EA 的通俗策略说明、完整运行流程、40 个输入参数逐项解释、手数计算与风险提示。">
+  <link rel="canonical" href="https://chatfxeatm.github.io/fx/g/">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand"><span class="brand-mark">G</span> 加特林策略说明书</div>
+      <nav aria-label="页面导航">
+        <a href="#story">听懂策略</a>
+        <a href="#flow">运行流程</a>
+        <a href="#parameters">40 个参数</a>
+        <a href="#risk">重要风险</a>
+        <button class="print-btn" type="button" onclick="window.print()">打印 / 保存 PDF</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div>
+        <p class="eyebrow">MT5 · 双向突破挂单 · 递增网格</p>
+        <h1>把“加特林”讲到<span>一听就懂</span></h1>
+        <p class="hero-copy">
+          这是一套买、卖两个方向分开工作的网格 EA。它会在价格上方放一个“买入开关”，在价格下方放一个“卖出开关”；
+          哪边先被价格碰到，哪边就成交。成交以后，它会继续按距离铺网格，并按组增大手数，直到满足盈利、亏损或到点收仓条件。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#parameters">直接查参数</a>
+          <a class="btn btn-secondary" href="#story">先听简单故事</a>
+        </div>
+      </div>
+      <div class="radar" aria-label="买卖双向网格示意图">
+        <div class="radar-core">EA</div>
+        <span class="blip buy" title="买入方向"></span>
+        <span class="blip sell" title="卖出方向"></span>
+        <span class="blip grid" title="网格层级"></span>
+      </div>
+    </div>
+
+    <div class="wrap facts reveal">
+      <div class="fact"><strong>2 个方向</strong><span>买单和卖单各算各的数量、手数、均价与盈亏。</span></div>
+      <div class="fact"><strong>1 张挂单 / 边</strong><span>正常情况下，每个方向只保留一张等待成交的突破挂单。</span></div>
+      <div class="fact"><strong>40 个参数</strong><span>本页逐项说明默认值、真正作用、调大调小和容易踩的坑。</span></div>
+      <div class="fact"><strong>3 类出场</strong><span>盈利收仓、亏损止仓、按服务器时间到点收仓。</span></div>
+    </div>
+
+    <section id="story" class="section">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-kicker">01 · 小学生版本</p>
+            <h2>把价格想成一辆小火车</h2>
+          </div>
+          <p class="section-note">EA 不会猜下一秒一定涨还是跌。它是在火车上方和下方各装一个感应门，等价格自己来触发。</p>
+        </div>
+
+        <div class="simple-story reveal">
+          <article class="story-card">
+            <p class="big">上面放“买”，下面放“卖”。</p>
+            <p>
+              价格往上冲，碰到绿色门，就成交买单；价格往下冲，碰到红色门，就成交卖单。
+              成交后，EA 继续在前面或后面留出规定距离，再准备下一张单。
+            </p>
+            <p>
+              这就像在铁轨上每隔一段距离放一个车站。<strong>站越密，成交越多；车票越大，风险也越大。</strong>
+            </p>
+          </article>
+
+          <div class="track">
+            <div class="track-line"></div>
+            <div class="price-tag buy">上方：Buy Stop 买入挂单</div>
+            <div class="price-tag now">现在价格</div>
+            <div class="price-tag sell">下方：Sell Stop 卖出挂单</div>
+            <div class="track-note n1">价格向上碰到这里，说明正在向上突破。</div>
+            <div class="track-note n2">EA 每次报价都重新统计两边仓位。</div>
+            <div class="track-note n3">价格向下碰到这里，说明正在向下突破。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow" class="section">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-kicker">02 · 每次报价都做什么</p>
+            <h2>策略真实运行流程</h2>
+          </div>
+          <p class="section-note">下面顺序与源码的 <code>OnTick()</code> 基本一致。先管已有仓位，再决定要不要开新单。</p>
+        </div>
+
+        <div class="flow reveal">
+          <article class="flow-card"><h3>数清楚仓位</h3><p>统计当前品种、当前 Magic 下的买单、卖单、总手数、最高价、最低价、浮动盈亏和未成交挂单。</p></article>
+          <article class="flow-card"><h3>切换网格距离</h3><p>某一边持仓数量大于 <code>iCount</code> 后，该方向从前期距离切换到后期距离。默认是超过 50 单才切换。</p></article>
+          <article class="flow-card"><h3>先管止损</h3><p>更新买卖加权均价线，执行源码内置的 M15 K 线跟踪止损，再检查单边和总篮子盈亏条件。</p></article>
+          <article class="flow-card"><h3>检查到点收仓</h3><p>如果开启时间收仓，达到停止时间后可停止加仓、删除挂单、等待盈利，或在强制时间全平。</p></article>
+          <article class="flow-card"><h3>准备买入挂单</h3><p>买方向没有未成交 Buy Stop、没有达到停止加仓亏损线，并且允许买入时，计算下一张买入挂单。</p></article>
+          <article class="flow-card"><h3>准备卖出挂单</h3><p>卖方向没有未成交 Sell Stop、没有达到停止加仓亏损线，并且允许卖出时，计算下一张卖出挂单。</p></article>
+          <article class="flow-card"><h3>挂单跟着价格走</h3><p>当市场朝挂单反方向移动足够多时，EA 会把挂单拉近，但不会每跳一个点就修改。</p></article>
+          <article class="flow-card"><h3>继续管理老仓</h3><p>即使到点后不准开新单，已有持仓仍继续执行首单止盈和移动止损，不会完全撒手不管。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-paper">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-kicker">03 · 怎么加仓、怎么离场</p>
+            <h2>网格和收仓的三把尺子</h2>
+          </div>
+          <p class="section-note">买卖两边独立计算。一个方向的盈利可以单独平，也可能和另一方向合起来达到总盈利后一起平。</p>
+        </div>
+
+        <div class="exit-grid reveal">
+          <article class="exit-card">
+            <span class="num">1</span>
+            <h3>距离尺</h3>
+            <p><code>FirstStep</code> 决定第一张挂单离当前价多远；<code>MinDistance</code> 决定挂单离现在价格多远；<code>Step</code> 决定新旧仓位至少隔多远。</p>
+          </article>
+          <article class="exit-card">
+            <span class="num">2</span>
+            <h3>手数尺</h3>
+            <p>下一单手数 = 基础手数 × 倍数<sup>组号</sup> + 组号 × 固定增加量。组号 = 向下取整（当前同方向持仓数 ÷ 每组单数）。</p>
+          </article>
+          <article class="exit-card">
+            <span class="num">3</span>
+            <h3>盈亏尺</h3>
+            <p>平仓不是只看一个数字。源码会根据两边是否都“没有亏太多”，在“单边盈利平仓”和“总盈利一起平仓”之间切换。</p>
+          </article>
+        </div>
+
+        <div class="timeline reveal">
+          <div class="timeline-row">
+            <div class="timeline-time">停止时间</div>
+            <p>可以停止新开、加仓和移动挂单；如果勾选，还会删除当前品种与 Magic 的 Buy Stop / Sell Stop。</p>
+          </div>
+          <div class="timeline-row">
+            <div class="timeline-time">等待阶段</div>
+            <p>买卖总浮盈达到“等待盈利收仓金额”就全平。默认金额为 0，意思是合起来不亏就可以离场。</p>
+          </div>
+          <div class="timeline-row">
+            <div class="timeline-time">强制时间</div>
+            <p>如果还有持仓，不管当时赚还是亏，都执行全平。时间使用交易服务器时间，不是电脑本地时间。</p>
+          </div>
+          <div class="timeline-row">
+            <div class="timeline-time">第二天</div>
+            <p>日期变化后，EA 自动清除“今天已经停止 / 已经收仓”的标记，重新开始新一天。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator" class="section">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-kicker">04 · 自己动手算</p>
+            <h2>两个最容易算错的小工具</h2>
+          </div>
+          <p class="section-note">计算器按源码公式演示，不代表推荐设置。实际手数还会受交易品种最小手数、步进和保证金影响。</p>
+        </div>
+
+        <div class="tools reveal">
+          <article class="tool-card">
+            <h3>下一张单的手数</h3>
+            <p>输入“这个方向现在已有多少张持仓”，看看下一张网格单会用多大手数。</p>
+            <div class="fields">
+              <label>已有持仓数<input id="calcCount" type="number" min="0" step="1" value="5"></label>
+              <label>基础手数 lot<input id="calcBase" type="number" min="0" step="0.01" value="0.01"></label>
+              <label>递增倍数 K_Lot<input id="calcK" type="number" min="0" step="0.1" value="1.2"></label>
+              <label>固定增加 PlusLot<input id="calcPlus" type="number" min="0" step="0.01" value="0"></label>
+              <label>每组单数 GridStep<input id="calcGrid" type="number" min="0.01" step="1" value="5"></label>
+            </div>
+            <div id="lotResult" class="result" aria-live="polite"></div>
+          </article>
+
+          <article class="tool-card">
+            <h3>“点”到底是多少钱的距离</h3>
+            <p>EA 使用 MT5 的 <code>_Point</code>。同样写 60 点，不同报价小数位，真实价格距离可能不同。</p>
+            <div class="fields">
+              <label>参数点数<input id="pointCount" type="number" min="0" step="1" value="60"></label>
+              <label>品种 _Point<input id="pointSize" type="number" min="0" step="0.001" value="0.01"></label>
+            </div>
+            <div id="pointResult" class="result" aria-live="polite"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="parameters" class="section section-paper">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-kicker">05 · 完整参数字典</p>
+            <h2>40 个输入参数，逐项讲清楚</h2>
+          </div>
+          <p class="section-note">点击任意参数可展开“程序怎么用、调大调小、常见误会”。搜索支持中文名、默认值和解释内容。</p>
+        </div>
+
+        <div class="filters reveal">
+          <input id="paramSearch" class="search" type="search" placeholder="搜索参数，例如：手数、时间、止损、Magic…" aria-label="搜索参数">
+          <div id="groupChips" class="chips" aria-label="参数分组"></div>
+        </div>
+        <p id="paramCount" class="param-count"></p>
+        <div id="paramList" class="param-list"></div>
+      </div>
+    </section>
+
+    <section id="risk" class="section">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-kicker">06 · 必须看完</p>
+            <h2>源码里的真实边界</h2>
+          </div>
+          <p class="section-note">以下不是吓人，而是避免把参数名字当成程序真实行为。网格策略最怕的，就是“以为有保护，其实保护没有这样工作”。</p>
+        </div>
+
+        <div class="warning-grid reveal">
+          <article class="warning"><strong>没有最大持仓数量上限</strong><p><code>iCount=50</code> 只是切换后期网格距离，不是“最多 50 单”。只要亏损线、保证金和其他条件允许，策略仍可能继续增加持仓。</p></article>
+          <article class="warning"><strong>FirstOrder 默认会绕过保证金判断</strong><p>源码条件写成“保证金够且已有仓位，或者 FirstOrder=true”。因此默认 true 时，不只首单，后续订单也可能跳过这项代码里的保证金检查。</p></article>
+          <article class="warning"><strong>“超亏损强制平仓”名字不准确</strong><p><code>MaxLossCloseAll_Input</code> 并不会在亏 5 时强平。它只是决定使用“单边盈利目标”还是“买卖合计盈利目标”。真正的单边亏损平仓由 <code>StopLoss_Input</code> 控制。</p></article>
+          <article class="warning"><strong>停止加仓不等于删除旧挂单</strong><p><code>MaxLoss_Input</code> 到线后只是不再创建新挂单。已经放在市场里的挂单不会因为这个参数自动删除，之后仍有可能成交。</p></article>
+          <article class="warning"><strong>有两套移动止损同时工作</strong><p>除可见的“移动止损启动 / 点数”外，源码还固定开启了 M15 K 线跟踪止损。两套逻辑会在同一次报价中先后修改止损。</p></article>
+          <article class="warning"><strong>更适合 MT5 对冲账户</strong><p>策略假设买单和卖单可以同时存在并独立统计。净持仓账户会把同品种买卖合并，运行结果可能与本说明完全不同。</p></article>
+          <article class="warning"><strong>时间都是服务器时间</strong><p>交易时段、停止开单、强制收仓和版本到期都使用 <code>TimeCurrent()</code>。请先看 MT5“市场报价”里的服务器时间，不要只看电脑时钟。</p></article>
+          <article class="warning"><strong>源码有效期到 2026-07-15</strong><p>代码写死在交易服务器时间超过 <strong>2026 年 7 月 15 日 00:00</strong> 后提示升级并移除 EA。正式运行前应确认版本是否已经更新。</p></article>
+        </div>
+
+        <div class="source-box reveal">
+          <strong>阅读口径：</strong>本页依据 <code>加特林 (2).mq5</code> 版本 1.02 的实际代码整理。
+          “盈利 / 亏损金额”按账户货币统计，源码主要使用持仓浮动盈亏加隔夜利息；“点数”按当前品种的 <code>_Point</code> 计算。
+          本页是程序说明，不是收益承诺或实盘参数建议。
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>加特林 EA 策略说明书</strong><br>
+      页面根据源代码逐行整理。自动交易存在亏损、滑点、断网、保证金不足和极端行情风险，历史表现不代表未来结果。
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
