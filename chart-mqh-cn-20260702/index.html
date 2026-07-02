@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chart.mqh 中文注释版｜图表对象封装类说明</title>
+  <style>
+    :root {
+      --bg:#0b0f14; --card:#121922; --text:#e8edf3; --muted:#9ca8b7;
+      --line:#243142; --accent:#d8aa4f; --danger:#ff6b6b; --ok:#58d68d;
+      --code:#071018;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; background:linear-gradient(180deg,#080b10 0%,#101722 100%); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif; line-height:1.75; }
+    .wrap { max-width:1120px; margin:0 auto; padding:36px 18px 64px; }
+    header { padding:34px 28px; border:1px solid var(--line); border-radius:22px; background:radial-gradient(circle at top right,rgba(216,170,79,.16),transparent 35%),var(--card); box-shadow:0 18px 48px rgba(0,0,0,.28); }
+    h1 { margin:0 0 14px; font-size:34px; letter-spacing:.3px; }
+    h2 { margin:34px 0 12px; font-size:24px; border-left:4px solid var(--accent); padding-left:12px; }
+    h3 { margin:24px 0 8px; font-size:19px; }
+    p { margin:10px 0; }
+    .lead { font-size:17px; color:#d7dde7; }
+    .muted { color:var(--muted); }
+    .badge { display:inline-block; padding:4px 10px; border:1px solid var(--line); border-radius:999px; color:#f5d58a; background:rgba(216,170,79,.08); margin-right:8px; font-size:13px; }
+    .alert { border:1px solid rgba(255,107,107,.35); background:rgba(255,107,107,.08); padding:14px 16px; border-radius:14px; }
+    .ok { border:1px solid rgba(88,214,141,.35); background:rgba(88,214,141,.08); padding:14px 16px; border-radius:14px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .card { border:1px solid var(--line); border-radius:16px; background:rgba(18,25,34,.86); padding:18px; }
+    table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:12px; margin:14px 0; }
+    th,td { border:1px solid var(--line); padding:11px 12px; vertical-align:top; }
+    th { background:#172130; color:#f1d38b; text-align:left; }
+    td { background:#101822; }
+    code { background:#0a131d; color:#ffd98a; padding:2px 5px; border-radius:5px; }
+    pre { background:var(--code); border:1px solid var(--line); border-radius:14px; padding:16px; overflow:auto; color:#dfe7f1; }
+    a { color:#f1c46c; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .download { display:inline-block; margin-top:18px; padding:12px 16px; border-radius:12px; background:linear-gradient(135deg,#d8aa4f,#f3d27a); color:#15100a; font-weight:700; }
+    .small { font-size:13px; color:var(--muted); }
+    footer { margin-top:36px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); }
+    @media (max-width:760px) { .grid { grid-template-columns:1fr; } h1 { font-size:27px; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><span class="badge">MQL4 / MQL5</span><span class="badge">中文注释版</span><span class="badge">图表管理类</span></div>
+    <h1>Chart.mqh 中文注释版说明</h1>
+    <p class="lead">这份文件不是交易指标源码，而是一个 <strong>图表对象封装类</strong>：通过 <code>CChart</code> 类统一封装 MetaTrader 图表属性读取、图表属性设置、图表窗口信息获取、指标挂载/删除，以及图表参数保存/读取。</p>
+    <a class="download" href="Chart_Chinese_Commented.mqh" download>下载汉化文件：Chart_Chinese_Commented.mqh</a>
+    <p class="small">汉化原则：保留类名、函数名、参数名和执行逻辑，只翻译注释与说明，避免破坏编译兼容性。</p>
+  </header>
+
+  <section>
+    <h2>一、先把性质说清楚</h2>
+    <div class="alert">
+      <strong>这不是指标。</strong>源码里没有 <code>OnCalculate()</code>、没有指标缓冲区 <code>SetIndexBuffer()</code>、没有均线/RSI/MACD 等信号计算，也没有买卖箭头、开仓条件、止盈止损逻辑。它的作用是给 EA、指标或脚本提供一套“操作图表”的工具类。
+    </div>
+    <p>所以，如果你要做商业化介绍，不能把它包装成“能判断行情方向的指标”。它更准确的定位是：<strong>MetaTrader 图表控制基础库</strong>。</p>
+  </section>
+
+  <section>
+    <h2>二、核心逻辑结构</h2>
+    <p><code>CChart</code> 类内部只保存一个关键成员：</p>
+    <pre><code>long m_chart_id; // 图表标识符</code></pre>
+    <p>所有方法都围绕这个图表 ID 展开：先绑定或打开图表，然后对这个图表进行读取、设置、导航、截图、指标管理和参数保存。</p>
+    <table>
+      <thead><tr><th>逻辑阶段</th><th>代表函数</th><th>作用说明</th></tr></thead>
+      <tbody>
+        <tr><td>绑定图表</td><td><code>Attach()</code>、<code>Open()</code>、<code>FirstChart()</code>、<code>NextChart()</code></td><td>确定当前对象要操作哪一个图表。</td></tr>
+        <tr><td>读取属性</td><td><code>Mode()</code>、<code>Scale()</code>、<code>ColorBackground()</code> 等</td><td>从指定图表读取显示模式、缩放、颜色、窗口尺寸等状态。</td></tr>
+        <tr><td>设置属性</td><td><code>Mode(mode)</code>、<code>ShowGrid(show)</code>、<code>ColorGrid(color)</code> 等</td><td>修改图表显示效果和交互状态。</td></tr>
+        <tr><td>图表导航</td><td><code>Navigate()</code></td><td>控制图表跳转到指定位置，例如最新K线、历史位置等。</td></tr>
+        <tr><td>指标管理</td><td><code>IndicatorAdd()</code>、<code>IndicatorDelete()</code>、<code>IndicatorsTotal()</code></td><td>在图表子窗口中添加、删除或查询指标。</td></tr>
+        <tr><td>持久化</td><td><code>Save()</code>、<code>Load()</code></td><td>把图表配置写入文件，或从文件恢复配置。</td></tr>
+        <tr><td>释放资源</td><td><code>Close()</code>、析构函数 <code>~CChart()</code></td><td>关闭已绑定的图表并重置 ID。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>三、功能模块详解</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>1. 图表显示模式</h3>
+        <p><code>Mode()</code> 用于读取或设置图表显示方式，比如柱状图、蜡烛图、折线图。它本身不分析行情，只改变图表外观。</p>
+      </div>
+      <div class="card">
+        <h3>2. 缩放与滚动</h3>
+        <p><code>Scale()</code> 控制缩放级别，代码中把范围限制在 <code>0~32</code>；<code>ShiftSize()</code> 把右侧留白限制在 <code>10~50</code>，避免传入异常参数导致图表显示失控。</p>
+      </div>
+      <div class="card">
+        <h3>3. 显示开关</h3>
+        <p>包括 OHLC、Bid 线、Ask 线、Last 线、周期分隔线、网格、成交量、对象说明、日期坐标轴、价格坐标轴等。适合做模板化图表界面。</p>
+      </div>
+      <div class="card">
+        <h3>4. 颜色控制</h3>
+        <p>封装背景色、前景色、网格色、阳线色、阴线色、成交量色、Bid/Ask/Last 线颜色、止损止盈水平线颜色等设置函数。</p>
+      </div>
+      <div class="card">
+        <h3>5. 事件开关</h3>
+        <p><code>EventObjectCreate()</code>、<code>EventObjectDelete()</code>、<code>EventMouseMove()</code> 用于控制图表事件是否被触发。开发可拖动面板、按钮、图形对象时会用到。</p>
+      </div>
+      <div class="card">
+        <h3>6. 只读窗口信息</h3>
+        <p>读取可见K线数量、窗口数量、窗口像素尺寸、价格上下限、子窗口偏移等。它适合做图表面板布局、自动截图、界面自适应。</p>
+      </div>
+      <div class="card">
+        <h3>7. 指标挂载管理</h3>
+        <p><code>IndicatorAdd()</code> 可以把已有指标句柄添加到指定图表窗口；<code>IndicatorDelete()</code> 根据名称删除指标；<code>IndicatorsTotal()</code> 查询子窗口指标数量。</p>
+      </div>
+      <div class="card">
+        <h3>8. 参数保存/读取</h3>
+        <p><code>Save()</code> 和 <code>Load()</code> 用文件方式保存图表部分配置，便于恢复图表模板状态。它是工程功能，不是交易策略。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>四、逻辑性评价</h2>
+    <div class="ok">
+      <strong>工程逻辑是成立的。</strong>它的思路是把底层 <code>ChartGetInteger</code>、<code>ChartSetInteger</code>、<code>ChartGetDouble</code>、<code>ChartSetDouble</code>、<code>ChartGetString</code>、<code>ChartSetString</code> 等函数包成类方法，让外部代码调用更统一、更清楚。
+    </div>
+    <p>但它没有任何市场判断能力。严格说，它对交易盈利没有直接贡献，只能提高 EA/指标开发时的图表控制能力。</p>
+    <table>
+      <thead><tr><th>评价维度</th><th>结论</th></tr></thead>
+      <tbody>
+        <tr><td>交易信号逻辑</td><td>没有。不能判断多空，不能给出入场点。</td></tr>
+        <tr><td>指标计算逻辑</td><td>没有。没有指标缓冲区，没有数学公式计算。</td></tr>
+        <tr><td>图表控制逻辑</td><td>完整。覆盖显示、颜色、事件、窗口信息、指标管理、文件保存读取。</td></tr>
+        <tr><td>商业化价值</td><td>不能单独当指标卖；可以作为 EA 面板、图表模板、辅助工具库的一部分。</td></tr>
+        <tr><td>适合使用场景</td><td>EA 图表界面、自动截图、模板管理、多图表控制、指标加载管理。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>五、需要注意的代码点</h2>
+    <ul>
+      <li><strong>MQL4 兼容处理：</strong>在 <code>__MQL4__</code> 下，<code>ChartIndicatorAdd()</code> 被定义为直接返回 <code>false</code>，说明 MQL4 环境里这部分“通过句柄添加指标”的能力不可用。</li>
+      <li><strong>析构函数会关闭图表：</strong><code>~CChart()</code> 中如果 <code>m_chart_id!=-1</code> 会调用 <code>Close()</code>。如果你把当前图表绑定给临时对象，生命周期结束时可能把图表关闭，使用时要控制对象生命周期。</li>
+      <li><strong>保存/读取部分有疑似不一致：</strong><code>Save()</code> 写入 <code>FixedMax</code>、<code>FixedMin</code>、<code>PointsPerBar</code> 时使用 <code>FileWriteDouble()</code>，但 <code>Load()</code> 中读取位置使用了 <code>FileReadDatetime()</code>。如果后续要把它当严肃工程库使用，建议单独审查并测试这部分。</li>
+      <li><strong>汉化版未改执行逻辑：</strong>本次文件只做注释汉化，未擅自修复上述疑点，避免改变原始行为。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>六、对外介绍文案</h2>
+    <p><strong>Chart.mqh 中文注释版</strong> 是一个面向 MetaTrader 开发者的图表控制基础库。它通过 <code>CChart</code> 类封装图表显示模式、缩放、滚动、颜色、坐标轴、事件开关、窗口尺寸、指标挂载、图表截图和参数持久化等功能，让 EA、指标和脚本开发中的图表操作更清晰、更模块化。</p>
+    <p>它不是独立交易指标，也不提供买卖信号。它更适合作为复杂 EA 面板、图表模板管理、多窗口控制、自动截图工具、指标加载管理模块的底层组件。</p>
+  </section>
+
+  <section>
+    <h2>七、使用建议</h2>
+    <ol>
+      <li>如果用于 MT5，优先作为 <code>Include</code> 库文件使用。</li>
+      <li>如果用于 MT4，注意 <code>ChartIndicatorAdd()</code> 兼容分支直接返回 <code>false</code>。</li>
+      <li>如果要做商业 EA 面板，可以用它统一处理图表颜色、网格、滚动、截图和对象事件。</li>
+      <li>如果要做真正的交易指标，还需要另外编写 <code>OnCalculate()</code>、指标缓冲区、信号计算公式和图形输出逻辑。</li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>文件：<a href="Chart_Chinese_Commented.mqh" download>Chart_Chinese_Commented.mqh</a></p>
+    <p>说明：本页面根据上传源码整理，汉化版保留原始代码执行逻辑，仅翻译注释与说明。</p>
+  </footer>
+</div>
+</body>
+</html>
