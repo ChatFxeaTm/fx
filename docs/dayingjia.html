@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>匯鹰.量化｜大盈家EA策略介绍</title>
+<style>
+body{margin:0;background:#090907;color:#f4efe2;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.85}.wrap{max-width:1060px;margin:auto;padding:42px 18px 72px}.hero,.box{background:#14120d;border:1px solid rgba(214,170,75,.28);border-radius:22px;padding:28px;margin:18px 0;box-shadow:0 18px 60px rgba(0,0,0,.26)}h1{font-size:42px;margin:10px 0 14px;color:#f1d58a}h2{color:#f1d58a;border-left:4px solid #d6aa4b;padding-left:12px;margin-top:34px}.tag{display:inline-block;border:1px solid rgba(214,170,75,.35);border-radius:99px;padding:6px 12px;margin:5px;color:#f1d58a;background:rgba(214,170,75,.08)}table{width:100%;border-collapse:collapse}th,td{border:1px solid rgba(214,170,75,.24);padding:10px;text-align:left;vertical-align:top}th{background:rgba(214,170,75,.1);color:#f1d58a}.warn{border-left:4px solid #e07a5f;background:#20120f;border-radius:10px;padding:12px}a{color:#f1d58a}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="hero"><p style="color:#d6aa4b">匯鹰.量化 · HY Quant</p><h1>大盈家EA策略介绍</h1><p>本策略以 XAUUSD 为主要交易对象，采用智能网格、MA方向过滤、篮子止盈管理和多重账户风控的组合逻辑。它不是单纯追涨杀跌，也不是无脑加仓，而是在限制交易频率、点差、保证金和最大持仓数量的前提下，尝试捕捉黄金日内波动中的均值回归与阶段性反弹机会。</p><div><span class="tag">XAUUSD黄金</span><span class="tag">智能网格</span><span class="tag">MA入场过滤</span><span class="tag">移动止盈</span><span class="tag">回撤控制</span><span class="tag">保证金保护</span></div></section>
+<h2>一、策略核心定位</h2><div class="box"><p>大盈家EA的核心不是预测每一根K线方向，而是围绕黄金波动特征，构建分批进场、篮子管理、整体退出的交易框架。策略默认聚焦 XAUUSD，避免多品种同时运行导致风险叠加。</p><p>当前配置更偏保守：初始手数较低、最大交易数量受限、资金占用比例受限，并启用点差过滤、最小保证金保护、最大回撤控制和最旧订单处理机制。</p></div>
+<h2>二、核心功能</h2><div class="box"><table><tr><th>模块</th><th>说明</th></tr><tr><td>智能网格</td><td>结合行情节奏控制进场，不是完全机械式固定距离加仓。</td></tr><tr><td>MA入场过滤</td><td>用长期均线作为市场结构参考，减少明显不利方向上的盲目开仓。</td></tr><tr><td>每根K线一次交易</td><td>限制同一根K线内重复触发，降低连续开单和滑点风险。</td></tr><tr><td>利润最大化管理</td><td>通过移动止盈、利润锁定和分阶段目标管理，让盈利单尽量多走一段。</td></tr><tr><td>最旧订单处理</td><td>持仓层级上升后，优先处理较早订单，减少老单拖累篮子。</td></tr><tr><td>账户保护</td><td>包含最小保证金保护、账户亏损停止交易、最大回撤限制、最大点差过滤。</td></tr></table></div>
+<h2>三、重点参数逻辑</h2><div class="box"><table><tr><th>参数</th><th>当前思路</th><th>说明</th></tr><tr><td>交易品种</td><td>XAUUSD</td><td>聚焦黄金，避免多品种风险叠加。</td></tr><tr><td>初始手数</td><td>0.01</td><td>适合先做小资金验证和前向测试。</td></tr><tr><td>倍增系数</td><td>1.05</td><td>手数增长较慢，降低传统马丁快速翻倍压力。</td></tr><tr><td>最大交易数量</td><td>6单</td><td>限制网格层数，避免无限加仓。</td></tr><tr><td>资金占用比例</td><td>50%</td><td>保留安全边际，不把账户全部权益推上风险台。</td></tr></table></div>
+<h2>四、风险提示</h2><div class="box warn"><p>网格类策略最怕持续单边、点差扩大、滑点异常和流动性不足。必须先模拟盘或小资金实盘前向测试，不建议直接重仓运行。</p></div>
+<p style="text-align:center;color:#b7ab91;margin-top:30px">返回首页：<a href="./">https://chatfxeatm.github.io/fx/</a></p>
+</main>
+</body>
+</html>
