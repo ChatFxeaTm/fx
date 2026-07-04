@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>匯鹰量化Trend｜WxPusher使用说明</title>
+<style>
+body{margin:0;background:#080b10;color:#eef4ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.8}.wrap{max-width:980px;margin:auto;padding:34px 18px 70px}.box,.hero{background:#121923;border:1px solid #29364a;border-radius:18px;padding:22px;margin:16px 0}h1{font-size:34px;margin:6px 0 12px}h2{border-left:4px solid #d8b25a;padding-left:12px;margin-top:34px}h3{color:#d8b25a}code,pre{background:#070d15;border:1px solid #29364a;border-radius:8px;color:#f7d98a}code{padding:2px 6px}pre{padding:14px;white-space:pre-wrap;overflow:auto}.warn{border-left:4px solid #ff6b6b;background:#271418;border-radius:10px;padding:12px}.note{border-left:4px solid #74b9ff;background:#102238;border-radius:10px;padding:12px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #29364a;padding:9px;text-align:left}th{color:#d8b25a;background:#101827}a{color:#8cc8ff}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="hero"><p style="color:#d8b25a">匯鹰量化 · MT4 信号推送教程</p><h1>匯鹰量化Trend 如何使用 WxPusher 接收 MT4 信号</h1><p>本页面只用于说明匯鹰量化Trend 指标EA一体版的 WxPusher 配置。收到的提醒应包含：开仓点、止损点、第一止盈位、第二止盈位、第三止盈位和平仓目标。</p></section>
+<h2>一、文件放在哪里</h2><div class="box"><p>这是指标EA一体版，本质是指标文件，应放在：</p><pre>MQL4/Indicators/</pre><p>不要放到 <code>MQL4/Experts/</code>。默认参数 <code>EnableTrading=false</code> 时，只提醒，不自动交易。</p></div>
+<h2>二、WxPusher 两种配置方式</h2><div class="box"><h3>方式A：SPT 极简推送</h3><ol><li>打开 WxPusher 官网。</li><li>找到极简推送 SPT。</li><li>微信扫码获取自己的 <code>SPT_xxx</code>。</li><li>填入指标参数。</li></ol><pre>WxPusherOn = true
+WxPusherSPT = SPT_xxx
+WxPusherAppToken = 留空
+WxPusherUID = 留空</pre><h3>方式B：AppToken + UID</h3><ol><li>登录 WxPusher 管理后台。</li><li>创建应用，复制 <code>AppToken</code>，格式类似 <code>AT_xxx</code>。</li><li>用微信扫描应用二维码关注。</li><li>在后台找到接收人的 <code>UID</code>，格式类似 <code>UID_xxx</code>。</li><li>填入指标参数。</li></ol><pre>WxPusherOn = true
+WxPusherAppToken = AT_xxx
+WxPusherUID = UID_xxx
+WxPusherSPT = 留空</pre></div>
+<h2>三、MT4 必须允许 WebRequest</h2><div class="box"><ol><li>MT4 顶部菜单点击 <code>工具</code>。</li><li>点击 <code>选项</code>。</li><li>进入 <code>EA交易</code> 页面。</li><li>勾选 <code>允许 WebRequest 访问列出的 URL</code>。</li><li>添加下面这一条：</li></ol><pre>https://wxpusher.zjiecode.com</pre><p class="warn">只填这个域名，不要填完整 API 地址，也不要多加空格。</p></div>
+<h2>四、推荐参数</h2><table><tr><th>参数</th><th>建议</th><th>说明</th></tr><tr><td><code>EnableTrading</code></td><td><code>false</code></td><td>默认只提醒，不自动交易。</td></tr><tr><td><code>WxPusherOn</code></td><td><code>true</code></td><td>开启微信推送。</td></tr><tr><td><code>WxPusherSPT</code></td><td><code>SPT_xxx</code></td><td>极简方式填写。</td></tr><tr><td><code>WxPusherAppToken</code></td><td><code>AT_xxx</code></td><td>标准方式填写。</td></tr><tr><td><code>WxPusherUID</code></td><td><code>UID_xxx</code></td><td>标准方式接收人。</td></tr><tr><td><code>MaxSpreadPips</code></td><td><code>35</code></td><td>黄金品种建议从 35 开始。</td></tr><tr><td><code>UseTrailingStop</code></td><td><code>false</code></td><td>移动止损先关闭，测试稳定后再开。</td></tr></table>
+<h2>五、收到的消息格式</h2><div class="box"><pre>【匯鹰.量化.Trend】买入信号
+品种：XAUUSD
+周期：M5
+方向：买入BUY
+开仓点：2365.120
+止损点：2362.900
+第一止盈位：2367.340
+第二止盈位：2369.560
+第三止盈位：2371.780
+平仓目标：2371.780</pre></div>
+<h2>六、常见问题</h2><table><tr><th>问题</th><th>原因</th><th>处理</th></tr><tr><td>微信没收到</td><td>WebRequest 白名单没加</td><td>添加 <code>https://wxpusher.zjiecode.com</code>。</td></tr><tr><td>提示 Token 或 UID 为空</td><td>参数没填完整</td><td>用 SPT，或者填写 AppToken + UID。</td></tr><tr><td>日志出现 4060</td><td>MT4 对指标调用 WebRequest 有限制</td><td>改用“指标显示 + 桥接EA推送”结构。</td></tr><tr><td>挂上后不自动开仓</td><td><code>EnableTrading=false</code></td><td>这是安全默认值。</td></tr></table>
+<p class="note">返回首页：<code>https://chatfxeatm.github.io/fx/</code></p>
+</main>
+</body>
+</html>
