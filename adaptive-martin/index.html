@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>匯鹰·超级自适应马丁EA｜震荡工作·趋势休眠</title>
+<meta name="description" content="匯鹰·超级自适应马丁EA：以震荡趋势状态切换为核心，震荡行情执行双向网格均价，单边行情冻结逆势加仓，重新震荡后恢复仓位修复。">
+<style>
+:root{--bg:#070a0f;--panel:#101722;--panel2:#141e2c;--line:#26364c;--gold:#e8c878;--text:#edf3fb;--muted:#a8b5c8;--red:#ff9292;--green:#82d9ad;--blue:#91bfff;--orange:#f2b36f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 78% 0,#1b2a40 0,transparent 34%),radial-gradient(circle at 0 35%,#101b29 0,transparent 27%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.8}.wrap{max-width:1140px;margin:auto;padding:32px 18px 72px}.hero{padding:46px 36px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(20,30,44,.98),rgba(9,13,20,.98));box-shadow:0 24px 70px rgba(0,0,0,.3)}.eyebrow{color:var(--gold);font-weight:800;letter-spacing:.16em}.hero h1{font-size:43px;line-height:1.18;margin:8px 0 14px}.hero p{max-width:860px;color:var(--muted);font-size:17px;margin:0}.hero strong{color:#fff}.tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}.tag{padding:7px 12px;border-radius:999px;border:1px solid #344964;color:#cfe1f8;background:#101a28;font-size:13px}.nav{position:sticky;top:0;z-index:10;display:flex;gap:10px;overflow:auto;padding:14px 0;background:rgba(7,10,15,.9);backdrop-filter:blur(14px)}.nav a{white-space:nowrap;text-decoration:none;color:var(--muted);padding:7px 12px;border:1px solid var(--line);border-radius:10px}.nav a:hover{color:var(--gold);border-color:#6d603b}section{margin-top:24px;padding:29px;border:1px solid var(--line);border-radius:20px;background:rgba(16,23,34,.95)}h2{margin:0 0 18px;color:var(--gold);font-size:28px}h3{color:#dce9fb;margin:24px 0 8px}.lead{font-size:18px;color:#d9e5f5}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{padding:20px;border:1px solid #2a3d57;border-radius:16px;background:var(--panel2)}.card b{display:block;color:var(--gold);font-size:18px;margin-bottom:5px}.card p{margin:0;color:var(--muted)}.state{padding:22px;border-radius:18px;border:1px solid #2b3d56;background:linear-gradient(155deg,#172235,#101722)}.state .label{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:10px}.range .label{background:#183625;color:#bff1d1}.up .label{background:#192f4c;color:#bcdcff}.down .label{background:#3a1d22;color:#ffc8c8}.unknown .label{background:#3b3020;color:#ffe0a5}.state h3{margin:0 0 8px}.state p{margin:0;color:var(--muted)}.arrow{display:grid;place-items:center;color:var(--gold);font-size:27px;font-weight:900}.flowline{display:grid;grid-template-columns:1fr 54px 1fr 54px 1fr;gap:8px;align-items:stretch;margin-top:18px}.bigquote{font-size:22px;line-height:1.65;color:#fff;padding:24px;border:1px solid #4d583c;border-radius:18px;background:linear-gradient(135deg,#17251e,#101722)}.bigquote b{color:var(--gold)}table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:14px}th,td{padding:13px 14px;text-align:left;vertical-align:top;border-bottom:1px solid #26364c}th{color:var(--gold);background:#152033}td{color:#dce6f4}tr:last-child td{border-bottom:0}.note,.risk,.ok,.manual{padding:18px 20px;border-radius:14px;margin:16px 0}.note{border-left:4px solid var(--blue);background:#101c2c}.risk{border-left:4px solid var(--red);background:#281619;color:#ffdada}.ok{border-left:4px solid var(--green);background:#10231c;color:#d5f5e4}.manual{border-left:4px solid var(--orange);background:#2a2015;color:#ffe6c8}.mono{font-family:Consolas,"Courier New",monospace;background:#080d14;border:1px solid #26364c;border-radius:12px;padding:15px;overflow:auto;color:#cfe1f8}.steps{counter-reset:n}.step{position:relative;margin:12px 0;padding:16px 16px 16px 60px;border:1px solid #2a3d57;border-radius:14px;background:#111b29}.step:before{counter-increment:n;content:counter(n);position:absolute;left:17px;top:16px;width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#15120a;font-weight:900}.small{font-size:13px;color:var(--muted)}footer{text-align:center;color:#8290a4;padding-top:30px}.brand{color:var(--gold);font-weight:800}.pill{display:inline-block;padding:2px 9px;margin:2px;border:1px solid #344964;border-radius:999px;color:#d6e7fb;background:#111c2a;font-size:13px}@media(max-width:860px){.grid3{grid-template-columns:1fr}.flowline{grid-template-columns:1fr}.arrow{transform:rotate(90deg);min-height:34px}}@media(max-width:760px){.hero{padding:29px 20px}.hero h1{font-size:32px}section{padding:21px 17px}.grid{grid-template-columns:1fr}th,td{padding:10px 9px;font-size:14px}.bigquote{font-size:18px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+<div class="eyebrow">匯鹰·量化</div>
+<h1>超级自适应马丁EA</h1>
+<p><strong>震荡时工作，趋势时休眠，重新震荡后恢复仓位修复。</strong>这不是传统“越单边越加仓”的暴力马丁，而是一套根据市场状态动态改变仓位行为的黄金网格系统。</p>
+<div class="tags"><span class="tag">MT4 / MQ4</span><span class="tag">主要品种：XAUUSD</span><span class="tag">状态切换型网格</span><span class="tag">双向篮子独立管理</span><span class="tag">大资金低起步手数</span><span class="tag">人工监控型运行</span></div>
+</header>
+<nav class="nav"><a href="#positioning">策略定位</a><a href="#state">状态切换</a><a href="#defense">单边防御</a><a href="#entry">首单</a><a href="#add">加仓</a><a href="#exit">出场</a><a href="#params">参数</a><a href="#operation">运行方式</a><a href="#risk">风险说明</a></nav>
+<section id="positioning">
+<h2>一、策略定位</h2>
+<p class="lead">该EA的核心不是预测黄金下一段涨跌，而是先判断当前行情是否仍适合使用均值回归。</p>
+<div class="bigquote">行情处于<b>震荡</b>时，允许多空篮子按网格运行；行情转为<b>单边趋势</b>后，冻结逆势方向继续加仓；当市场重新进入<b>震荡</b>，再恢复原方向的均价修复。</div>
+<div class="grid" style="margin-top:16px">
+<div class="card"><b>不是暴力翻倍马丁</b><p>默认采用自定义低速手数阶梯，前期仓位增长缓慢，重点是延长账户承受时间，而不是快速拉近均价。</p></div>
+<div class="card"><b>不是纯趋势策略</b><p>趋势判断的主要作用是暂停不适合的逆势加仓，并不要求准确抓住每一次趋势起点和终点。</p></div>
+<div class="card"><b>不是无浮亏策略</b><p>趋势出现时，已有逆势仓位仍会产生浮亏，但仓位不再跟随单边行情继续扩大。</p></div>
+<div class="card"><b>适合半自动管理</b><p>EA负责常规震荡和状态切换，极端浮亏、长期套单与重大事件风险由交易者人工判断和接管。</p></div>
+</div>
+</section>
+<section id="state">
+<h2>二、核心状态切换逻辑</h2>
+<div class="flowline">
+<div class="state range"><span class="label">RANGE</span><h3>震荡状态</h3><p>多单和空单均允许开仓与加仓。价格来回波动时，通过分方向加权均价和篮子止盈完成循环。</p></div>
+<div class="arrow">→</div>
+<div class="state up"><span class="label">TREND</span><h3>趋势状态</h3><p>上涨只允许多方向运行，下跌只允许空方向运行。逆势篮子保留，但停止继续增加风险敞口。</p></div>
+<div class="arrow">→</div>
+<div class="state range"><span class="label">RANGE AGAIN</span><h3>恢复震荡</h3><p>趋势衰减并重新判断为震荡后，暂停方向恢复网格加仓，利用横盘和回撤重新修复持仓均价。</p></div>
+</div>
+<div class="grid3" style="margin-top:18px">
+<div class="state range"><span class="label">震荡</span><h3>多空均允许</h3><p>适合执行均值回归，是策略主要盈利阶段。</p></div>
+<div class="state up"><span class="label">上涨趋势</span><h3>只允许多方向</h3><p>停止空单继续逆势补仓，避免空头仓位随着上涨不断膨胀。</p></div>
+<div class="state down"><span class="label">下跌趋势</span><h3>只允许空方向</h3><p>停止多单继续逆势补仓，避免多头仓位随着下跌不断膨胀。</p></div>
+</div>
+<div class="note"><b>状态不明确：</b>默认暂停新开单和补仓。只有明确判断为震荡、上涨趋势或下跌趋势后，系统才执行相应方向的交易权限。</div>
+</section>
+<section id="defense">
+<h2>三、为什么能够规避多数短期暴涨暴跌</h2>
+<div class="steps">
+<div class="step"><b>震荡阶段建立小规模篮子</b><br>在正常来回波动中，系统可能已经持有少量多单或空单。</div>
+<div class="step"><b>行情突然加速并形成单边</b><br>波动结构从震荡切换为趋势，系统进一步通过均线位置和斜率判断上涨或下跌方向。</div>
+<div class="step"><b>切断逆势加仓链条</b><br>错误方向已有订单继续保留，但不再每隔固定距离增加新仓位。</div>
+<div class="step"><b>等待趋势结束后的震荡修复</b><br>市场重新横盘或回撤后，系统恢复对应方向的网格管理，重新拉近篮子均价。</div>
+</div>
+<div class="ok"><b>真正降低的风险：</b>不是让账户在单边行情中完全没有浮亏，而是避免“价格越走单边、逆势仓位越加越大、浮亏与仓位同时加速”的传统马丁失控路径。</div>
+<div class="manual"><b>实际运行重点：</b>该逻辑对短期急涨急跌、持续性单边尤其有价值。策略成败主要取决于趋势识别速度、暂停时已有层数，以及重新震荡后篮子修复效率，而不是理论最大加仓层数。</div>
+</section>
+<section id="entry">
+<h2>四、首单与行情识别</h2>
+<div class="grid">
+<div class="card"><b>首单方向信号</b><p>默认使用M1周期的EMA13与EMA21交叉。快线上穿慢线触发多方向候选，快线下穿慢线触发空方向候选。</p></div>
+<div class="card"><b>震荡/趋势识别</b><p>内置波动结构算法，综合短长周期ATR比例与标准差结构判断当前环境更接近震荡还是趋势。</p></div>
+<div class="card"><b>趋势方向确认</b><p>判断为趋势后，再根据EMA50位置与斜率确认上涨或下跌，防止只知道“有趋势”却不知道允许哪个方向。</p></div>
+<div class="card"><b>收盘K线确认</b><p>状态判断使用已收盘K线，并可要求连续多根确认，减少当前K线反复变化造成的频繁切换。</p></div>
+</div>
+<div class="note"><b>加载周期很重要：</b>首单均线判断周期与趋势过滤周期相互独立。默认首单信号使用M1，趋势过滤默认跟随当前图表周期，因此加载到不同周期会直接改变状态切换速度。</div>
+</section>
+<section id="add">
+<h2>五、网格加仓与手数结构</h2>
+<h3>1. 加仓触发</h3>
+<p>多单只在价格低于当前最低多单开仓价并达到网格距离时加仓；空单只在价格高于当前最高空单开仓价并达到网格距离时加仓。每次加仓前仍需再次通过市场状态和方向权限检查。</p>
+<div class="mono">震荡：BUY允许 + SELL允许<br>上涨趋势：BUY允许 + SELL冻结<br>下跌趋势：SELL允许 + BUY冻结<br>状态不明：新开与补仓全部暂停</div>
+<h3>2. 默认网格</h3>
+<table><thead><tr><th>项目</th><th>默认值</th><th>作用</th></tr></thead><tbody>
+<tr><td>基础加仓间距</td><td>100点</td><td>价格逆向达到距离后，才允许新增一层。</td></tr>
+<tr><td>深层间距倍数</td><td>1.3</td><td>达到指定深层后，网格间距扩大为基础距离的1.3倍。</td></tr>
+<tr><td>放大间距起始层</td><td>第30层</td><td>深层仓位开始降低加仓密度。</td></tr>
+<tr><td>最大加仓层数</td><td>150层</td><td>仅作为程序上限；正常风险控制依赖趋势冻结，并不以跑满层数为运行目标。</td></tr>
+</tbody></table>
+<h3>3. 自定义低速手数阶梯</h3>
+<p>默认前8层保持0.01手，第9至13层为0.02手，随后逐步递增；第32层以后按固定增量增加，而不是传统2倍、4倍、8倍的指数翻仓。</p>
+<div class="ok"><b>设计目的：</b>大资金配合极低首单，通过时间和震荡修复持仓，而不是依靠重仓快速回本。</div>
+</section>
+<section id="exit">
+<h2>六、篮子止盈与订单管理</h2>
+<div class="grid">
+<div class="card"><b>多空独立均价</b><p>多单篮子和空单篮子分别统计订单数量、总手数、加权均价和浮动盈亏，互不混算。</p></div>
+<div class="card"><b>均价点数止盈</b><p>价格从同方向加权均价向盈利方向运行达到设定点数后，平掉该方向全部订单。</p></div>
+<div class="card"><b>金额止盈</b><p>也可按照同方向总手数计算目标盈利金额，点数止盈和金额止盈任一满足即可执行。</p></div>
+<div class="card"><b>服务器订单栏同步</b><p>最新篮子均价变化后，系统尝试把统一止盈止损同步到同方向订单，降低终端中断时完全失去订单保护的概率。</p></div>
+</div>
+<div class="note"><b>默认篮子止盈：</b>均价盈利150点。该策略依靠多次小幅篮子盈利累积，而不是追求单次大行情利润。</div>
+</section>
+<section id="params">
+<h2>七、默认参数结构</h2>
+<table><thead><tr><th>模块</th><th>默认设置</th><th>策略含义</th></tr></thead><tbody>
+<tr><td>交易方向</td><td>多单、空单均开启</td><td>震荡时双向运行；趋势时由状态过滤自动限制方向。</td></tr>
+<tr><td>手数方式</td><td>自定义阶梯</td><td>前期低速增长，避免传统倍数马丁仓位快速失控。</td></tr>
+<tr><td>均价止盈</td><td>150点</td><td>同方向篮子达到均价盈利目标后整体退出。</td></tr>
+<tr><td>首单均线</td><td>EMA13 / EMA21，M1</td><td>提供首单方向候选，不单独决定是否最终开仓。</td></tr>
+<tr><td>趋势过滤</td><td>开启</td><td>震荡双向、趋势顺势、状态不明暂停。</td></tr>
+<tr><td>过滤参数</td><td>短7 / 长50 / 阈值1.1</td><td>控制震荡与趋势识别的灵敏度。</td></tr>
+<tr><td>趋势均线</td><td>EMA50</td><td>通过价格位置与均线斜率判断趋势方向。</td></tr>
+<tr><td>最低净值限制</td><td>开启</td><td>净值低于设定值时禁止新开和加仓，但不强制平掉已有订单。</td></tr>
+<tr><td>账户硬止损</td><td>默认关闭</td><td>当前运行思路以大资金、低首单、趋势冻结和人工干预为主。</td></tr>
+</tbody></table>
+</section>
+<section id="operation">
+<h2>八、适合的运行方式</h2>
+<div class="grid">
+<div class="card"><b>资金结构</b><p>更适合大资金配合极低起步手数。默认说明为50万资金起跑、0.01手首单，核心是控制单位资金风险。</p></div>
+<div class="card"><b>运行周期</b><p>趋势过滤默认跟随加载周期。周期越小切换越快但噪音更多；周期越大判断更稳但停止加仓可能更慢。</p></div>
+<div class="card"><b>人工监控</b><p>需要观察逆势篮子层数、净值浮亏、趋势持续时间和市场重大事件，必要时人工锁仓、减仓或暂停EA。</p></div>
+<div class="card"><b>评价标准</b><p>重点看单边出现后第几层停止、趋势中是否错误恢复、重新震荡后的解套时间，而不是只看胜率和余额曲线。</p></div>
+</div>
+<h3>人工接管建议观察项</h3>
+<p><span class="pill">逆势篮子总手数</span><span class="pill">账户净值回撤</span><span class="pill">单边持续时间</span><span class="pill">趋势方向是否反复切换</span><span class="pill">重新震荡后的修复速度</span><span class="pill">重大数据与跳空风险</span></p>
+<div class="manual"><b>运行原则：</b>不设置自动硬止损并不等于没有风险控制。当前模式把尾部风险决策交给人工，因此交易者必须持续监控，并在账户风险达到个人承受边界前执行接管。</div>
+</section>
+<section id="risk">
+<h2>九、风险说明</h2>
+<div class="risk"><b>马丁与网格策略始终存在尾部风险。</b>趋势过滤能够冻结逆势加仓，但不能消除已有持仓浮亏，也不能保证每次都能在第一时间识别突发行情。</div>
+<ul>
+<li>行情在被识别为趋势之前，仍可能产生若干层逆势订单。</li>
+<li>长期趋势中夹杂反复横盘，可能造成市场状态多次切换。</li>
+<li>趋势结束后不一定立即回到原持仓均价，解套时间可能较长。</li>
+<li>极端跳空、流动性骤降、交易中断和平台执行异常可能放大风险。</li>
+<li>历史盈利、短期实盘稳定和高胜率均不代表未来结果。</li>
+</ul>
+<p class="small">本页面用于说明策略结构和运行思想，不构成收益承诺、投资建议或代客理财要约。使用者应根据自身资金、风险承受能力和经纪商交易条件独立决定是否运行。</p>
+</section>
+<footer><div class="brand">匯鹰·量化</div><div>超级自适应马丁EA｜震荡工作 · 趋势休眠 · 震荡恢复</div></footer>
+</main>
+</body>
+</html>
