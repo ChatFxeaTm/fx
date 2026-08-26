@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090a0d">
+<meta name="description" content="TrendInc｜匯鹰·顺势递增 — 黄金 XAUUSD M15 趋势过滤、一次一单、止损后线性递增、周期盈利目标重置策略。">
+<link rel="icon" href="../aurora-logo.jpg">
+<title>TrendInc｜匯鹰·顺势递增</title>
+<style>
+:root{--bg:#08090c;--bg2:#0f1218;--card:#14171e;--card2:#191d26;--line:rgba(225,181,88,.25);--line2:rgba(255,255,255,.08);--gold:#e1b558;--gold2:#f7dda0;--text:#f4f4f5;--muted:#aeb3bd;--green:#6fd39b;--red:#ff8f93;--blue:#8bb8ff;--shadow:0 24px 80px rgba(0,0,0,.42)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;line-height:1.72;background:radial-gradient(circle at 12% 0,rgba(225,181,88,.12),transparent 28%),radial-gradient(circle at 92% 7%,rgba(87,112,178,.10),transparent 27%),linear-gradient(180deg,#08090c,#10131a 46%,#090a0e)}
+a{color:inherit;text-decoration:none}.wrap{width:min(1180px,calc(100% - 30px));margin:auto}.nav{position:sticky;top:0;z-index:50;background:rgba(8,9,12,.88);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(16px)}.navin{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.04em}.brand img{width:42px;height:42px;border-radius:12px;object-fit:cover;border:1px solid var(--line);box-shadow:0 8px 26px rgba(225,181,88,.16)}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.16em}.navlinks{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.navlinks a{padding:8px 11px;border-radius:10px;color:#c9ccd4;font-size:13px;font-weight:700}.navlinks a:hover{background:rgba(255,255,255,.05);color:#fff}.menu{display:none;border:1px solid var(--line);background:#151821;color:#fff;border-radius:10px;padding:9px 12px;font-weight:800;cursor:pointer}
+.hero{padding:82px 0 56px}.heroin{display:grid;grid-template-columns:1.16fr .84fr;gap:44px;align-items:center}.eyebrow{color:var(--gold2);font-size:12px;font-weight:900;letter-spacing:.2em;text-transform:uppercase}.hero h1{font-size:clamp(50px,8vw,88px);line-height:.93;letter-spacing:-.055em;margin:14px 0 17px}.hero h1 span{display:block;color:var(--gold2);font-size:.42em;letter-spacing:.02em;margin-top:14px}.lead{font-size:clamp(17px,2vw,23px);color:#c7cbd3;max-width:780px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}.chip{padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);font-size:12px;font-weight:800}.hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:27px}.btn{border:0;cursor:pointer;border-radius:13px;padding:12px 16px;font-weight:850;font-size:14px}.btn.primary{background:linear-gradient(135deg,#f5d88b,#c8942f);color:#16130c;box-shadow:0 10px 35px rgba(225,181,88,.20)}.btn.ghost{background:#161922;color:#fff;border:1px solid var(--line2)}
+.engine{position:relative;overflow:hidden;border-radius:29px;border:1px solid rgba(225,181,88,.28);background:radial-gradient(circle at 84% 8%,rgba(225,181,88,.14),transparent 35%),linear-gradient(155deg,rgba(26,29,37,.96),rgba(10,12,17,.98));box-shadow:var(--shadow),0 0 75px rgba(225,181,88,.07);padding:23px}.engine:before{content:"";position:absolute;inset:-35% 38% auto -30%;height:230px;transform:rotate(-14deg);background:linear-gradient(90deg,transparent,rgba(225,181,88,.08),transparent);filter:blur(12px)}.engine-head,.engine-body{position:relative;z-index:2}.engine-head{display:flex;align-items:center;justify-content:space-between;gap:14px}.engine-kicker{font-size:11px;font-weight:900;letter-spacing:.18em;color:var(--gold2)}.status{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;border:1px solid rgba(111,211,155,.24);background:rgba(111,211,155,.07);font-size:11px;font-weight:800;color:#a9e6c0}.status i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 14px rgba(111,211,155,.75)}.engine-title{font-size:31px;font-weight:900;margin:25px 0 4px}.engine-sub{color:var(--muted);font-size:12px;letter-spacing:.1em}.signal{margin-top:19px;padding:16px;border-radius:17px;background:rgba(255,255,255,.028);border:1px solid var(--line2)}.sigrow{display:grid;grid-template-columns:68px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}.sigrow:last-child{border-bottom:0}.sigbadge{width:58px;height:28px;display:grid;place-items:center;border-radius:9px;font-weight:900;font-size:11px}.buy{background:rgba(111,211,155,.11);color:#98e7b8;border:1px solid rgba(111,211,155,.22)}.sell{background:rgba(255,143,147,.10);color:#ffb0b4;border:1px solid rgba(255,143,147,.20)}.sigrow strong{font-size:13px}.sigrow small{display:block;color:var(--muted)}.sigrow b{font-size:12px;color:var(--gold2)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:15px}.stat{padding:11px 10px;border-radius:14px;border:1px solid var(--line2);background:rgba(255,255,255,.022)}.stat span{display:block;color:var(--muted);font-size:9px;letter-spacing:.09em;text-transform:uppercase}.stat b{display:block;font-size:15px;margin-top:2px}
+section{padding:35px 0}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin-bottom:22px}.section-head h2{font-size:clamp(29px,4vw,43px);margin:0}.section-head p{max-width:760px;color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.two{grid-template-columns:repeat(2,1fr)}.four{grid-template-columns:repeat(4,1fr)}.card{background:linear-gradient(145deg,rgba(24,27,35,.94),rgba(13,15,21,.95));border:1px solid var(--line);border-radius:21px;padding:23px;box-shadow:0 18px 55px rgba(0,0,0,.23)}.card h3{margin:0 0 8px}.card p,.card li{color:var(--muted)}.num{display:grid;place-items:center;width:37px;height:37px;border-radius:11px;background:rgba(225,181,88,.12);color:var(--gold2);margin-bottom:14px;font-weight:900}.em{color:#fff;font-weight:780}.danger{color:#ffc0c3}.good{color:#a9e6c0}.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}.step{position:relative;padding:18px 14px;border:1px solid var(--line2);border-radius:16px;background:var(--card)}.step strong{display:block;color:var(--gold2);margin-bottom:5px}.step span{font-size:13px;color:var(--muted)}.step:not(:last-child):after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);z-index:3;color:var(--gold2);font-weight:900}
+.logicbox{display:grid;grid-template-columns:1fr 1fr;gap:16px}.logic{padding:22px;border-radius:21px;background:rgba(255,255,255,.026);border:1px solid var(--line2)}.logic h3{display:flex;align-items:center;gap:10px}.dot{width:10px;height:10px;border-radius:50%}.dot.g{background:var(--green);box-shadow:0 0 16px rgba(111,211,155,.5)}.dot.r{background:var(--red);box-shadow:0 0 16px rgba(255,143,147,.45)}.rule{display:grid;grid-template-columns:32px 1fr;gap:11px;margin:12px 0}.rule i{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(225,181,88,.10);color:var(--gold2);font-style:normal;font-weight:900;font-size:12px}.rule b{display:block}.rule span{display:block;color:var(--muted);font-size:13px}
+.table{overflow:auto;border:1px solid var(--line);border-radius:20px;background:#101219}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.065);text-align:left}th{color:var(--gold2);font-size:12px;background:rgba(225,181,88,.05);position:sticky;top:0}td:nth-child(2){font-family:Consolas,monospace;color:#fff}td{color:#c7cbd2;font-size:13px}
+.sim{display:grid;grid-template-columns:.85fr 1.15fr;gap:18px;align-items:stretch}.controls{display:grid;gap:13px}.field label{display:flex;justify-content:space-between;gap:10px;color:#d7dae0;font-weight:750;font-size:13px}.field input[type=range]{width:100%;accent-color:#d1a446}.field small{color:var(--muted)}.sequence{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px}.pill{padding:8px 11px;border-radius:11px;background:#10131a;border:1px solid var(--line2);font-family:Consolas,monospace}.pill.active{border-color:rgba(225,181,88,.55);color:var(--gold2);background:rgba(225,181,88,.07)}.simnote{margin-top:14px;color:var(--muted);font-size:13px}.meter{height:9px;border-radius:999px;background:#222630;overflow:hidden;margin-top:12px}.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#a87c2b,#f4d787);transition:.25s width}
+.risk{border:1px solid rgba(255,143,147,.31);background:linear-gradient(145deg,rgba(73,27,32,.31),rgba(28,15,18,.36));border-radius:22px;padding:24px}.risk h3{color:#ffc1c4;margin:0 0 8px}.risk p,.risk li{color:#d5bfc1}.notice{padding:16px 18px;border-radius:16px;border:1px solid rgba(139,184,255,.23);background:rgba(68,92,141,.09);color:#cbdcff}.faq{display:grid;gap:10px}.faq button{width:100%;text-align:left;border:1px solid var(--line2);background:#12151c;color:#fff;border-radius:15px;padding:16px 18px;font-size:14px;font-weight:800;cursor:pointer}.faq .answer{display:none;padding:2px 18px 15px;color:var(--muted)}.faq .item.open .answer{display:block}.faq button span{float:right;color:var(--gold2)}
+footer{margin-top:40px;padding:36px 0 48px;border-top:1px solid rgba(255,255,255,.07);color:var(--muted);font-size:13px}.footerin{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.footbrand{display:flex;gap:11px;align-items:center}.footbrand img{width:42px;height:42px;border-radius:12px;border:1px solid var(--line)}.tiny{font-size:11px;color:#818691;margin-top:9px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#171a22;border:1px solid var(--line);color:#fff;padding:10px 14px;border-radius:12px;transition:.22s;z-index:70;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:980px){.heroin,.sim{grid-template-columns:1fr}.grid.four{grid-template-columns:1fr 1fr}.flow{grid-template-columns:repeat(3,1fr)}.step:nth-child(3):after{display:none}.engine{max-width:650px}.section-head{align-items:flex-start;flex-direction:column}.navlinks{display:none;position:absolute;left:15px;right:15px;top:62px;background:#11141b;border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:var(--shadow)}.navlinks.open{display:grid}.menu{display:block}}
+@media(max-width:720px){.hero{padding-top:56px}.grid,.two,.logicbox{grid-template-columns:1fr}.grid.four{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}.step:nth-child(3):after{display:block}.step:nth-child(even):after{display:none}.footerin{flex-direction:column}.hero h1{font-size:clamp(46px,15vw,70px)}}
+@media(max-width:500px){.wrap{width:min(100% - 22px,1180px)}.hero{padding-top:44px}.hero-actions{display:grid}.btn{width:100%}.stats{grid-template-columns:1fr 1fr}.flow{grid-template-columns:1fr}.step:after{display:none!important}.card,.risk{padding:19px}.sigrow{grid-template-columns:60px 1fr}.sigrow>b{grid-column:2}.brand{font-size:13px}.engine{padding:18px}.engine-title{font-size:27px}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap navin">
+    <a class="brand" href="#top" aria-label="返回顶部"><img src="../aurora-logo.jpg" alt="匯鹰 LOGO"><div>匯鹰·量化<small>TRENDINC · 顺势递增</small></div></a>
+    <nav class="navlinks" id="navlinks"><a href="#overview">策略定位</a><a href="#logic">交易逻辑</a><a href="#cycle">递增周期</a><a href="#params">默认参数</a><a href="#risk">风险提示</a><a href="#faq">常见问题</a></nav>
+    <button class="menu" id="menu">目录</button>
+  </div>
+</header>
+<main id="top">
+<section class="hero">
+  <div class="wrap heroin">
+    <div>
+      <div class="eyebrow">HUIYING QUANT · M15 TREND INCREMENT SYSTEM</div>
+      <h1>TrendInc<span>匯鹰·顺势递增</span></h1>
+      <p class="lead">用趋势条件决定“什么时候出手”，用一次一单限制持仓复杂度，用单笔止损控制每次错误，再以线性递增手数和独立周期盈亏完成下一阶段的资金回收与重置。</p>
+      <div class="chips"><span class="chip">XAUUSD</span><span class="chip">M15 固定信号周期</span><span class="chip">EMA 9 / 21</span><span class="chip">RSI 14</span><span class="chip">EMA 144 方向过滤</span><span class="chip">一次一单</span><span class="chip">线性递增</span></div>
+      <div class="hero-actions"><button class="btn primary" onclick="document.querySelector('#logic').scrollIntoView({behavior:'smooth'})">查看完整逻辑</button><button class="btn ghost" onclick="document.querySelector('#cycle').scrollIntoView({behavior:'smooth'})">体验周期演示器</button></div>
+    </div>
+    <aside class="engine">
+      <div class="engine-head"><span class="engine-kicker">TRENDINC ENGINE</span><span class="status"><i></i>V2.14 LOGIC</span></div>
+      <div class="engine-body">
+        <div class="engine-title">XAUUSD · M15</div><div class="engine-sub">CLOSED-BAR SIGNAL · ONE POSITION ONLY</div>
+        <div class="signal">
+          <div class="sigrow"><span class="sigbadge buy">BUY</span><div><strong>EMA9 ＞ EMA21</strong><small>RSI ＞ 50 · 阳线确认 · 收盘价位于长期 EMA 上方</small></div><b>顺势多</b></div>
+          <div class="sigrow"><span class="sigbadge sell">SELL</span><div><strong>EMA9 ＜ EMA21</strong><small>RSI ＜ 50 · 阴线确认 · 收盘价位于长期 EMA 下方</small></div><b>顺势空</b></div>
+        </div>
+        <div class="stats"><div class="stat"><span>Fast / Slow</span><b>9 / 21</b></div><div class="stat"><span>Trend EMA</span><b>144</b></div><div class="stat"><span>ATR SL</span><b>14 × 2.0</b></div><div class="stat"><span>Cycle Target</span><b>10</b></div></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="overview"><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">01 · POSITIONING</div><h2>这套策略到底在做什么</h2></div><p>TrendInc 不是高频抢反弹，也不是无限加仓。它先用趋势结构筛选方向，再让每一笔交易独立承担止损；只有上一笔亏损后，下一次符合趋势条件的新机会才提高一个固定手数档位。</p></div>
+  <div class="grid four">
+    <article class="card"><div class="num">01</div><h3>趋势优先</h3><p>EMA 快慢线负责短周期方向，RSI 负责动能门槛，长期 EMA 负责大方向过滤。三个层面尽量保持同向后才允许开仓。</p></article>
+    <article class="card"><div class="num">02</div><h3>一次一单</h3><p>同一品种与 Magic 下只允许一张市价单。没有多层同时堆仓，也不会在旧持仓尚未结束时继续叠加。</p></article>
+    <article class="card"><div class="num">03</div><h3>亏损后线性递增</h3><p>亏损平仓后，下一个交易机会的手数按 <span class="em">当前手数 + LotIncrement</span> 增加，而不是翻倍。默认从 0.01 手开始，每次加 0.01 手。</p></article>
+    <article class="card"><div class="num">04</div><h3>周期盈利才重置</h3><p>单笔盈利不代表周期结束。只有本策略当前周期的已平仓净盈亏 + 当前浮动盈亏达到 ProfitTarget，才平掉持仓并恢复基础手数。</p></article>
+  </div>
+</div></section>
+
+<section id="logic"><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">02 · ENTRY LOGIC</div><h2>入场规则：只在新 M15 K 线检查</h2></div><p>EA 使用上一根已经收盘的 M15 K 线计算信号，避免在同一根未收盘 K 线内反复触发。长期 EMA 和 K 线确认均可通过参数关闭。</p></div>
+  <div class="logicbox">
+    <article class="logic"><h3><i class="dot g"></i>做多条件</h3><div class="rule"><i>1</i><div><b>EMA9 ＞ EMA21</b><span>短周期趋势必须偏多。</span></div></div><div class="rule"><i>2</i><div><b>RSI14 ＞ 50</b><span>动能位于多头一侧。</span></div></div><div class="rule"><i>3</i><div><b>上一根为阳线</b><span>UseCandleConfirm=1 时生效。</span></div></div><div class="rule"><i>4</i><div><b>收盘价 ＞ EMA144</b><span>UseTrendEMAFilter=1 时只允许长期均线上方做多。</span></div></div></article>
+    <article class="logic"><h3><i class="dot r"></i>做空条件</h3><div class="rule"><i>1</i><div><b>EMA9 ＜ EMA21</b><span>短周期趋势必须偏空。</span></div></div><div class="rule"><i>2</i><div><b>RSI14 ＜ 50</b><span>动能位于空头一侧。</span></div></div><div class="rule"><i>3</i><div><b>上一根为阴线</b><span>UseCandleConfirm=1 时生效。</span></div></div><div class="rule"><i>4</i><div><b>收盘价 ＜ EMA144</b><span>UseTrendEMAFilter=1 时只允许长期均线下方做空。</span></div></div></article>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">03 · TRADE FLOW</div><h2>一轮交易如何运行</h2></div><p>最容易误解的是“轮次”。这里的一轮不是同时开很多单，而是一个周期内连续出现的第 1 笔、第 2 笔……每次仍然只有一张持仓。</p></div>
+  <div class="flow"><div class="step"><strong>① 等待趋势信号</strong><span>新 M15 K 线到来后检查上一根收盘数据。</span></div><div class="step"><strong>② 单笔开仓</strong><span>满足方向条件后开一张单，并立即设置止损。</span></div><div class="step"><strong>③ 亏损处理</strong><span>若本笔亏损平仓，累计周期盈亏并把下一笔手数增加一个固定档位。</span></div><div class="step"><strong>④ 再等新机会</strong><span>不会马上反向追单，下一笔仍需重新满足完整趋势条件。</span></div><div class="step"><strong>⑤ 周期达标</strong><span>已平仓净盈亏 + 当前浮盈达到目标时，关闭当前持仓。</span></div><div class="step"><strong>⑥ 恢复基础手数</strong><span>周期状态清零，下一轮重新从 BaseLot 开始。</span></div></div>
+</div></section>
+
+<section id="cycle"><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">04 · INTERACTIVE CYCLE</div><h2>线性递增周期演示器</h2></div><p>拖动下面参数，直观看到手数序列。这里只演示源码的手数递增机制，不模拟盈利，也不代表任何收益结果。</p></div>
+  <div class="sim">
+    <article class="card controls">
+      <div class="field"><label>基础手数 <b id="baseV">0.01</b></label><input id="base" type="range" min="0.01" max="0.10" step="0.01" value="0.01"><small>BaseLot</small></div>
+      <div class="field"><label>每次递增 <b id="incV">0.01</b></label><input id="inc" type="range" min="0.01" max="0.10" step="0.01" value="0.01"><small>LotIncrement</small></div>
+      <div class="field"><label>最大轮次 <b id="roundV">7</b></label><input id="rounds" type="range" min="2" max="12" step="1" value="7"><small>MaxRounds</small></div>
+      <div class="field"><label>最大手数 <b id="maxV">0.50</b></label><input id="maxlot" type="range" min="0.05" max="1.00" step="0.05" value="0.50"><small>MaxLot</small></div>
+    </article>
+    <article class="card"><h3>当前示例序列</h3><div class="sequence" id="seq"></div><div class="meter"><i id="meter"></i></div><p class="simnote" id="simnote"></p><div class="notice">关键点：盈利单如果尚未让整个周期累计盈亏达到目标，源码不会立即把手数降回 0.01。只有周期达标，或触发最大轮次安全阀重置后，才回到基础手数。</div></article>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">05 · EXIT & PROTECTION</div><h2>出场与保护机制</h2></div><p>这个版本的核心是“单笔有止损，周期有盈利目标”。它没有传统固定止盈价，因此需要把单笔止损和周期级退出分开理解。</p></div>
+  <div class="grid two">
+    <article class="card"><h3>单笔止损</h3><p>默认使用 <span class="em">ATR(14) × 2.0</span> 作为止损距离。关闭 ATR 止损后，可改用黄金标准点固定止损，默认 500 点（代码口径中 100 点约等于 1 美元价格距离）。</p></article>
+    <article class="card"><h3>周期级盈利目标</h3><p>默认 ProfitTarget = 10。EA 计算当前策略周期的 <span class="em">已平仓净盈亏 + 当前持仓浮动净盈亏</span>；达到目标时尝试关闭本 EA 持仓，并将手数、轮次和周期盈亏重置。</p></article>
+    <article class="card"><h3>最大轮次安全阀</h3><p>默认 MaxRounds = 7。达到最大轮次且当前已空仓时，EA 会强制结束当前周期并恢复基础手数，避免手数无限递增。</p></article>
+    <article class="card"><h3>状态持久化与自愈</h3><p>周期盈亏、轮次、当前手数与历史处理水位会写入 MT4 全局变量，并按账号、品种、Magic 隔离；重启后可恢复，持仓状态不一致时也会尝试从真实订单重新接管。</p></article>
+  </div>
+</div></section>
+
+<section id="params"><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">06 · DEFAULT PARAMETERS</div><h2>V2.14 默认参数</h2></div><p>以下参数来自当前源码。参数不是收益承诺，也不等于适合所有经纪商、所有点差环境或所有资金规模。</p></div>
+  <div class="table"><table><thead><tr><th>类别</th><th>参数</th><th>默认值</th><th>作用</th></tr></thead><tbody>
+    <tr><td>基础</td><td>MagicNumber</td><td>99999</td><td>区分本 EA 订单与其他策略。</td></tr>
+    <tr><td>基础</td><td>TradeComment</td><td>TrendIncA</td><td>订单注释，实际订单前缀还会写入轮次信息。</td></tr>
+    <tr><td>信号</td><td>EMA_Fast / EMA_Slow</td><td>9 / 21</td><td>M15 短周期趋势方向。</td></tr>
+    <tr><td>信号</td><td>RSI_Period</td><td>14</td><td>动能判断周期。</td></tr>
+    <tr><td>信号</td><td>RSI_LongMin / RSI_ShortMax</td><td>50 / 50</td><td>做多需 RSI&gt;50；做空需 RSI&lt;50。</td></tr>
+    <tr><td>信号</td><td>UseCandleConfirm</td><td>1</td><td>做多要求阳线，做空要求阴线。</td></tr>
+    <tr><td>趋势</td><td>UseTrendEMAFilter</td><td>1</td><td>开启长期 EMA 方向过滤。</td></tr>
+    <tr><td>趋势</td><td>TrendEMA_Period</td><td>144</td><td>收盘价在其上方只做多，下方只做空。</td></tr>
+    <tr><td>止损</td><td>UseATR_SL</td><td>1</td><td>默认使用 ATR 动态止损。</td></tr>
+    <tr><td>止损</td><td>ATR_Period / ATR_SL_Multi</td><td>14 / 2.0</td><td>ATR 止损计算参数。</td></tr>
+    <tr><td>止损</td><td>FixedSL_Points</td><td>500</td><td>关闭 ATR 止损后生效。</td></tr>
+    <tr><td>手数</td><td>BaseLot</td><td>0.01</td><td>新周期起始手数。</td></tr>
+    <tr><td>手数</td><td>LotIncrement</td><td>0.01</td><td>亏损平仓后下一笔增加的固定手数。</td></tr>
+    <tr><td>手数</td><td>MaxLot</td><td>0.50</td><td>策略手数上限。</td></tr>
+    <tr><td>周期</td><td>ProfitTarget</td><td>10.0</td><td>当前策略独立周期累计盈利目标，单位为账户货币。</td></tr>
+    <tr><td>周期</td><td>MaxRounds</td><td>7</td><td>最大交易轮次安全阀。</td></tr>
+    <tr><td>时间</td><td>UseTimeFilter</td><td>0</td><td>默认关闭，只限制新开仓，不影响已有持仓管理。</td></tr>
+    <tr><td>时间</td><td>TradeStartHour / TradeEndHour</td><td>8 / 22</td><td>开启后按 MT4 服务器时间限制新开仓。</td></tr>
+    <tr><td>执行</td><td>Slippage / MaxRetries</td><td>3 / 3</td><td>允许滑点与下单/平仓最大重试次数。</td></tr>
+    <tr><td>面板</td><td>ShowPanel</td><td>true</td><td>显示黑金商业面板。</td></tr>
+    <tr><td>面板</td><td>RememberPanelPosition</td><td>true</td><td>记住拖动位置和最小化状态。</td></tr>
+  </tbody></table></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">07 · PANEL</div><h2>黑金状态面板</h2></div><p>面板不参与交易判断，主要用于把账户、周期、持仓和信号状态放在同一界面中，方便观察 EA 当前到底处于什么阶段。</p></div>
+  <div class="grid four">
+    <article class="card"><h3>账户状态</h3><p>余额、净值、浮动盈亏、当日盈亏。</p></article>
+    <article class="card"><h3>周期状态</h3><p>当前周期盈亏、目标、距离目标、进度条。</p></article>
+    <article class="card"><h3>持仓状态</h3><p>当前方向、轮次、当前手数、周期是否正在递进。</p></article>
+    <article class="card"><h3>市场状态</h3><p>M15 锁定状态、趋势方向、RSI 与点差等观察信息。</p></article>
+  </div>
+</div></section>
+
+<section id="risk"><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">08 · RISK DISCLOSURE</div><h2>风险提示：这部分必须看</h2></div><p>TrendInc 的风险不在于“有没有止损”，而在于连续亏损后仍会逐步放大下一笔手数。线性递增比倍增温和，但绝不等于没有递增风险。</p></div>
+  <div class="risk"><h3>重要风险声明</h3><ul>
+    <li>本 EA 属于自动化交易工具，不构成任何投资建议、收益承诺或保本承诺。</li>
+    <li>历史回测、模拟账户或过去的实盘结果，均不能保证未来表现。</li>
+    <li>策略在亏损后会提高下一笔交易手数，连续亏损可能导致回撤加快、保证金占用提高。</li>
+    <li>MaxLot 和 MaxRounds 只是风险上限的一部分，并不能消除行情跳空、流动性不足、滑点、报价异常或服务器故障等风险。</li>
+    <li>当达到 MaxRounds 后强制重置时，当前周期可能仍处于净亏损，这一安全阀的目标是停止继续递增，而不是保证追回全部亏损。</li>
+    <li>ATR 止损会随波动变化；在高波动行情中，止损价格距离可能明显扩大。固定止损则可能在高波动阶段过窄。</li>
+    <li>不同经纪商的点差、佣金、合约规格、报价位数与执行质量会改变实际结果。正式使用前应先在目标平台做充分测试。</li>
+    <li>建议使用可承受完全损失的风险资金，并根据资金规模主动降低 BaseLot、MaxLot 与 MaxRounds，而不是仅追求收益速度。</li>
+  </ul></div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="section-head"><div><div class="eyebrow">09 · FAQ</div><h2>常见问题</h2></div><p>点开查看。这里重点解释最容易被误解的几处机制。</p></div>
+  <div class="faq">
+    <div class="item"><button>TrendInc 是马丁吗？<span>＋</span></button><div class="answer">它存在“亏损后提高下一笔手数”的递增特征，但源码默认是线性递增：0.01 → 0.02 → 0.03……，不是 1.5 倍、2 倍这类指数倍增。风险仍然存在，只是增长速度更平缓。</div></div>
+    <div class="item"><button>为什么盈利了一单，手数没有马上回到 0.01？<span>＋</span></button><div class="answer">因为策略按“独立周期盈亏”核算。单笔盈利如果还没有覆盖当前周期此前的亏损并达到 ProfitTarget，当前手数不会重置；必须等整个周期累计盈亏达标后才恢复 BaseLot。</div></div>
+    <div class="item"><button>EA 有固定止盈吗？<span>＋</span></button><div class="answer">当前版本没有订单级固定 TP。每一单有止损；退出核心是周期级 ProfitTarget。当已平仓净盈亏与当前浮动净盈亏合计达到目标时，EA 平仓并重置周期。</div></div>
+    <div class="item"><button>为什么必须挂在 M15？<span>＋</span></button><div class="answer">源码把信号周期锁定为 M15，并在初始化时检查图表周期。这样可以避免用户误挂到 M1、M5 或 H1 后导致策略行为改变。</div></div>
+    <div class="item"><button>时间过滤会不会把已有持仓丢着不管？<span>＋</span></button><div class="answer">不会。时间过滤只限制新开仓；已有持仓的周期目标检查和状态管理仍然优先执行。</div></div>
+    <div class="item"><button>断电或重启后轮次会不会丢？<span>＋</span></button><div class="answer">源码会保存周期状态、当前轮次、当前手数和历史处理水位，并按账号、品种与 Magic 隔离。重启后会尝试恢复；如果真实持仓与内存状态不一致，还会从订单重新接管。</div></div>
+  </div>
+</div></section>
+</main>
+<footer><div class="wrap footerin"><div><div class="footbrand"><img src="../aurora-logo.jpg" alt="匯鹰 LOGO"><div><b>匯鹰·量化</b><br><span>TrendInc · 匯鹰·顺势递增</span></div></div><div class="tiny">汇交易策略研发中心 · 自动化策略说明页面</div></div><div>策略版本：V2.14 · 适用说明：XAUUSD / M15 / MetaTrader 4<br><span class="tiny">本页面仅用于产品逻辑说明与风险披露，不代表未来收益。</span></div></div></footer>
+<script>
+const menu=document.getElementById('menu'),nav=document.getElementById('navlinks');menu.addEventListener('click',()=>nav.classList.toggle('open'));nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+const ids=['base','inc','rounds','maxlot'];ids.forEach(id=>document.getElementById(id).addEventListener('input',renderSeq));
+function renderSeq(){const base=+document.getElementById('base').value,inc=+document.getElementById('inc').value,rounds=+document.getElementById('rounds').value,max=+document.getElementById('maxlot').value;document.getElementById('baseV').textContent=base.toFixed(2);document.getElementById('incV').textContent=inc.toFixed(2);document.getElementById('roundV').textContent=rounds;document.getElementById('maxV').textContent=max.toFixed(2);const seq=[];for(let i=0;i<rounds;i++)seq.push(Math.min(max,base+i*inc));document.getElementById('seq').innerHTML=seq.map((v,i)=>`<span class="pill ${i===rounds-1?'active':''}">R${i+1} · ${v.toFixed(2)}手</span>`).join('');const last=seq[seq.length-1];document.getElementById('meter').style.width=Math.min(100,last/max*100)+'%';document.getElementById('simnote').textContent=`若连续发生亏损且每一轮都能再次获得新趋势信号，第 ${rounds} 轮示例手数为 ${last.toFixed(2)} 手；达到手数上限后不再继续增加。`;}
+renderSeq();
+document.querySelectorAll('.faq .item button').forEach(b=>b.addEventListener('click',()=>{const item=b.parentElement;item.classList.toggle('open');b.querySelector('span').textContent=item.classList.contains('open')?'－':'＋';}));
+</script>
+</body>
+</html>
