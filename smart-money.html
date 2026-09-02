@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b10">
+  <meta name="description" content="聪明钱结构指标中文使用说明：结构突破、结构转变、订单块、公允缺口、等高等低、强弱高低点及溢价折价区域完整解释。">
+  <title>聪明钱结构指标｜中文使用说明</title>
+  <style>
+    :root{
+      --bg:#080b10;--bg2:#0d1219;--panel:#111821;--panel2:#151e29;
+      --line:#263342;--text:#edf3f8;--muted:#aab6c4;--gold:#efc760;
+      --bull:#2bd2b1;--bear:#ff5b70;--blue:#4c8fe8;--warn:#f2a65a;
+      --shadow:0 24px 70px rgba(0,0,0,.34)
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}
+    body{margin:0;background:radial-gradient(circle at 16% -8%,rgba(43,210,177,.10),transparent 30%),radial-gradient(circle at 90% 8%,rgba(239,199,96,.09),transparent 27%),linear-gradient(180deg,var(--bg),#0b1017 48%,var(--bg));color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;line-height:1.75}
+    a{color:inherit}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}
+    .top{position:sticky;top:0;z-index:30;background:rgba(8,11,16,.88);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(16px)}
+    .topin{height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:850}.mark{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(145deg,#273343,#121922);border:1px solid #364657;color:var(--gold);box-shadow:inset 0 0 22px rgba(239,199,96,.07)}
+    .brand small{display:block;font-size:11px;color:var(--muted);font-weight:600}.nav{display:flex;gap:18px;font-size:13px;color:#c7d0da}.nav a{text-decoration:none}.nav a:hover{color:var(--gold)}
+    .hero{padding:76px 0 48px}.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:44px;align-items:center}
+    .eyebrow{color:var(--gold);font-size:12px;font-weight:900;letter-spacing:.18em}.hero h1{font-size:clamp(38px,6vw,70px);line-height:1.04;letter-spacing:-.04em;margin:14px 0 18px}.lead{font-size:clamp(17px,2vw,22px);color:#c4ced8;max-width:720px}
+    .badges{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}.badge{padding:7px 11px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(255,255,255,.035);font-size:12px;color:#d7dfe7}
+    .structure-card{padding:24px;border-radius:26px;border:1px solid #2a3949;background:linear-gradient(155deg,rgba(20,29,40,.96),rgba(10,15,22,.98));box-shadow:var(--shadow)}
+    .structure-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:22px}.structure-head b{color:var(--gold)}.status{font-size:12px;color:var(--bull);padding:5px 9px;border:1px solid rgba(43,210,177,.25);border-radius:999px;background:rgba(43,210,177,.07)}
+    .market-map{position:relative;height:270px;border:1px solid rgba(255,255,255,.065);border-radius:18px;overflow:hidden;background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),#0b1118;background-size:100% 54px,68px 100%}
+    .zone{position:absolute;left:8%;right:5%;height:31px;border-radius:5px}.zone.sell{top:34px;background:#3b2029;border-left:3px solid var(--bear)}.zone.buy{bottom:35px;background:#11383a;border-left:3px solid var(--bull)}
+    .zone span{position:absolute;left:10px;top:4px;font-size:12px}.sell span{color:#ff9aa8}.buy span{color:#75e6d0}
+    .path{position:absolute;left:10%;top:155px;width:80%;height:2px;background:linear-gradient(90deg,var(--bull),var(--gold),var(--bear));transform:rotate(-12deg);transform-origin:left center;box-shadow:0 0 12px rgba(43,210,177,.45)}
+    .point{position:absolute;width:10px;height:10px;border-radius:50%;background:#0b1118;border:2px solid var(--gold)}.p1{left:23%;top:142px}.p2{left:48%;top:110px}.p3{left:72%;top:72px}
+    .tag{position:absolute;font-size:12px;font-weight:800}.t1{left:17%;top:164px;color:var(--bull)}.t2{left:43%;top:130px;color:var(--gold)}.t3{left:66%;top:91px;color:var(--bear)}
+    .closed{position:absolute;right:10px;bottom:8px;color:#8896a5;font-size:11px}
+    section{padding:35px 0}.section-title{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.section-title h2{font-size:clamp(28px,4vw,42px);margin:0}.section-title p{margin:0;color:var(--muted);max-width:680px}
+    .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.step,.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(20,29,40,.94),rgba(12,18,26,.96));border-radius:18px;padding:20px}.step i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(239,199,96,.10);color:var(--gold);font-style:normal;font-weight:900;margin-bottom:12px}.step b{display:block;margin-bottom:5px}.step span,.card p,.card li{color:var(--muted)}
+    .notice{margin-top:16px;padding:18px 20px;border:1px solid rgba(242,166,90,.28);background:rgba(92,53,25,.20);border-radius:16px;color:#e8c9aa}.notice strong{color:#ffd09d}
+    .output-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.output{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:19px;padding:21px;background:var(--panel)}.output:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent,var(--gold))}.output h3{margin:0 0 6px}.output p{margin:0;color:var(--muted)}.output .meaning{margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.07);font-size:13px;color:#d9e0e7}.bull{--accent:var(--bull)}.bear{--accent:var(--bear)}.gold{--accent:var(--gold)}.blue{--accent:var(--blue)}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:19px;background:#0f161f}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.065);text-align:left;vertical-align:top}th{color:var(--gold);font-size:13px;background:rgba(239,199,96,.045)}td{color:#dbe3eb}td:last-child{color:var(--muted)}tr:last-child td{border-bottom:0}
+    .legend{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.legend-item{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.swatch{width:100%;height:12px;border-radius:999px;margin-bottom:12px}.legend-item b{display:block}.legend-item span{font-size:13px;color:var(--muted)}
+    .logic{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.logic .card{min-height:210px}.logic .big{font-size:36px;color:var(--gold);font-weight:900;line-height:1}.logic h3{margin:13px 0 7px}.check{margin:0;padding-left:20px}.check li{margin:7px 0}
+    .faq{display:grid;gap:10px}.faq details{border:1px solid var(--line);background:var(--panel);border-radius:15px;padding:15px 18px}.faq summary{cursor:pointer;font-weight:800;color:#eef4f8}.faq p{color:var(--muted);margin:10px 0 2px}
+    .risk{padding:23px;border:1px solid rgba(255,91,112,.28);background:rgba(80,25,35,.24);border-radius:19px}.risk h3{margin:0 0 8px;color:#ff9cac}.risk p{margin:0;color:#d9bec3}
+    footer{margin-top:36px;border-top:1px solid rgba(255,255,255,.07);padding:34px 0 44px;color:#8f9caa;font-size:13px}
+    @media(max-width:930px){.hero-grid,.output-grid,.logic{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.legend{grid-template-columns:repeat(2,1fr)}.nav{display:none}.structure-card{max-width:650px}}
+    @media(max-width:580px){.hero{padding-top:50px}.steps,.legend{grid-template-columns:1fr}.section-title{display:block}.section-title p{margin-top:8px}.structure-card{padding:16px}.market-map{height:235px}.topin{height:62px}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap topin">
+      <div class="brand"><span class="mark">结</span><div>聪明钱结构指标<small>中文使用说明</small></div></div>
+      <nav class="nav"><a href="#install">安装使用</a><a href="#outputs">文字解释</a><a href="#parameters">参数说明</a><a href="#method">判断方法</a><a href="#faq">常见问题</a></nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">市场结构 · 流动性 · 价格区域</div>
+          <h1>聪明钱结构指标<br>完整使用说明</h1>
+          <p class="lead">自动识别内部结构与波段结构，并在图表上标记结构突破、结构转变、订单块、公允缺口、等高等低、强弱高低点及溢价折价区域。</p>
+          <div class="badges"><span class="badge">适用于第四代交易平台</span><span class="badge">主图指标</span><span class="badge">中文盘面</span><span class="badge">收盘确认</span><span class="badge">不使用未来数据</span></div>
+        </div>
+        <div class="structure-card" aria-label="聪明钱结构示意图">
+          <div class="structure-head"><b>结构阅读示意</b><span class="status">波段结构：多头趋势</span></div>
+          <div class="market-map">
+            <div class="zone sell"><span>空头订单块</span></div>
+            <div class="zone buy"><span>多头订单块</span></div>
+            <div class="path"></div><i class="point p1"></i><i class="point p2"></i><i class="point p3"></i>
+            <span class="tag t1">结构转变</span><span class="tag t2">结构突破</span><span class="tag t3">弱高点</span>
+            <span class="closed">所有结构信号均以已收盘蜡烛确认</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <div class="section-title"><h2>安装与使用</h2><p>指标挂在哪个品种、哪个周期，就分析该图表的当前品种和周期，不需要开启自动交易。</p></div>
+        <div class="steps">
+          <div class="step"><i>一</i><b>放入指标目录</b><span>打开平台数据文件夹，将源码文件放入指标目录。</span></div>
+          <div class="step"><i>二</i><b>完成编译</b><span>使用代码编辑器打开源码并编译，确认没有错误。</span></div>
+          <div class="step"><i>三</i><b>加载到主图</b><span>回到交易平台刷新导航器，将指标拖到需要分析的图表。</span></div>
+          <div class="step"><i>四</i><b>先用默认参数</b><span>首次加载不建议同时修改多项参数，先观察默认结构与实际行情是否匹配。</span></div>
+          <div class="step"><i>五</i><b>按顺序阅读</b><span>先看波段方向，再看价格区域，最后用内部结构确认，不要只看单个标签。</span></div>
+        </div>
+        <div class="notice"><strong>加载后看不到足够标记：</strong>结构高低点需要后续蜡烛确认；刚打开历史较少的图表时，先等待平台补齐历史数据。确认根数越大，结构越稳定，但出现越慢。</div>
+      </div>
+    </section>
+
+    <section id="outputs">
+      <div class="wrap">
+        <div class="section-title"><h2>图表文字逐项解释</h2><p>下面解释指标输出的每一种中文文字。标签是结构信息，不等于单独的买卖指令。</p></div>
+        <div class="output-grid">
+          <article class="output bull"><h3>结构突破</h3><p>价格收盘突破最近一个已确认结构高点或低点，并且突破方向与当前结构方向一致。</p><div class="meaning">通常表示原方向延续。多头结构向上突破为多头延续；空头结构向下突破为空头延续。</div></article>
+          <article class="output bear"><h3>结构转变</h3><p>价格收盘突破当前结构方向的反向关键点，意味着原有推进节奏被破坏。</p><div class="meaning">这是趋势可能改变的早期警告，不代表一定反转。更稳妥的做法是等待回踩区域与后续结构再次确认。</div></article>
+          <article class="output gold"><h3>更高高点／更高低点</h3><p>新高点高于前一个高点，或新低点高于前一个低点，是多头结构常见排列。</p><div class="meaning">连续出现更高高点与更高低点，说明买方正在推动价格重心上移。</div></article>
+          <article class="output gold"><h3>更低高点／更低低点</h3><p>新高点低于前一个高点，或新低点低于前一个低点，是空头结构常见排列。</p><div class="meaning">连续出现更低高点与更低低点，说明卖方正在推动价格重心下移。</div></article>
+          <article class="output blue"><h3>等高</h3><p>相邻两个已确认波段高点的价格差，小于当前波动阈值。</p><div class="meaning">表示高位价格接近，常被视为上方流动性聚集区。价格可能扫过该区域，但不能把它机械当成做空点。</div></article>
+          <article class="output blue"><h3>等低</h3><p>相邻两个已确认波段低点的价格差，小于当前波动阈值。</p><div class="meaning">表示低位价格接近，常被视为下方流动性聚集区。价格可能先向下清扫，再决定是否反转。</div></article>
+          <article class="output bear"><h3>强高点</h3><p>在空头结构中，最近的波段高点被视为保护空头结构的关键高点。</p><div class="meaning">如果价格有效收盘突破强高点，原空头结构的可信度明显下降。</div></article>
+          <article class="output bull"><h3>强低点</h3><p>在多头结构中，最近的波段低点被视为保护多头结构的关键低点。</p><div class="meaning">如果价格有效收盘跌破强低点，原多头结构的可信度明显下降。</div></article>
+          <article class="output bull"><h3>弱高点</h3><p>多头结构中的最近高点被标为弱高点，因为延续行情通常还会尝试突破它。</p><div class="meaning">弱并不是马上做空，而是该高点更可能成为多头继续攻击或清扫的目标。</div></article>
+          <article class="output bear"><h3>弱低点</h3><p>空头结构中的最近低点被标为弱低点，因为延续行情通常还会尝试跌破它。</p><div class="meaning">弱并不是马上做多，而是该低点更可能成为空头继续攻击或清扫的目标。</div></article>
+          <article class="output bull"><h3>内部订单块</h3><p>内部结构突破前，在限定搜索范围内找到的最后一根反向蜡烛区域。</p><div class="meaning">更灵敏、出现更频繁，适合观察短线回踩，但噪声也高于波段订单块。</div></article>
+          <article class="output gold"><h3>波段订单块</h3><p>波段结构突破前，在限定搜索范围内找到的最后一根反向蜡烛区域。</p><div class="meaning">级别更大、出现更少，通常比内部订单块更值得关注，但仍可能被直接击穿。</div></article>
+          <article class="output blue"><h3>公允缺口</h3><p>三根蜡烛之间出现未充分重叠的价格空隙，代表行情推进过程中留下的不平衡区域。</p><div class="meaning">价格经常回补，但不是必然回补，也没有固定回补时间。应结合结构方向和订单块使用。</div></article>
+          <article class="output bear"><h3>溢价区域</h3><p>当前波段高低范围顶部的相对高价区域。</p><div class="meaning">在空头方向明确时，可用于寻找更有利的高位位置；不能因为进入溢价区就直接做空。</div></article>
+          <article class="output gold"><h3>均衡区域</h3><p>当前波段范围中轴附近的平衡区域。</p><div class="meaning">位于多空定价中部，方向优势通常不如区间两端明显，适合观察而不是追价。</div></article>
+          <article class="output bull"><h3>折价区域</h3><p>当前波段高低范围底部的相对低价区域。</p><div class="meaning">在多头方向明确时，可用于寻找更有利的低位位置；不能因为进入折价区就直接做多。</div></article>
+          <article class="output gold"><h3>波段结构：多头趋势／空头趋势</h3><p>右上状态卡显示当前已确认的波段结构方向。</p><div class="meaning">这是大一级结构背景，不是实时预测。等待确认时表示历史数据或结构条件尚不足。</div></article>
+          <article class="output blue"><h3>信号确认：收盘突破</h3><p>只有已收盘蜡烛的收盘价越过关键结构价位，才确认结构突破或结构转变。</p><div class="meaning">盘中影线刺穿不会立即产生最终结构信号，可减少瞬时假突破造成的跳动。</div></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-title"><h2>颜色怎么看</h2><p>颜色只负责区分方向与区域类型，真正判断仍以结构关系和价格位置为准。</p></div>
+        <div class="legend">
+          <div class="legend-item"><div class="swatch" style="background:#2bd2b1"></div><b>青绿色</b><span>多头结构、向上突破、多头区域及折价方向提示。</span></div>
+          <div class="legend-item"><div class="swatch" style="background:#ff5b70"></div><b>珊瑚红</b><span>空头结构、向下突破、空头区域及溢价方向提示。</span></div>
+          <div class="legend-item"><div class="swatch" style="background:#4c8fe8"></div><b>深蓝色区域</b><span>公允缺口与价格不平衡区域，使用低饱和底色避免遮挡蜡烛。</span></div>
+          <div class="legend-item"><div class="swatch" style="background:#efc760"></div><b>金色</b><span>强弱高低点、均衡信息及需要重点阅读的状态。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="parameters">
+      <div class="wrap">
+        <div class="section-title"><h2>主要参数与默认含义</h2><p>默认值用于获得一套完整而不过分迟钝的结构显示。不同周期不要只追求更多标签。</p></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>参数</th><th>默认值</th><th>作用与调整影响</th></tr></thead>
+          <tbody>
+            <tr><td>显示模式</td><td>显示历史结构</td><td>显示历史会保留结构演变；仅显示当前结构更简洁，但不利于复盘。</td></tr>
+            <tr><td>历史计算根数</td><td>一千五百</td><td>控制回看范围。数值越大，加载和切换周期时计算量越高。</td></tr>
+            <tr><td>内部结构确认根数</td><td>三</td><td>数值小则灵敏、信号多；数值大则稳定、确认慢。</td></tr>
+            <tr><td>波段结构确认根数</td><td>十二</td><td>决定大一级波段结构的稳定度，是区分内部结构与波段结构的核心参数。</td></tr>
+            <tr><td>等高等低阈值</td><td>零点一</td><td>按平均真实波幅比例判断两个高点或低点是否接近。调大后标记更多。</td></tr>
+            <tr><td>内部订单块保留数量</td><td>五</td><td>保留最近有效内部订单块，过多会让图表拥挤。</td></tr>
+            <tr><td>波段订单块保留数量</td><td>五</td><td>保留最近有效波段订单块。</td></tr>
+            <tr><td>订单块搜索根数</td><td>十二</td><td>从结构突破位置向前寻找最后一根反向蜡烛的最大范围。</td></tr>
+            <tr><td>订单块失效方式</td><td>收盘穿越失效</td><td>收盘失效更稳定；影线触及失效更严格，会更早删除区域。</td></tr>
+            <tr><td>缺口过滤倍数</td><td>零点一五</td><td>过滤相对当前波动过小的公允缺口，调大可减少微小区域。</td></tr>
+            <tr><td>公允缺口保留数量</td><td>十二</td><td>只保留最近仍有效的缺口，避免历史区域覆盖整个图表。</td></tr>
+            <tr><td>显示区域名称</td><td>开启</td><td>关闭后仍保留区域颜色，但隐藏订单块与公允缺口名称，适合小屏幕。</td></tr>
+            <tr><td>自动应用深色图表</td><td>开启</td><td>自动统一背景、蜡烛与结构颜色；移除指标时可恢复原图颜色。</td></tr>
+            <tr><td>弹窗与声音提醒</td><td>开启</td><td>新收盘蜡烛确认结构信号时提醒，同一方向同一根蜡烛只提醒一次。</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="wrap">
+        <div class="section-title"><h2>正确判断顺序</h2><p>不要把聪明钱指标当成自动喊单器。它的价值是把“方向、位置、确认”整理到同一张图上。</p></div>
+        <div class="logic">
+          <article class="card"><div class="big">一</div><h3>先定方向</h3><ul class="check"><li>先看右上波段结构方向</li><li>观察强点是否仍未被破坏</li><li>用波段结构决定主要观察方向</li></ul></article>
+          <article class="card"><div class="big">二</div><h3>再等位置</h3><ul class="check"><li>多头优先关注折价区和多头订单块</li><li>空头优先关注溢价区和空头订单块</li><li>等高等低可作为流动性目标，不作为机械入场点</li></ul></article>
+          <article class="card"><div class="big">三</div><h3>最后确认</h3><ul class="check"><li>价格进入区域后等待内部结构转变</li><li>再观察结构突破是否延续</li><li>失效位置应放在结构关键点之外，而不是凭感觉扩大风险</li></ul></article>
+        </div>
+        <div class="notice"><strong>一个更合理的多头示例：</strong>波段结构保持多头 → 价格回到折价区或多头订单块 → 下方流动性被扫 → 内部结构出现向上转变 → 收盘再次向上突破。空头逻辑反向理解。任何一步缺失，都应降低信号可信度。</div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-title"><h2>常见问题</h2><p>这些问题最容易造成对历史盘面和实时信号的误判。</p></div>
+        <div class="faq">
+          <details open><summary>指标会不会重绘？</summary><p>结构信号只根据已收盘蜡烛确认，确认后的突破与转变不会因为当前未收盘蜡烛波动而改变。但摆动高低点必须等待右侧若干根蜡烛确认，因此历史图上的高低点标签，是确认完成后补到实际高低点位置，并不是在最高或最低发生的当时立刻知道。</p></details>
+          <details><summary>为什么历史图看起来很准，实时却没有那么快？</summary><p>历史盘面把已经完成确认的结构全部画出来，视觉上容易产生“提前知道高低点”的错觉。实时使用必须计算确认等待时间，确认根数越大，延迟越明显。</p></details>
+          <details><summary>结构转变出现后能直接反手吗？</summary><p>不建议。结构转变只说明原节奏被破坏，可能是反转，也可能只是大趋势中的回调。应继续观察波段方向、订单块位置及后续结构突破。</p></details>
+          <details><summary>订单块和公允缺口一定会回踩吗？</summary><p>不会。它们只是价格区域，不是必然回补承诺。强趋势可能不回踩，弱区域也可能被直接穿越。</p></details>
+          <details><summary>为什么与看盘网站上的标记不完全相同？</summary><p>不同平台、经纪商的黄金报价、高低点和收盘价会有细微差异；即使算法一致，个别结构标签也可能相差一根蜡烛或少量价格。</p></details>
+          <details><summary>哪个周期最好？</summary><p>没有统一答案。周期越小，内部结构越多、噪声越高；周期越大，结构更稳定、信号更慢。短线可以用大一级周期判断波段方向，再在执行周期等待内部结构确认。</p></details>
+          <details><summary>图表信息太多怎么办？</summary><p>优先关闭波段高低点或区域名称，减少内部订单块与公允缺口保留数量。不要先缩短确认根数，否则只会增加更多噪声标签。</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap"><div class="risk"><h3>风险提示</h3><p>本指标用于整理市场结构和价格区域，不代表真实机构订单，也不保证识别到所谓银行级流动性。任何结构、订单块、公允缺口或等高等低都可能失效。历史显示不代表未来表现，正式交易前应先在模拟环境观察，并结合明确的止损和资金管理规则。</p></div></div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">聪明钱结构指标中文使用说明 · 本页面仅用于软件功能介绍与风险教育，不构成投资建议或收益承诺。</div></footer>
+</body>
+</html>
