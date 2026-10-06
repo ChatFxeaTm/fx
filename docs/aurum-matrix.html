@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="匯鹰·AURUM MATRIX EA——面向黄金波动环境的自适应分层交易系统。新K线触发、近端极值识别、LWMA辅助判定、分层加仓、方向篮子退出与账户风险保护。">
+<title>匯鹰·AURUM MATRIX EA｜黄金自适应分层交易系统</title>
+<style>
+:root{--bg:#070707;--bg2:#0d0d10;--card:#111115;--line:rgba(255,255,255,.1);--soft:rgba(255,255,255,.06);--text:#f5f2eb;--muted:#aaa69e;--gold:#d6a147;--gold2:#f1d08a;--red:#e07a67}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}body{margin:0;color:var(--text);font:15px/1.7 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;background:radial-gradient(circle at 12% 8%,rgba(214,161,71,.11),transparent 28%),radial-gradient(circle at 90% 18%,rgba(214,161,71,.06),transparent 25%),linear-gradient(180deg,#090909,#060606);letter-spacing:.01em}a{color:inherit;text-decoration:none}.wrap{width:min(1180px,calc(100% - 40px));margin:auto}
+.nav{position:sticky;top:0;z-index:20;background:rgba(7,7,7,.75);backdrop-filter:blur(18px);border-bottom:1px solid var(--soft)}.navin{height:72px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:.08em}.dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),#8e5a17);box-shadow:0 0 28px rgba(214,161,71,.45)}.brand small{display:block;color:#77736c;font-size:10px;letter-spacing:.18em}.links{display:flex;gap:24px;color:var(--muted);font-size:13px}.links a:hover{color:#fff}
+.hero{padding:90px 0 70px}.herogrid{display:grid;grid-template-columns:1.12fr .88fr;gap:58px;align-items:center}.eyebrow{color:var(--gold2);font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px}.eyebrow:before{content:"";display:inline-block;width:32px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);vertical-align:middle;margin-right:10px}h1{font-size:clamp(50px,7vw,90px);line-height:.97;letter-spacing:-.055em;margin:0 0 22px}h1 span{display:block;background:linear-gradient(110deg,#fff,#e5dfd4 50%,#aaa296);color:transparent;-webkit-background-clip:text;background-clip:text}.sub{font-size:clamp(18px,2vw,25px);font-weight:650;color:#ddd7cb;margin:0 0 18px}.lead{max-width:720px;color:var(--muted);margin:0}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:27px}.chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.025);color:#c9c3b8;font-size:12px}
+.heroCard{position:relative;overflow:hidden;padding:34px;border:1px solid var(--line);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 28px 90px rgba(0,0,0,.43);text-align:center}.heroCard:before{content:"";position:absolute;width:280px;height:280px;left:-80px;top:-110px;background:radial-gradient(circle,rgba(214,161,71,.18),transparent 67%)}.logo{width:min(300px,82%);height:auto;border-radius:22px;filter:drop-shadow(0 25px 35px rgba(0,0,0,.45));position:relative}.kicker{margin-top:18px;color:var(--gold2);font-size:10px;font-weight:800;letter-spacing:.2em}.ctitle{font-size:22px;font-weight:760;margin-top:5px}.cnote{max-width:390px;margin:8px auto 0;color:var(--muted);font-size:13px}
+.sec{padding:82px 0}.head{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:end;margin-bottom:35px}.head h2{font-size:clamp(34px,4.5vw,57px);line-height:1.07;letter-spacing:-.04em;margin:0}.intro{color:var(--muted);margin:0;max-width:680px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.kpi,.card,.panel{border:1px solid var(--line);background:rgba(255,255,255,.022);border-radius:22px}.kpi{padding:23px;min-height:150px}.kpi strong{display:block;color:var(--gold2);font-size:28px;letter-spacing:-.03em}.kpi span{display:block;margin-top:3px;color:#d9d3c8;font-size:13px}.kpi p{font-size:12px;color:#79756e;margin:13px 0 0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{padding:29px;min-height:245px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015))}.num{color:var(--gold2);font-size:11px;font-weight:800;letter-spacing:.17em}.card h3,.panel h3{font-size:21px;margin:11px 0 9px}.card p{color:var(--muted);font-size:14px;margin:0}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}.step{position:relative;border:1px solid var(--line);border-radius:17px;padding:17px 14px;background:#0f0f12;min-height:122px}.step b{display:block;color:var(--gold2);font-size:10px;letter-spacing:.14em;margin-bottom:7px}.step span{font-size:13px;color:#d5d0c7}.step:not(:last-child):after{content:"→";position:absolute;right:-10px;top:45%;color:#8c5d1c;z-index:2}
+.table{overflow-x:auto;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.018)}table{border-collapse:collapse;width:100%;min-width:780px}th,td{text-align:left;padding:17px 19px;border-bottom:1px solid var(--soft);vertical-align:top}th{color:var(--gold2);font-size:10px;letter-spacing:.13em;text-transform:uppercase;background:rgba(255,255,255,.015)}td{font-size:13px;color:#d7d1c7}td:nth-child(2){font-weight:700;color:#fff}td:last-child{color:var(--muted)}tr:last-child td{border-bottom:0}.micro{font-size:12px;color:#77736d;margin-top:16px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel{padding:29px}.panel ul{padding-left:18px;margin:0;color:var(--muted)}.panel li{margin:8px 0}.panel.good{background:linear-gradient(155deg,rgba(214,161,71,.065),rgba(255,255,255,.015))}
+.risk{border:1px solid rgba(224,122,103,.35);border-radius:27px;padding:33px;background:linear-gradient(155deg,rgba(224,122,103,.09),rgba(255,255,255,.015))}.risklabel{color:#f0a998;font-size:10px;font-weight:850;letter-spacing:.17em;text-transform:uppercase}.risk h3{font-size:28px;letter-spacing:-.02em;margin:9px 0 12px}.risk p,.risk li{color:#ccb9b4;font-size:14px}.risk ul{padding-left:20px}.foot{border-top:1px solid var(--soft);padding:34px 0 48px;color:#78746d;font-size:12px}.footin{display:flex;justify-content:space-between;gap:24px}.foot strong{color:#bcb5aa;letter-spacing:.08em}.badge{display:inline-block;margin-left:8px;padding:4px 8px;border:1px solid rgba(214,161,71,.28);border-radius:999px;color:var(--gold2);background:rgba(214,161,71,.06);font-size:10px}
+@media(max-width:900px){.herogrid,.head,.split{grid-template-columns:1fr}.herogrid{gap:34px}.kpis{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:1fr 1fr}.step:after{display:none!important}.links{display:none}}
+@media(max-width:560px){.wrap{width:min(100% - 24px,1180px)}.navin{height:62px}.hero{padding:48px 0 35px}.heroCard{padding:22px}.sec{padding:58px 0}.kpis,.grid,.flow{grid-template-columns:1fr}.kpi,.card{min-height:auto}.head{gap:16px}.risk{padding:23px}.footin{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap navin"><div class="brand"><i class="dot"></i><div>匯鹰·量化<small>HUIYING QUANT</small></div></div><nav class="links"><a href="#architecture">策略架构</a><a href="#logic">交易逻辑</a><a href="#parameters">核心参数</a><a href="#risk">风险提示</a></nav></div></header>
+<main>
+<section class="hero"><div class="wrap herogrid">
+<div><div class="eyebrow">Adaptive Gold Trading Architecture</div><h1><span>AURUM</span><span>MATRIX EA</span></h1><p class="sub">黄金自适应分层交易系统</p><p class="lead">AURUM MATRIX EA 是匯鹰·量化面向黄金波动环境打造的分层交易架构。系统以当前图表周期为执行基准，每根新K线仅进行一次核心交易判断，通过近端极值位置、短周期 LWMA 变化、同向持仓距离、订单数量与浮盈状态共同管理开仓、加仓和整组退出。</p><div class="chips"><span class="chip">新K线节奏控制</span><span class="chip">24根K线极值识别</span><span class="chip">3周期 LWMA 辅助判定</span><span class="chip">分层加仓</span><span class="chip">方向篮子退出</span><span class="chip">可选净值保护</span></div></div>
+<aside class="heroCard"><img class="logo" src="assets/aurum-matrix-eagle.svg" alt="匯鹰·量化 金色鹰头品牌标识"><div class="kicker">HUIYING QUANT · STRATEGY SYSTEM</div><div class="ctitle">AURUM MATRIX EA</div><div class="cnote">以黄金波动为主要设计场景的自适应分层策略。强调规则化执行，不承诺任何固定收益。</div></aside>
+</div></section>
+
+<section class="sec" id="architecture"><div class="wrap"><div class="head"><h2>从单点信号，升级为<br>完整持仓架构。</h2><p class="intro">该策略的核心并不是“猜下一根K线”，而是把入场、同向持仓间距、加仓手数、订单上限、方向篮子退出与账户级保护组合成连续交易流程。它更接近仓位管理系统，而不是传统固定 TP/SL 的单次交易模型。</p></div>
+<div class="kpis"><div class="kpi"><strong>1× / Bar</strong><span>新K线执行节奏</span><p>同一根K线内不重复进行核心开仓判断。</p></div><div class="kpi"><strong>24</strong><span>近期极值观察窗口</span><p>最近24根K线的最高/最低位置参与触发。</p></div><div class="kpi"><strong>1.6×</strong><span>默认加仓倍率</span><p>符合不利区间与间距条件后可递增手数。</p></div><div class="kpi"><strong>80</strong><span>默认最大订单数</span><p>它是代码边界，不代表建议运行至上限。</p></div></div></div></section>
+
+<section class="sec" id="logic"><div class="wrap"><div class="head"><h2>交易逻辑</h2><p class="intro">以下说明按源码真实结构拆解。由于策略包含分层持仓和倍数机制，任何单一指标都不能代表完整决策逻辑。</p></div>
+<div class="grid">
+<article class="card"><div class="num">01 · MARKET POSITION</div><h3>近端极值位置识别</h3><p>系统读取当前图表周期最近24根K线的最高点或最低点所在位置。开启“趋势反转”时，逻辑更偏向低位寻找多头、高位寻找空头；关闭后则切换为更偏趋势延续/突破方向的极值判断。</p></article>
+<article class="card"><div class="num">02 · SHORT MOMENTUM</div><h3>短周期 LWMA 变化</h3><p>源码使用3周期线性加权移动平均线（LWMA），价格源为 Median Price，并比较当前值与前一根K线值。它作为部分入场条件参与短周期方向确认，而不是一条独立策略。</p></article>
+<article class="card"><div class="num">03 · POSITION LAYERING</div><h3>同向距离控制与分层加仓</h3><p>新增同方向订单前，系统会检查已有订单与现价距离。默认加仓间距为60 Point；附近已存在同向订单时抑制重复加仓。只有持仓状态和距离满足条件后，才进入下一层路径。</p></article>
+<article class="card"><div class="num">04 · EXPOSURE SCALING</div><h3>递增手数与订单上限</h3><p>默认基础手数为0.01。若倍数加仓开启，下一层手数参考同方向最大持仓手数乘以1.6并按手数精度归一化。系统同时以最大订单数量限制新增订单。</p></article>
+<article class="card"><div class="num">05 · BASKET EXIT</div><h3>方向篮子动态退出</h3><p>该版本不是固定点数 TP。买单和卖单分别累计浮动盈亏与隔夜利息，当某一方向组合利润达到与累计手数、经纪商每手保证金要求相关的动态阈值后，EA 会尝试关闭该方向全部订单。</p></article>
+<article class="card"><div class="num">06 · RISK LAYER</div><h3>止损模块与净值保护</h3><p>参数层提供单笔止损开关、止损点数和账户净值保护百分比。净值保护开启后，当净值相对余额回撤超过设定比例，EA 会尝试关闭本策略当前品种与 Magic 对应订单。止损实际执行还受 StopLevel、报价精度与服务器成交规则影响。</p></article>
+</div>
+<div class="flow"><div class="step"><b>STEP 01</b><span>新K线到来，刷新价格与账户状态</span></div><div class="step"><b>STEP 02</b><span>识别24根K线极值与短期 LWMA</span></div><div class="step"><b>STEP 03</b><span>核对同向间距、订单数与持仓状态</span></div><div class="step"><b>STEP 04</b><span>决定首单或下一层递增持仓</span></div><div class="step"><b>STEP 05</b><span>监控方向篮子利润与账户风险</span></div></div>
+</div></section>
+
+<section class="sec" id="parameters"><div class="wrap"><div class="head"><h2>核心参数</h2><p class="intro">下表采用源码当前默认值。Point 是平台最小报价单位，不等同于固定美元价格距离；不同经纪商报价精度下必须按平台实际报价换算。</p></div>
+<div class="table"><table><thead><tr><th>参数</th><th>默认值</th><th>作用</th></tr></thead><tbody>
+<tr><td>首单手数</td><td>0.01</td><td>基础手数参数，实际还受经纪商最小交易手数约束。</td></tr>
+<tr><td>净值保护</td><td>关闭</td><td>账户级风险开关，开启后按余额与净值差额比例触发保护。</td></tr>
+<tr><td>净值保护百分比</td><td>0%</td><td>仅在保护开启时有效；部署前必须按账户风险预算重新设定。</td></tr>
+<tr><td>单笔止损模块</td><td>开启</td><td>为无止损订单尝试设置保护，实际是否成功受经纪商交易规则影响。</td></tr>
+<tr><td>止损点数</td><td>25 Point</td><td>单位为平台 Point，并非固定美元距离。</td></tr>
+<tr><td>最大订单数</td><td>80</td><td>达到上限后停止新增订单，是限制持仓扩张的重要边界。</td></tr>
+<tr><td>加仓间距</td><td>60 Point</td><td>同方向订单与现价过近时抑制新增订单。</td></tr>
+<tr><td>加仓倍数</td><td>1.6×</td><td>满足条件时下一层参考同方向最大持仓手数递增。</td></tr>
+<tr><td>趋势反转</td><td>开启</td><td>切换极值触发方向；开启时更偏低位做多、高位做空。</td></tr>
+<tr><td>Magic Number</td><td>111</td><td>用于区分本 EA 订单，多实例运行时应避免冲突。</td></tr>
+</tbody></table></div><p class="micro">源码使用当前图表周期（Timeframe = 0），并未把 M1 / M5 / M15 等周期写死。因此没有实测证据时，不应把某一周期包装成“固定最佳周期”。</p>
+</div></section>
+
+<section class="sec"><div class="wrap"><div class="head"><h2>适用边界</h2><p class="intro">分层系统真正的风险不只在单次信号对错，而在连续不利行情下仓位暴露如何累积。以下边界必须在产品介绍中明确。</p></div>
+<div class="split"><div class="panel good"><h3>更匹配的使用场景</h3><ul><li>主要面向 XAUUSD / 黄金波动环境进行测试与参数评估。</li><li>希望通过规则机制管理多层持仓，而不是人工临时干预每一单。</li><li>能够接受阶段性浮亏，并为分层策略预留保证金与风险缓冲。</li><li>愿意先完成目标经纪商的回测、模拟和小规模验证。</li></ul></div>
+<div class="panel"><h3>不应忽视的限制</h3><ul><li>1.6倍递增属于高风险仓位放大机制，连续单边行情会显著提高风险暴露。</li><li>点差扩大、滑点、跳空和流动性变化会改变实际成交结果。</li><li>最大80单只是代码边界，不意味着账户资金足以承受80层真实风险。</li><li>非黄金品种技术上可加载，但未经独立验证不应直接套用原参数。</li></ul></div></div>
+</div></section>
+
+<section class="sec" id="risk"><div class="wrap"><div class="risk"><div class="risklabel">Risk Disclosure · 风险披露</div><h3>EA 是执行工具，不是收益承诺。</h3><p>外汇、贵金属及差价合约交易具有高风险，杠杆会同时放大盈利与亏损。AURUM MATRIX EA 包含分层持仓与递增手数机制，在强趋势、跳空、流动性不足、点差异常或连续不利行情下，可能出现快速扩大浮亏、保证金占用上升、强制平仓甚至账户资金大幅损失。</p><ul><li>历史回测、模拟账户或既往实盘表现均不代表未来结果。</li><li>任何参数都不存在对所有经纪商、所有行情阶段永久有效的保证。</li><li>使用前应确认报价位数、合约规模、最小手数、StopLevel、点差、杠杆与保证金规则。</li><li>本页面仅用于说明策略结构与软件功能，不构成投资建议、收益保证或代客理财承诺。</li></ul><p class="micro">实际部署应预先定义风险预算、最大可接受回撤与停止条件，而不是只依赖默认参数。</p></div></div></section>
+</main>
+<footer class="foot"><div class="wrap footin"><div><strong>匯鹰·量化 / HUIYING QUANT</strong><span class="badge">AURUM MATRIX EA</span></div><div>Strategy introduction · 仅作产品与策略结构说明</div></div></footer>
+</body></html>
